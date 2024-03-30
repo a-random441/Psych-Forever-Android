@@ -1165,6 +1165,8 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsSub, scoreTxt.text, iconP2.getCharacter());
 		#end
+		callOnLuas('onCreatePost', []);
+
 		super.create();
 	}
 
