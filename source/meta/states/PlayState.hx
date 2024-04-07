@@ -3284,11 +3284,12 @@ class PlayState extends MusicBeatState
 				if (ClientPrefs.lateDamage) {
 					missedNote(false, true, true);
 					missLmao = 'miss';
+					hitPercent = 0;
 				} else hitPercent = 0.25;
 		}
 
 		songScore += ((100000 / totalNotesInSong) * hitPercent);
-		if (songScore > 100000) songScore = 100000;
+		if (songScore > 99999) songScore = 100000;
 
 		healthCall(score/600);
 
