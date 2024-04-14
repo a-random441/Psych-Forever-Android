@@ -1,5 +1,7 @@
 package meta.states;
 
+import editors.CharacterEditorState;
+import editors.ChartingState;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -17,6 +19,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -32,20 +35,17 @@ import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import haxe.Json;
 import lime.utils.Assets;
+import meta.lua.FunkinLua;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
 import openfl.utils.Assets as OpenFlAssets;
-import editors.ChartingState;
-import editors.CharacterEditorState;
-import flixel.group.FlxSpriteGroup;
-import meta.lua.FunkinLua;
 
+using StringTools;
 #if sys
 import sys.FileSystem;
 #end
 
-using StringTools;
 
 class PlayState extends MusicBeatState
 {
@@ -229,6 +229,7 @@ class PlayState extends MusicBeatState
 	public var goods:Int = 0;
 	public var bads:Int = 0;
 	public var shits:Int = 0;
+	public var missedLongNote:Bool = false;
 
 	public var lerpScore:Float = 0.0;
 	public var lerpHealth:Float = 1;
@@ -315,6 +316,7 @@ class PlayState extends MusicBeatState
 		goods = 0;
 		bads = 0;
 		shits = 0;
+		missedLongNote = false;
 
 		opponentDamage = 0;
 		opponentHealthLimit = 0;
@@ -2102,7 +2104,7 @@ class PlayState extends MusicBeatState
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
-			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
+			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);s
 		}
 		botplayTxt.visible = cpuControlled;
 
@@ -3637,6 +3639,7 @@ class PlayState extends MusicBeatState
 
 	function missedNote(longNote:Bool = false, ?countForMiss:Bool = true, ?shitRating:Bool = false) {
 		health -= 0.06; //For testing purposes
+		missedLongNote = true;
 		if (!longNote && countForMiss) {
 
 		if (combo > 0) combo = 0;
@@ -4238,7 +4241,7 @@ class PlayState extends MusicBeatState
 		if (sicks > 0) fcRating = ' [SFC]';
 		if (goods > 0) fcRating = ' [GFC]';
 		if (bads > 0) fcRating = ' [FC]';
-		if (shits > 0) fcRating = ' [FC-]';
+		if (shits > 0 || missedLongNote) fcRating = ' [FC-]';
 		if (songMisses > 0) fcRating = '';
 	}
 

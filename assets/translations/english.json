@@ -1,0 +1,18 @@
+{
+    "translation_name": "English",
+
+    "score_info": "Score",
+    "accuracy_info": "Accuracy",
+    "misses_info": "Combo Breaks",
+    "rank_info": "Rank",
+    "dead_info": "died",
+    "botplay_score": "Used Botplay - Score not counted.",
+
+    "volume_txt": "VOLUME",
+    "volume_max": "MAX",
+
+    "version_txt": "Psych Forever",
+    "mod_info": "Mod",
+    "base_mod": "Base Engine",
+    "experimental": "EXPERIMENTAL FEATURES ENABLED"
+}

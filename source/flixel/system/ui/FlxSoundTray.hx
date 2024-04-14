@@ -169,9 +169,9 @@ class FlxSoundTray extends Sprite
 				_bars[i].alpha = 0.5;
 			}
 		}
-		if (globalVolume != 10)
-		text.text = "VOLUME - " + globalVolume * 10 + "%";
-		else text.text = "VOLUME - MAX";
+		text.text = "VOLUME - ";
+		if (globalVolume != 10) text.text += globalVolume * 10 + "%";
+		else text.text += "MAX";
 	}
 
 	public function screenCenter():Void
