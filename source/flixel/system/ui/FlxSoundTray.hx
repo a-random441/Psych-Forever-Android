@@ -15,6 +15,7 @@ import openfl.text.TextFormatAlign;
 import flash.text.AntiAliasType;
 import flash.text.GridFitType;
 #end
+import haxe.Json;
 
 /**
  * The flixel sound tray, the little volume meter that pops down sometimes.

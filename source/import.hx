@@ -14,7 +14,6 @@ import gameObjects.userInterface.dialogue.*;
 import gameObjects.userInterface.menus.*;
 import shaders.*;
 import backend.Translation;
-import haxe.Json;
 import meta.MusicBeatState;
 import meta.MusicBeatSubstate;
 import gameObjects.userInterface.notes.*;
