@@ -882,6 +882,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 
+		Translation.updateText();
+
 		var usesCheckbox = true;
 		for (i in 0...noCheckbox.length) {
 			if(options[curSelected] == noCheckbox[i]) {

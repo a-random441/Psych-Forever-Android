@@ -68,12 +68,8 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 
-	var translationShit:TranslationThing;
-
 	override function create()
 	{
-		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
-
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
@@ -157,7 +153,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, '${translationShit.version_txt} v' + Main.foreverVersion, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, '${Translation.versionTxt} v' + Main.foreverVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat(Paths.font(choosenFont), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);

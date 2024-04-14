@@ -154,6 +154,8 @@ class TitleState extends MusicBeatState
 			}
 		}
 
+		Translation.updateText();
+
 	//	OptionsState.PreferencesSubstate.updateFilter();
 
 		Conductor.changeBPM(102);

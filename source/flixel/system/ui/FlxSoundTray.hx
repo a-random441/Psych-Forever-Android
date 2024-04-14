@@ -15,15 +15,12 @@ import openfl.text.TextFormatAlign;
 import flash.text.AntiAliasType;
 import flash.text.GridFitType;
 #end
-import haxe.Json;
 
 /**
  * The flixel sound tray, the little volume meter that pops down sometimes.
  */
 class FlxSoundTray extends Sprite
 {
-	var translationShit:TranslationThing;
-
 	var text:TextField;
 	/**
 	 * Because reading any data from DisplayObject is insanely expensive in hxcpp, keep track of whether we need to update it or not.
@@ -142,8 +139,6 @@ class FlxSoundTray extends Sprite
 	 */
 	public function show(up:Bool = false):Void
 	{
-		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
-
 		if (!silent)
 		{
 			var sound = Paths.sound('volume');
@@ -174,9 +169,9 @@ class FlxSoundTray extends Sprite
 				_bars[i].alpha = 0.5;
 			}
 		}
-		text.text = '${translationShit.volume_txt} - ';
+		text.text = '${Translation.volumeTxt} - ';
 		if (globalVolume != 10) text.text += globalVolume * 10 + "%";
-		else text.text += '${translationShit.volume_max}';
+		else text.text += '${Translation.volumeMax}';
 	}
 
 	public function screenCenter():Void

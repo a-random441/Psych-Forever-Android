@@ -51,11 +51,8 @@ class FreeplayState extends MusicBeatState
 
 	var switched:String = '';
 
-	var translationShit:TranslationThing;
-
 	override function create()
 	{
-		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
 		#if MODS_ALLOWED
 		Paths.destroyLoadedImages();
 		#end
@@ -233,7 +230,7 @@ class FreeplayState extends MusicBeatState
 		if (Math.abs(lerpRating - intendedRating) <= 0.01)
 			lerpRating = intendedRating;
 
-		scoreText.text = '${translationShit.freeplay_personal}: ' + lerpScore + ' (' + Highscore.floorDecimal(lerpRating * 100, 2) + '%)';
+		scoreText.text = '${Translation.freeplayPersonal}: ' + lerpScore + ' (' + Highscore.floorDecimal(lerpRating * 100, 2) + '%)';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;

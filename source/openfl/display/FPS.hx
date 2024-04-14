@@ -4,7 +4,7 @@ import haxe.Timer;
 import openfl.events.Event;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import haxe.Json;
+//import haxe.Json;
 #if gl_stats
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
@@ -85,11 +85,9 @@ class FPS extends TextField
 
 	var displayMod:String = '';
 	var experimentalFeatures:Bool = false;
-	var translationShit:TranslationThing;
+
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{
-
-		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
 	
 		if (ClientPrefs.loadModMenu || ClientPrefs.newEditors) experimentalFeatures = true;
 		else experimentalFeatures = false;
@@ -138,9 +136,9 @@ class FPS extends TextField
 
 		displayMod = Paths.currentModDirectory;
 
-		if (ClientPrefs.showVersion) text += '${translationShit.version_txt} v${Main.foreverVersion}\n';
-		if (ClientPrefs.showMod) text += '${translationShit.mod_info}: ${(displayMod == null || displayMod == '' ? '${translationShit.base_mod}' : displayMod)}\n';
-		if (experimentalFeatures) text += '!${translationShit.experimental_active}!';
+		if (ClientPrefs.showVersion) text += '${Translation.versionTxt} v${Main.foreverVersion}\n';
+		if (ClientPrefs.showMod) text += '${Translation.modInfo}: ${(displayMod == null || displayMod == '' ? '${Translation.baseMod}' : displayMod)}\n';
+		if (experimentalFeatures) text += '!${Translation.experiemntalActive}!';
 		text += "\n";
 
 	}

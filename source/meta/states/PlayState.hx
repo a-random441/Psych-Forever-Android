@@ -2552,12 +2552,12 @@ class PlayState extends MusicBeatState
 	function updateScore(score:Int, accuracy:Float, fc:String, misses:Int, rank:String) {
 		var divider = ' • ';
 
-		var scoreInfo:String = translationShit.score_info;
-		var accInfo:String = translationShit.accuracy_info;
-		var missInfo:String = translationShit.misses_info;
-		var rankInfo:String = translationShit.rank_info;
-		var dedheh:String = translationShit.dead_info;
-		var botUsed:String = translationShit.botplay_score;
+		var scoreInfo:String = Translation.scoreInfo;
+		var accInfo:String = Translation.accuracyInfo;
+		var missInfo:String = Translation.missesInfo;
+		var rankInfo:String = Translation.rankInfo;
+		var dedheh:String = Translation.deadInfo;
+		var botUsed:String = Translation.botplayScore;
 
 		scoreTxt.text = '$scoreInfo: ' + score;
 
@@ -3334,11 +3334,11 @@ class PlayState extends MusicBeatState
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.55;
 
-		judgementTxt.text = '${translationShit.sick_judge}: $sicks\n';
-		judgementTxt.text += '${translationShit.good_judge}: $goods\n';
-		judgementTxt.text += '${translationShit.bad_judge}: $bads\n';
-		judgementTxt.text += '${translationShit.shit_judge}: $shits\n';
-		judgementTxt.text += '${translationShit.miss_judge}: ${ClientPrefs.lateDamage ? (songMisses - shits) : songMisses}\n';
+		judgementTxt.text = '${Translation.sickJudge}: $sicks\n';
+		judgementTxt.text += '${Translation.goodJudge}: $goods\n';
+		judgementTxt.text += '${Translation.badJudge}: $bads\n';
+		judgementTxt.text += '${Translation.shitJudge}: $shits\n';
+		judgementTxt.text += '${Translation.missJudge}: ${ClientPrefs.lateDamage ? (songMisses - shits) : songMisses}\n';
 		judgementTxt.screenCenter(Y);
 
 		var rating:FlxSprite = new FlxSprite();
