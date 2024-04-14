@@ -35,6 +35,24 @@ class CoolUtil
 		return newValue;
 	}
 
+	public static function returnAssetsLibrary(library:String, ?subDir:String = 'assets/'):Array<String>
+	{
+		var libraryArray:Array<String> = [];
+	
+		#if sys
+		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
+	
+		for (folder in unfilteredLibrary)
+		{
+			if (!folder.contains('.'))
+				libraryArray.push(folder);
+		}
+		trace(libraryArray);
+		#end
+	
+		return libraryArray;
+	}
+
 	public static function coolTextFile(path:String):Array<String>
 	{
 		var daList:Array<String> = [];

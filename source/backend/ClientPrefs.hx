@@ -118,6 +118,7 @@ class ClientPrefs {
 		FlxG.save.data.judgementCounter = judgementCounter;
 		FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.noteMovements = noteMovements;
+		FlxG.save.data.language = language;
 
 		FlxG.save.data.loadModMenu = loadModMenu;
 		FlxG.save.data.newEditors = newEditors;
@@ -175,6 +176,7 @@ class ClientPrefs {
 		if(FlxG.save.data.judgementCounter != null) judgementCounter = FlxG.save.data.judgementCounter;
 		if(FlxG.save.data.autoPause != null) autoPause = FlxG.save.data.autoPause;
 		if(FlxG.save.data.noteMovements != null) noteMovements = FlxG.save.data.noteMovements;
+		if(FlxG.save.data.language != null) language = FlxG.save.data.language;
 
 		if(FlxG.save.data.loadModMenu != null) loadModMenu = FlxG.save.data.loadModMenu;
 		if(FlxG.save.data.newEditors != null) newEditors = FlxG.save.data.newEditors;

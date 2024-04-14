@@ -691,6 +691,11 @@ class ControlsSubstate extends MusicBeatSubstate {
 class PreferencesSubstate extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;
+
+	private static var languageSelect:Int = 0;
+
+	static var languageList:Array<String> = ['english', 'portuguese'];
+
 	static var unselectableOptions:Array<String> = [
 		'GRAPHICS',
 		'GAMEPLAY',
@@ -704,6 +709,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 	];
 	static var noCheckbox:Array<String> = [
 		'Framerate',
+		'Language',
 		'Note Delay'
 	];
 
@@ -729,6 +735,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Note Movements',
 		'Camera Zooms',
 		'MISC',
+		'Language',
 		'Flashing Lights',
 		'Note Delay',
 		'Hide HUD',
@@ -758,6 +765,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 	private var showCharacter:Character = null;
 	private var descText:FlxText;
 
+	var languageNum:Int = 0;
+
 	public function new()
 	{
 		super();
@@ -768,6 +777,13 @@ class PreferencesSubstate extends MusicBeatSubstate
 		showCharacter.dance();
 		add(showCharacter);
 		showCharacter.visible = false;
+
+		switch (ClientPrefs.language) {
+			case 'english':
+				languageNum = 0;
+			case 'portuguese':
+				languageNum = 1;
+		}
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -833,6 +849,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 	var nextAccept:Int = 5;
 	var holdTime:Float = 0;
+
 	override function update(elapsed:Float)
 	{
 		if (controls.UI_UP_P)
@@ -992,6 +1009,22 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.noteOffset += add * mult;
 						if(ClientPrefs.noteOffset < 0) ClientPrefs.noteOffset = 0;
 						else if(ClientPrefs.noteOffset > 500) ClientPrefs.noteOffset = 500;
+				}
+
+				if (options[curSelected] == 'Language' && holdTime == 0) {
+					languageNum += add;
+
+					if (languageNum > languageList.length)
+						languageNum = 0;
+					if (languageNum < 0)
+						languageNum = languageList.length - 1;
+
+					switch (languageNum) {
+						case 0:
+							ClientPrefs.language = 'english';
+						case 1:
+							ClientPrefs.language = 'portuguese';
+					}
 				}
 				reloadValues();
 
@@ -1187,6 +1220,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daText = '' + ClientPrefs.framerate;
 					case 'Note Delay':
 						daText = ClientPrefs.noteOffset + 'ms';
+					case 'Language':
+						daText = '' + ClientPrefs.language;
 				}
 				var lastTracker:FlxSprite = text.sprTracker;
 				text.sprTracker = null;
