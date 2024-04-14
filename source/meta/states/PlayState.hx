@@ -52,6 +52,8 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
+	var translationShit:TranslationThing;
+
 	public static var ratingStuff:Array<Dynamic> = [
 		['You Suck!', 0.2], //From 0% to 19%
 		['F', 0.7], //From 20% to 39%
@@ -295,6 +297,8 @@ class PlayState extends MusicBeatState
 		Paths.destroyLoadedImages(resetSpriteCache);
 		#end
 		resetSpriteCache = false;
+
+		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
 
 		MainMenuState.loadMenuJson();
 
@@ -2104,7 +2108,7 @@ class PlayState extends MusicBeatState
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
-			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);s
+			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 		botplayTxt.visible = cpuControlled;
 
@@ -2547,17 +2551,25 @@ class PlayState extends MusicBeatState
 
 	function updateScore(score:Int, accuracy:Float, fc:String, misses:Int, rank:String) {
 		var divider = ' • ';
-		scoreTxt.text = 'Score: ' + score;
+
+		var scoreInfo:String = translationShit.score_info;
+		var accInfo:String = translationShit.accuracy_info;
+		var missInfo:String = translationShit.misses_info;
+		var rankInfo:String = translationShit.rank_info;
+		var dedheh:String = translationShit.dead_info;
+		var botUsed:String = translationShit.botplay_score;
+
+		scoreTxt.text = '$scoreInfo: ' + score;
 
 		// The rest
 		if (ClientPrefs.displayAccuracy) {
-		scoreTxt.text += divider + 'Accuracy: ${(rank == 'N/A' ? 0 : accuracy)}%$fc';
-		scoreTxt.text += divider + 'Combo Breaks: $misses';
-		scoreTxt.text += divider + 'Rank: $rank';
+		scoreTxt.text += divider + '$accInfo: ${(rank == 'N/A' ? 0 : accuracy)}%$fc';
+		scoreTxt.text += divider + '$missInfo: $misses';
+		scoreTxt.text += divider + '$rankInfo: $rank';
 		}
-		scoreTxt.text += (usedPractice ? '${divider}died :(': '');
+		scoreTxt.text += (usedPractice ? '${divider}$dedheh :(': '');
 
-		if (usedBotplay) scoreTxt.text = 'Used Botplay - Score not counted.';
+		if (usedBotplay) scoreTxt.text = '$botUsed';
 
 		RecalculateRating();
 	}
@@ -3322,7 +3334,11 @@ class PlayState extends MusicBeatState
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.55;
 
-		judgementTxt.text = 'Sick: $sicks\nGood: $goods\nBad: $bads\nShit: $shits\nMiss: ${ClientPrefs.lateDamage ? (songMisses - shits) : songMisses}\n';
+		judgementTxt.text = '${translationShit.sick_judge}: $sicks\n';
+		judgementTxt.text += '${translationShit.good_judge}: $goods\n';
+		judgementTxt.text += '${translationShit.bad_judge}: $bads\n';
+		judgementTxt.text += '${translationShit.shit_judge}: $shits\n';
+		judgementTxt.text += '${translationShit.miss_judge}: ${ClientPrefs.lateDamage ? (songMisses - shits) : songMisses}\n';
 		judgementTxt.screenCenter(Y);
 
 		var rating:FlxSprite = new FlxSprite();

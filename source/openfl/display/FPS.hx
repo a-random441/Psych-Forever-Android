@@ -84,8 +84,11 @@ class FPS extends TextField
 
 	var displayMod:String = '';
 	var experimentalFeatures:Bool = false;
+	var translationShit:TranslationThing;
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{
+
+		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
 	
 		if (ClientPrefs.loadModMenu || ClientPrefs.newEditors) experimentalFeatures = true;
 		else experimentalFeatures = false;
@@ -134,9 +137,9 @@ class FPS extends TextField
 
 		displayMod = Paths.currentModDirectory;
 
-		if (ClientPrefs.showVersion) text += 'Psych Forever v${Main.foreverVersion}\n';
-		if (ClientPrefs.showMod) text += 'Mod: ${(displayMod == null || displayMod == '' ? 'Base Engine' : displayMod)}\n';
-		if (experimentalFeatures) text += '!EXPERIMENTAL FEATURES ENABLED!';
+		if (ClientPrefs.showVersion) text += '${translationShit.version_txt} v${Main.foreverVersion}\n';
+		if (ClientPrefs.showMod) text += '${translationShit.mod_info}: ${(displayMod == null || displayMod == '' ? '${translationShit.base_mod}' : displayMod)}\n';
+		if (experimentalFeatures) text += '!${translationShit.experimental_active}!';
 		text += "\n";
 
 	}

@@ -21,6 +21,8 @@ import flash.text.GridFitType;
  */
 class FlxSoundTray extends Sprite
 {
+	var translationShit:TranslationThing;
+
 	var text:TextField;
 	/**
 	 * Because reading any data from DisplayObject is insanely expensive in hxcpp, keep track of whether we need to update it or not.
@@ -139,6 +141,8 @@ class FlxSoundTray extends Sprite
 	 */
 	public function show(up:Bool = false):Void
 	{
+		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
+
 		if (!silent)
 		{
 			var sound = Paths.sound('volume');
@@ -169,9 +173,9 @@ class FlxSoundTray extends Sprite
 				_bars[i].alpha = 0.5;
 			}
 		}
-		text.text = "VOLUME - ";
+		text.text = '${translationShit.volume_txt} - ';
 		if (globalVolume != 10) text.text += globalVolume * 10 + "%";
-		else text.text += "MAX";
+		else text.text += '${translationShit.volume_max}';
 	}
 
 	public function screenCenter():Void

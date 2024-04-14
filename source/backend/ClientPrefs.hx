@@ -37,6 +37,8 @@ class ClientPrefs {
 	public static var autoPause:Bool = true;
 	public static var noteMovements:Bool = true;
 
+	public static var language:String = 'english';
+
 	// EXPERIMENTAL!!!
 	public static var loadModMenu:Bool = false;
 	public static var newEditors:Bool = false;

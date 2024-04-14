@@ -14,5 +14,13 @@
     "version_txt": "Psicopata para sempre",
     "mod_info": "Modo",
     "base_mod": "Motor Básico",
-    "experimental": "RECURSOS EXPERIMENTAIS ATIVADOS"
+    "experimental_active": "RECURSOS EXPERIMENTAIS ATIVADOS",
+
+    "sick_judge": "Doente",
+    "good_judge": "Boa",
+    "bad_judge": "Ruim",
+    "shit_judge": "Horrível",
+    "miss_judge": "Perder",
+
+    "freeplay_personal": "MELHOR PESSOAL"
 }

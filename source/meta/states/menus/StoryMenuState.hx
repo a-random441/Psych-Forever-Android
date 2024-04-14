@@ -45,8 +45,11 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	var translationShit:TranslationThing;
+
 	override function create()
 	{
+		translationShit = cast Json.parse(Paths.getTextFromFile('translations/${ClientPrefs.language}.json'));
 		#if MODS_ALLOWED
 		Paths.destroyLoadedImages();
 		#end
@@ -192,7 +195,7 @@ class StoryMenuState extends MusicBeatState
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 30, 0, 1)));
 		if(Math.abs(intendedScore - lerpScore) < 10) lerpScore = intendedScore;
 
-		scoreText.text = "WEEK SCORE:" + lerpScore;
+		scoreText.text = '${translationShit.freeplay_personal}:' + lerpScore;
 
 		// FlxG.watch.addQuick('font', scoreText.font);
 
