@@ -26,6 +26,7 @@ typedef TranslationThing =
     var bad_judge:String;
     var shit_judge:String;
     var miss_judge:String;
+    var note_counter:String;
 
     var freeplay_personal:String;
 }
@@ -53,6 +54,8 @@ class Translation {
     public static var shitJudge:String;
     public static var missJudge:String;
 
+    public static var noteCounter:String;
+
     public static var freeplayPersonal:String;
 
     public static var translationShit:TranslationThing;
@@ -78,5 +81,6 @@ class Translation {
         shitJudge = translationShit.shit_judge;
         missJudge = translationShit.miss_judge;
         freeplayPersonal = translationShit.freeplay_personal;
+        noteCounter = translationShit.note_counter;
     }
 }

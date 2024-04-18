@@ -183,6 +183,8 @@ class TitleState extends MusicBeatState
 			}
 		}
 
+		FlxG.autoPause = ClientPrefs.autoPause;
+
 		disableControls = false;
 
 		Translation.updateText();

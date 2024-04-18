@@ -694,7 +694,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 	private static var languageSelect:Int = 0;
 
-	static var languageList:Array<String> = ['english', 'portuguese'];
+	static var languageList:Array<String> = ['english', 'spanish', 'portuguese'];
 
 	static var unselectableOptions:Array<String> = [
 		'GRAPHICS',
@@ -781,8 +781,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 		switch (ClientPrefs.language) {
 			case 'english':
 				languageNum = 0;
-			case 'portuguese':
+			case 'spanish':
 				languageNum = 1;
+			case 'portuguese':
+				languageNum = 2;
 		}
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
@@ -1025,6 +1027,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						case 0:
 							ClientPrefs.language = 'english';
 						case 1:
+							ClientPrefs.language = 'spanish';
+						case 2:
 							ClientPrefs.language = 'portuguese';
 					}
 				}

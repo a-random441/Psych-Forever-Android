@@ -24,8 +24,8 @@
 		},
 		{
 			"offsets": [
-				-10,
-				-50
+				-20,
+				-51
 			],
 			"loop": false,
 			"fps": 24,
@@ -35,7 +35,7 @@
 		},
 		{
 			"offsets": [
-				-29,
+				-46,
 				27
 			],
 			"loop": false,
@@ -79,7 +79,7 @@
 		},
 		{
 			"offsets": [
-				-36,
+				-46,
 				27
 			],
 			"loop": false,
@@ -112,7 +112,7 @@
 		},
 		{
 			"offsets": [
-				15,
+				14,
 				18
 			],
 			"loop": false,
@@ -131,39 +131,6 @@
 			"anim": "scared",
 			"indices": [],
 			"name": "BF idle shaking"
-		},
-		{
-			"offsets": [
-				37,
-				11
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "firstDeath",
-			"indices": [],
-			"name": "BF dies"
-		},
-		{
-			"offsets": [
-				37,
-				5
-			],
-			"loop": true,
-			"fps": 24,
-			"anim": "deathLoop",
-			"indices": [],
-			"name": "BF Dead Loop"
-		},
-		{
-			"offsets": [
-				37,
-				69
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "deathConfirm",
-			"indices": [],
-			"name": "BF Dead confirm"
 		},
 		{
 			"offsets": [
@@ -201,11 +168,6 @@
 	],
 	"no_antialiasing": false,
 	"image": "characters/BOYFRIEND",
-	"iconSteps": [
-		0,
-		1,
-		2
-	],
 	"position": [
 		0,
 		350

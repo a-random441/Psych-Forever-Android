@@ -150,7 +150,6 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
 					PlayState.changedDifficulty = true;
-					PlayState.cpuControlled = false;
 					return;
 				}
 			} 
@@ -174,6 +173,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Botplay':
 					PlayState.cpuControlled = !PlayState.cpuControlled;
 					botplayText.visible = PlayState.cpuControlled;
+					PlayState.instance.botplayView(PlayState.cpuControlled);
 				case 'Options':
 					OptionsState.onPlayState = true;
 					MusicBeatState.switchState(new OptionsState());
