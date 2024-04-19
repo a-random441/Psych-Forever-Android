@@ -253,6 +253,7 @@ class PlayState extends MusicBeatState
 	public var songMisses:Int = 0;
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	public var composerTxt:FlxText;
 	var timeTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
@@ -950,6 +951,13 @@ class PlayState extends MusicBeatState
 		judgementTxt.screenCenter(Y);
 		judgementTxt.visible = ClientPrefs.judgementCounter;
 		add(judgementTxt);
+
+		composerTxt = new FlxText(12, FlxG.height + 10, 0, "Composed by: " + SONG.composer, 12);
+		composerTxt.scrollFactor.set();
+		composerTxt.setFormat(Paths.font(MainMenuState.choosenFont), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		composerTxt.borderSize = 1.5;
+		composerTxt.cameras = [camHUD];
+		add(composerTxt);
 
 		judgementGroup = new FlxSpriteGroup(0, 0);
 		if (ClientPrefs.fixedJudgements) judgementGroup.cameras = [camHUD]; 
@@ -3296,8 +3304,6 @@ class PlayState extends MusicBeatState
 			if(ClientPrefs.noteSplashes) spawnNoteSplashOnNote(note);
 		}
 
-		noteCounterThing++;
-
 		// songScore += Std.int(500 * (1 - (noteDiff / 200)));
 	}
 
@@ -3332,6 +3338,7 @@ class PlayState extends MusicBeatState
 				} else hitPercent = 0.25;
 		}
 
+		noteCounterThing++;
 		songScore += ((100000 / totalNotesInSong) * hitPercent);
 		if (songScore > 99999) songScore = 100000;
 
@@ -3344,12 +3351,12 @@ class PlayState extends MusicBeatState
 		if(!cpuControlled && !usedBotplay) {
 			totalNotes++;
 
+			displayRating(daRating, false);
+
 			FlxTween.cancelTweensOf(scoreTxt);
 			scoreTxt.scale.set(1.075, 1.075);
 			FlxTween.tween(scoreTxt, {"scale.x": 1, "scale.y": 1}, 0.25, {ease: FlxEase.cubeOut});
 		}
-
-		displayRating(daRating, false);
 	}
 
 	function displayRating(daRatingLol:String, negative:Bool = false) {
@@ -4087,6 +4094,11 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		if (curBeat == 1 && SONG.composer != null && SONG.composer != '')
+			FlxTween.tween(composerTxt, {y: FlxG.height - 24}, 1, {ease: FlxEase.circOut});
+		else if (curBeat == 8)
+			FlxTween.tween(composerTxt, {y: FlxG.height + 10}, 1);
 
 		if(lastBeatHit >= curBeat) {
 			trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
