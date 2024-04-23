@@ -170,7 +170,6 @@ class Character extends FlxSprite
 		}
 		originalFlipX = flipX;
 
-		recalculateDanceIdle();
 		dance();
 
 		if (isPlayer)
@@ -250,6 +249,8 @@ class Character extends FlxSprite
 	 */
 	public function dance()
 	{
+		danceIdle = (animation.getByName('danceLeft' + idleSuffix) != null && animation.getByName('danceRight' + idleSuffix) != null);
+		
 		if (!debugMode && !specialAnim)
 		{
 			if(danceIdle)
@@ -296,10 +297,6 @@ class Character extends FlxSprite
 				danced = !danced;
 			}
 		}
-	}
-
-	public function recalculateDanceIdle() {
-		danceIdle = (animation.getByName('danceLeft' + idleSuffix) != null && animation.getByName('danceRight' + idleSuffix) != null);
 	}
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)

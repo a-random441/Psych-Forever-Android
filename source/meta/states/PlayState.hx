@@ -234,7 +234,6 @@ class PlayState extends MusicBeatState
 	public var bads:Int = 0;
 	public var shits:Int = 0;
 	public var missedLongNote:Bool = false;
-	public var noteCounterThing:Int = 0;
 
 	public var lerpScore:Float = 0.0;
 	public var lerpHealth:Float = 1;
@@ -331,7 +330,6 @@ class PlayState extends MusicBeatState
 		bads = 0;
 		shits = 0;
 		missedLongNote = false;
-		noteCounterThing = 0;
 
 		opponentDamage = 0;
 		opponentHealthLimit = 0;
@@ -1467,20 +1465,11 @@ class PlayState extends MusicBeatState
 				{
 					gf.dance();
 				}
-				if(tmr.loopsLeft % 2 == 0) {
-					if (boyfriend.animation.curAnim != null && !boyfriend.animation.curAnim.name.startsWith('sing'))
-					{
-						boyfriend.dance();
-					}
-					if (dad.animation.curAnim != null && !dad.animation.curAnim.name.startsWith('sing') && !dad.stunned)
-					{
-						dad.dance();
-					}
-				}
-				else if(dad.danceIdle && dad.animation.curAnim != null && !dad.stunned && !dad.curCharacter.startsWith('gf') && !dad.animation.curAnim.name.startsWith("sing"))
-				{
+
+				if (tmr.loopsLeft % (boyfriend.danceIdle ? 1 : 2) == 0 && (boyfriend.animation.curAnim.name != null && !boyfriend.animation.curAnim.name.startsWith("sing")))
+					boyfriend.dance();
+				if (tmr.loopsLeft % (dad.danceIdle ? 1 : 2) == 0  && (dad.animation.curAnim.name != null && !dad.curCharacter.startsWith('gf') && !dad.animation.curAnim.name.startsWith("sing") && !dad.stunned))
 					dad.dance();
-				}
 
 				var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 				introAssets.set('default', ['ui/base/ready', 'ui/base/set', 'ui/base/go']);
@@ -1830,7 +1819,7 @@ class PlayState extends MusicBeatState
 			{
 				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: (cpuControlled ? 0 : 1)}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 
 			if (player == 1)
@@ -2175,8 +2164,15 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP1.scale.set(mult, mult);
+
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP2.scale.set(mult, mult);
+
+		/*
 		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));
+		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));*/
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
@@ -2227,6 +2223,15 @@ class PlayState extends MusicBeatState
 			cpuControlled = !cpuControlled;
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 			botplayView(cpuControlled);
+		}
+
+		if (cpuControlled) {
+			for (i in playerStrums) {
+				i.alpha = 0;
+			}
+			for (i in opponentStrums) {
+				i.alpha = 0;
+			}
 		}
 
 		if (startingSong)
@@ -3338,9 +3343,11 @@ class PlayState extends MusicBeatState
 				} else hitPercent = 0.25;
 		}
 
-		noteCounterThing++;
 		songScore += ((100000 / totalNotesInSong) * hitPercent);
 		if (songScore > 99999) songScore = 100000;
+
+		if (usedBotplay)
+			judgementTxt.text = '${Translation.noteCounter}: $combo\n';
 
 		healthCall(score/600);
 
@@ -3371,15 +3378,11 @@ class PlayState extends MusicBeatState
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.55;
 
-		if (usedBotplay)
-			judgementTxt.text = '${Translation.noteCounter}: $noteCounterThing\n';
-		else {
-			judgementTxt.text = '${Translation.sickJudge}: $sicks\n';
-			judgementTxt.text += '${Translation.goodJudge}: $goods\n';
-			judgementTxt.text += '${Translation.badJudge}: $bads\n';
-			judgementTxt.text += '${Translation.shitJudge}: $shits\n';
-			judgementTxt.text += '${Translation.missJudge}: ${ClientPrefs.lateDamage ? (songMisses - shits) : songMisses}\n';
-		}
+		judgementTxt.text = '${Translation.sickJudge}: $sicks\n';
+		judgementTxt.text += '${Translation.goodJudge}: $goods\n';
+		judgementTxt.text += '${Translation.badJudge}: $bads\n';
+		judgementTxt.text += '${Translation.shitJudge}: $shits\n';
+		judgementTxt.text += '${Translation.missJudge}: ${ClientPrefs.lateDamage ? (songMisses - shits) : songMisses}\n';
 		judgementTxt.screenCenter(Y);
 		
 		// Now if you're using game ratings it will be placed where gf should be
@@ -4136,18 +4139,10 @@ class PlayState extends MusicBeatState
 			gf.dance();
 		}
 
-		if(curBeat % 2 == 0) {
-			if (boyfriend.animation.curAnim.name != null && !boyfriend.animation.curAnim.name.startsWith("sing"))
-			{
-				boyfriend.dance();
-			}
-			if (dad.animation.curAnim.name != null && !dad.animation.curAnim.name.startsWith("sing") && !dad.stunned)
-			{
-				dad.dance();
-			}
-		} else if(dad.danceIdle && dad.animation.curAnim.name != null && !dad.curCharacter.startsWith('gf') && !dad.animation.curAnim.name.startsWith("sing") && !dad.stunned) {
+		if (curBeat % (boyfriend.danceIdle ? 1 : 2) == 0 && boyfriend.animation.curAnim.name != null && !boyfriend.animation.curAnim.name.startsWith("sing"))
+			boyfriend.dance();
+		if (curBeat % (dad.danceIdle ? 1 : 2) == 0  && dad.animation.curAnim.name != null && !dad.curCharacter.startsWith('gf') && !dad.animation.curAnim.name.startsWith("sing") && !dad.stunned)
 			dad.dance();
-		}
 
 		stageUpdate();
 

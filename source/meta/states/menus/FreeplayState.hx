@@ -280,7 +280,7 @@ class FreeplayState extends MusicBeatState
 				curDifficulty = 1;
 				changeDiff(0); // just show it shows Normal instead of being stuck
 				trace('Couldnt find file');
-				barText.text = 'Song Missing! (note: use songs instead of data)';
+				barText.text = 'Song is Missing or wrong difficulty. (Note: Charts belong in the songs folder)';
 				FlxG.sound.play(Paths.sound('ANGRY'), 0.7);
 			} else {#end
 				destroyFreeplayVocals();
