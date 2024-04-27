@@ -22,6 +22,7 @@ import flash.text.GridFitType;
 class FlxSoundTray extends Sprite
 {
 	var text:TextField;
+
 	/**
 	 * Because reading any data from DisplayObject is insanely expensive in hxcpp, keep track of whether we need to update it or not.
 	 */
@@ -113,20 +114,20 @@ class FlxSoundTray extends Sprite
 		}
 		else if (y > -height)
 		{
-			y -= (MS / 10000) * FlxG.height * 2;
+			y -= (MS / 50000) * FlxG.height * 2;
 
 			if (y <= -height)
 			{
 				visible = false;
 				active = false;
-    		}
+			}
 
-            if (FlxG.save.data != null)
-				{
-					FlxG.save.data.mute = FlxG.sound.muted;
-					FlxG.save.data.volume = FlxG.sound.volume;
-					FlxG.save.flush();
-				}
+			if (FlxG.save.data != null)
+			{
+				FlxG.save.data.mute = FlxG.sound.muted;
+				FlxG.save.data.volume = FlxG.sound.volume;
+				FlxG.save.flush();
+			}
 		}
 
 		text.defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 8, 0xffffff);
@@ -144,7 +145,7 @@ class FlxSoundTray extends Sprite
 			var sound = Paths.sound('volume');
 			if (sound != null)
 				FlxG.sound.load(sound).play();
-            trace(up);
+			trace(up);
 		}
 
 		_timer = 1;
@@ -170,8 +171,10 @@ class FlxSoundTray extends Sprite
 			}
 		}
 		text.text = '${Translation.volumeTxt} - ';
-		if (globalVolume != 10) text.text += globalVolume * 10 + "%";
-		else text.text += '${Translation.volumeMax}';
+		if (globalVolume != 10)
+			text.text += globalVolume * 10 + "%";
+		else
+			text.text += '${Translation.volumeMax}';
 	}
 
 	public function screenCenter():Void
