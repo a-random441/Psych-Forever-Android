@@ -18,6 +18,7 @@ using StringTools;
 class MasterEditorMenu extends MusicBeatState
 {
 	var options:Array<String> = [
+		'Chart Editor',
 		'Character Editor',
 		'Week Editor',
 		'Menu Character Editor',
@@ -38,7 +39,8 @@ class MasterEditorMenu extends MusicBeatState
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/bg'));
 		bg.scrollFactor.set();
-		bg.color = 0xFF353535;
+		// bg.color = 0xFF353535;
+		bg.color = 0xFF00FF90;
 		add(bg);
 
 		grpTexts = new FlxTypedGroup<Alphabet>();
@@ -77,6 +79,9 @@ class MasterEditorMenu extends MusicBeatState
 		if (controls.ACCEPT)
 		{
 			switch(options[curSelected]) {
+				case 'Chart Editor':
+					PlayState.SONG = Song.loadFromJson('test', 'test');
+					LoadingState.loadAndSwitchState(new ChartingState());
 				case 'Character Editor':
 					if (ClientPrefs.newEditors) LoadingState.loadAndSwitchState(new NewCharacterEditorState(Character.DEFAULT_CHARACTER, false));
 					else LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));

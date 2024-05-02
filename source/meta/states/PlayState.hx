@@ -2900,6 +2900,8 @@ class PlayState extends MusicBeatState
 						char = boyfriend;
 					case 'gf' | 'girlfriend':
 						char = gf;
+					case 'dad' | 'opponent':
+						char = dad;
 					default:
 						var val2:Int = Std.parseInt(value2);
 						if(Math.isNaN(val2)) val2 = 0;
@@ -2907,6 +2909,7 @@ class PlayState extends MusicBeatState
 						switch(val2) {
 							case 1: char = boyfriend;
 							case 2: char = gf;
+							default: char = dad;
 						}
 				}
 				char.playAnim(value1, true);
@@ -3750,15 +3753,16 @@ class PlayState extends MusicBeatState
 
 			if (cpuControlled) usedBotplay = true;
 
-			if (!note.isSustainNote && note.giveScore)
-			{
-				if (combo < 0) combo = 0;
-				combo++;
-				if(combo > 9999) combo = 9999;
+			if (note.giveScore) {
+				if (!note.isSustainNote)
+				{
+					if (combo < 0) combo = 0;
+					combo++;
+					if(combo > 9999) combo = 9999;
 
-				popUpScore(note);
+					popUpScore(note);
+				} else health += note.hitHealth;
 			}
-			health += note.hitHealth;
 
 			if(!note.noAnimation) {
 				var daAlt = '';

@@ -744,6 +744,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Fixed Judgements',
 		'Hide Song Length',
 		'Focus Loss Pause',
+		'Skip Splash',
 		#if !mobile
 		'TOP RIGHT TEXT',
 		'FPS Counter',
@@ -979,13 +980,15 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.autoPause = !ClientPrefs.autoPause;
 					case 'Note Movements':
 						ClientPrefs.noteMovements = !ClientPrefs.noteMovements;
+					case 'Skip Splash':
+						ClientPrefs.skipSplash = !ClientPrefs.skipSplash;
 
 					case 'Mod Menus':
 						ClientPrefs.loadModMenu = !ClientPrefs.loadModMenu;
 					case 'New Editors':
 						ClientPrefs.newEditors = !ClientPrefs.newEditors;
 				}
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('confirmMenu'));
 				reloadValues();
 			}
 		} else {
@@ -1113,6 +1116,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = 'Should the camera move on notes?';
 			case 'Mod Menus':
 				daText = "If checked, when ever you scroll into a modpack it will load its assets\n(VERY UNFINISHED)";
+			case 'Skip Splash':
+				daText = 'If checked the custom splash screen is skipped.';
 			default:
 				daText = "";
 		}
@@ -1213,6 +1218,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.autoPause;
 					case 'Note Movements':
 						daValue = ClientPrefs.noteMovements;
+					case 'Skip Splash':
+						daValue = ClientPrefs.skipSplash;
 				}
 				checkbox.daValue = daValue;
 			}

@@ -1413,11 +1413,9 @@ class ChartingState extends MusicBeatState
 				if(note.strumTime > lastConductorPos && ((playSoundBf.checked && note.mustPress) || (playSoundDad.checked && !note.mustPress)) && FlxG.sound.music.playing && note.noteData > -1) {
 					var data:Int = note.noteData % 4;
 					if(!playedSound[data]) {
-						var soundToPlay = 'ChartingTick';
-						if(_song.player1 == 'gf') { //Easter egg
-							soundToPlay = 'GF_' + Std.string(data + 1);
-						}
-						FlxG.sound.play(Paths.sound(soundToPlay));
+						FlxG.sound.play(Paths.sound((playSoundBf.checked && note.mustPress ? 'charting/hitNotePlayer' :
+						_song.player1 == 'gf' ? 'GF_' + Std.string(data + 1) :
+						playSoundDad.checked && !note.mustPress ? 'charting/hitNoteOpponent' : '')));
 						playedSound[data] = true;
 					}
 				}
@@ -1429,7 +1427,10 @@ class ChartingState extends MusicBeatState
 			var metroStep:Int = Math.floor(((Conductor.songPosition + metronomeOffsetStepper.value) / metroInterval) / 1000);
 			var lastMetroStep:Int = Math.floor(((lastConductorPos + metronomeOffsetStepper.value) / metroInterval) / 1000);
 			if(metroStep != lastMetroStep) {
-				FlxG.sound.play(Paths.sound('Metronome_Tick'));
+				if (lastSection != curSection) FlxG.sound.play(Paths.sound('charting/metronome1'));
+				else FlxG.sound.play(Paths.sound('charting/metronome2'));
+
+				lastSection = curSection;
 				//trace('Ticked');
 			}
 		}

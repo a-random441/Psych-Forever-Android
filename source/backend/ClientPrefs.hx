@@ -36,6 +36,7 @@ class ClientPrefs {
 	public static var judgementCounter:Bool = true;
 	public static var autoPause:Bool = true;
 	public static var noteMovements:Bool = true;
+	public static var skipSplash:Bool = false;
 
 	public static var language:String = 'english';
 
@@ -119,6 +120,7 @@ class ClientPrefs {
 		FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.noteMovements = noteMovements;
 		FlxG.save.data.language = language;
+		FlxG.save.data.skipSplash = skipSplash;
 
 		FlxG.save.data.loadModMenu = loadModMenu;
 		FlxG.save.data.newEditors = newEditors;
@@ -177,6 +179,7 @@ class ClientPrefs {
 		if(FlxG.save.data.autoPause != null) autoPause = FlxG.save.data.autoPause;
 		if(FlxG.save.data.noteMovements != null) noteMovements = FlxG.save.data.noteMovements;
 		if(FlxG.save.data.language != null) language = FlxG.save.data.language;
+		if(FlxG.save.data.skipSplash != null) skipSplash = FlxG.save.data.skipSplash;
 
 		if(FlxG.save.data.loadModMenu != null) loadModMenu = FlxG.save.data.loadModMenu;
 		if(FlxG.save.data.newEditors != null) newEditors = FlxG.save.data.newEditors;

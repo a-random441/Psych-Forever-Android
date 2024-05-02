@@ -120,7 +120,7 @@ class TitleState extends MusicBeatState
 			#end
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				if (!seenIntro) startVideo('splash');
+				if (!seenIntro && !ClientPrefs.skipSplash) startVideo('splash');
 				else startIntro();
 
 				seenIntro = true;
@@ -333,7 +333,7 @@ class TitleState extends MusicBeatState
 
 		// EASTER EGG
 
-		if (!transitioning && skippedIntro)
+		if (skippedIntro)
 		{
 			if(pressedEnter)
 			{
@@ -345,7 +345,7 @@ class TitleState extends MusicBeatState
 				transitioning = true;
 				// FlxG.sound.music.stop();
 
-				new FlxTimer().start(1, function(tmr:FlxTimer)
+				new FlxTimer().start((transitioning ? 0.01 : 1), function(tmr:FlxTimer)
 				{
 					MusicBeatState.switchState(new MainMenuState());
 					closedState = true;

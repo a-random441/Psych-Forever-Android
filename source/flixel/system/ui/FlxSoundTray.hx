@@ -48,6 +48,8 @@ class FlxSoundTray extends Sprite
 	/**Whether or not changing the volume should make noise.**/
 	public var silent:Bool = false;
 
+	var previousVol:Int = 10;
+
 	/**
 	 * Sets up the "sound tray", the little volume meter that pops down sometimes.
 	 */
@@ -87,6 +89,8 @@ class FlxSoundTray extends Sprite
 		var by:Int = 14;
 		_bars = new Array();
 
+		previousVol = Std.int(FlxG.sound.volume);
+
 		for (i in 0...10)
 		{
 			tmp = new Bitmap(new BitmapData(4, i + 1, false, FlxColor.WHITE));
@@ -116,6 +120,8 @@ class FlxSoundTray extends Sprite
 		{
 			y -= (MS / 50000) * FlxG.height * 2;
 
+			alpha -= (0.05 / MS);
+
 			if (y <= -height)
 			{
 				visible = false;
@@ -140,19 +146,23 @@ class FlxSoundTray extends Sprite
 	 */
 	public function show(up:Bool = false):Void
 	{
-		if (!silent)
-		{
-			var sound = Paths.sound('volume');
-			if (sound != null)
-				FlxG.sound.load(sound).play();
-			trace(up);
-		}
+		var sound = Paths.sound('volume/Volup');
+		trace(up);
 
 		_timer = 1;
 		y = 0;
+		alpha = 1;
 		visible = true;
 		active = true;
 		var globalVolume:Int = Math.round(FlxG.sound.volume * 10);
+
+		if (previousVol > globalVolume)
+			sound = Paths.sound('volume/Voldown');
+
+		previousVol = globalVolume;
+ 
+		if (globalVolume >= 10)
+			sound = Paths.sound('volume/VolMAX');
 
 		if (FlxG.sound.muted)
 		{
@@ -175,6 +185,9 @@ class FlxSoundTray extends Sprite
 			text.text += globalVolume * 10 + "%";
 		else
 			text.text += '${Translation.volumeMax}';
+
+		if (sound != null && !silent)
+			FlxG.sound.load(sound).play();
 	}
 
 	public function screenCenter():Void
