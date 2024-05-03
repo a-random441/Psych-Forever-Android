@@ -2164,7 +2164,11 @@ class PlayState extends MusicBeatState
 			CustomFadeTransition.nextCamera = camOther;
 			MusicBeatState.switchState(new ChartingState());
 
-			FlxG.sound.play(Paths.sound('scrollMenu'));
+			
+		if (!OpenFlAssets.exists('assets/sounds/menus/${uiElement}/scrollMenu.$dumbThing'))
+			FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
+		else
+			FlxG.sound.play(Paths.sound('menus/${uiElement}/scrollMenu'), 0.4);
 
 			#if desktop
 			DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -2237,7 +2241,10 @@ class PlayState extends MusicBeatState
 			cancelFadeTween();
 			CustomFadeTransition.nextCamera = camOther;
 
-			FlxG.sound.play(Paths.sound('scrollMenu'));
+			if (!OpenFlAssets.exists('assets/sounds/menus/${uiElement}/scrollMenu.$dumbThing'))
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
+			else
+				FlxG.sound.play(Paths.sound('menus/${uiElement}/scrollMenu'), 0.4);
 
 			if (FlxG.keys.pressed.SHIFT) MusicBeatState.switchState(new CharacterEditorState(SONG.player1));
 			else MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
@@ -2245,11 +2252,17 @@ class PlayState extends MusicBeatState
 
 		if (controls.PRACTICE) {
 			practiceMode = !practiceMode;
-			FlxG.sound.play(Paths.sound('scrollMenu'));
+			if (!OpenFlAssets.exists('assets/sounds/menus/${uiElement}/scrollMenu.$dumbThing'))
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
+			else
+				FlxG.sound.play(Paths.sound('menus/${uiElement}/scrollMenu'), 0.4);
 		}
 		if (controls.BOTPLAY) {
 			cpuControlled = !cpuControlled;
-			FlxG.sound.play(Paths.sound('scrollMenu'));
+			if (!OpenFlAssets.exists('assets/sounds/menus/${uiElement}/scrollMenu.$dumbThing'))
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
+			else
+				FlxG.sound.play(Paths.sound('menus/${uiElement}/scrollMenu'), 0.4);
 			botplayView(cpuControlled);
 		}
 
