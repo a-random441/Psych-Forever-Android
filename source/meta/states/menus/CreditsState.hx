@@ -124,7 +124,7 @@ class CreditsState extends MusicBeatState
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
 		if(controls.ACCEPT) {
@@ -135,7 +135,7 @@ class CreditsState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
 		do {
 			curSelected += change;
 			if (curSelected < 0)

@@ -1414,7 +1414,7 @@ class ChartingState extends MusicBeatState
 					var data:Int = note.noteData % 4;
 					if(!playedSound[data]) {
 						FlxG.sound.play(Paths.sound((playSoundBf.checked && note.mustPress ? 'charting/hitNotePlayer' :
-						_song.player1 == 'gf' ? 'GF_' + Std.string(data + 1) :
+						_song.player1 == 'gf' ? 'others/GF_' + Std.string(data + 1) :
 						playSoundDad.checked && !note.mustPress ? 'charting/hitNoteOpponent' : '')));
 						playedSound[data] = true;
 					}

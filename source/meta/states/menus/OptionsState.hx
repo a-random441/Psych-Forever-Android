@@ -91,7 +91,7 @@ class OptionsState extends MusicBeatState
 		if (controls.BACK) exitOptions(true);
 
 		if (controls.ACCEPT) {
-			FlxG.sound.play(Paths.sound('confirmMenu'));
+			FlxG.sound.play(Paths.sound('menus/base/confirmMenu'));
 			disableControls = true;
 
 			FlxFlicker.flicker(grpOptions.members[curSelected], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
@@ -119,7 +119,7 @@ class OptionsState extends MusicBeatState
 	}
 
 	function exitOptions(daSound:Bool = true) {
-		if (daSound) FlxG.sound.play(Paths.sound('cancelMenu'));
+		if (daSound) FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 		if (onPlayState) {
 		onPlayState = false;
 		MusicBeatState.switchState(new PlayState());
@@ -213,13 +213,13 @@ class NotesSubstate extends MusicBeatSubstate
 			if(holdTime < 0.5) {
 				if(controls.UI_LEFT_P) {
 					updateValue(-1);
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 				} else if(controls.UI_RIGHT_P) {
 					updateValue(1);
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 				} else if(controls.RESET) {
 					resetValue(curSelected, typeSelected);
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 				}
 				if(controls.UI_LEFT_R || controls.UI_RIGHT_R) {
 					holdTime = 0;
@@ -237,35 +237,35 @@ class NotesSubstate extends MusicBeatSubstate
 					updateValue(elapsed * add);
 				}
 				if(controls.UI_LEFT_R || controls.UI_RIGHT_R) {
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 					holdTime = 0;
 				}
 			}
 		} else {
 			if (controls.UI_UP_P) {
 				changeSelection(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 			}
 			if (controls.UI_DOWN_P) {
 				changeSelection(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 			}
 			if (controls.UI_LEFT_P) {
 				changeType(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 			}
 			if (controls.UI_RIGHT_P) {
 				changeType(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 			}
 			if(controls.RESET) {
 				for (i in 0...3) {
 					resetValue(curSelected, i);
 				}
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 			}
 			if (controls.ACCEPT && nextAccept <= 0) {
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 				changingNote = true;
 				holdTime = 0;
 				for (i in 0...grpNumbers.length) {
@@ -321,7 +321,7 @@ class NotesSubstate extends MusicBeatSubstate
 				close();
 			}
 			changingNote = false;
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 		}
 
 		if(nextAccept > 0) {
@@ -357,7 +357,7 @@ class NotesSubstate extends MusicBeatSubstate
 				hsvText.setPosition(item.x + hsvTextOffsets[0], item.y - hsvTextOffsets[1]);
 			}
 		}
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 	}
 
 	function changeType(change:Int = 0) {
@@ -512,7 +512,7 @@ class ControlsSubstate extends MusicBeatSubstate {
 					}
 				}
 				close();
-				FlxG.sound.play(Paths.sound('cancelMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 			}
 
 			if(controls.ACCEPT && nextAccept <= 0) {
@@ -520,16 +520,16 @@ class ControlsSubstate extends MusicBeatSubstate {
 					controlArray = ClientPrefs.defaultKeys.copy();
 					reloadKeys();
 					changeSelection();
-					FlxG.sound.play(Paths.sound('confirmMenu'));
+					FlxG.sound.play(Paths.sound('menus/base/confirmMenu'));
 				} else {
 					bindingTime = 0;
 					rebindingKey = getSelectedKey();
 					if(rebindingKey > -1) {
 						grpInputs[rebindingKey].visible = false;
-						FlxG.sound.play(Paths.sound('scrollMenu'));
+						FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 					} else {
 						FlxG.log.warn('Error! No input found/badly configured');
-						FlxG.sound.play(Paths.sound('cancelMenu'));
+						FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 					}
 				}
 			}
@@ -544,14 +544,14 @@ class ControlsSubstate extends MusicBeatSubstate {
 				}
 
 				reloadKeys();
-				FlxG.sound.play(Paths.sound('confirmMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/confirmMenu'));
 				rebindingKey = -1;
 			}
 
 			bindingTime += elapsed;
 			if(bindingTime > 5) {
 				grpInputs[rebindingKey].visible = true;
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 				rebindingKey = -1;
 				bindingTime = 0;
 			}
@@ -594,7 +594,7 @@ class ControlsSubstate extends MusicBeatSubstate {
 				}
 			}
 		}
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 	}
 
 	function changeAlt() {
@@ -607,7 +607,7 @@ class ControlsSubstate extends MusicBeatSubstate {
 				}
 			}
 		}
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 	}
 
 	private function unselectableCheck(num:Int, ?checkDefaultKey:Bool = false):Bool {
@@ -882,7 +882,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 			}
 			descText.alpha = 0;
 			close();
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 		}
 
 		Translation.updateText();
@@ -988,7 +988,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'New Editors':
 						ClientPrefs.newEditors = !ClientPrefs.newEditors;
 				}
-				FlxG.sound.play(Paths.sound('confirmMenu'));
+				FlxG.sound.play(Paths.sound('menus/base/confirmMenu'));
 				reloadValues();
 			}
 		} else {
@@ -1037,7 +1037,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 				}
 				reloadValues();
 
-				if(holdTime <= 0) FlxG.sound.play(Paths.sound('scrollMenu'));
+				if(holdTime <= 0) FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 				holdTime += elapsed;
 			} else {
 				holdTime = 0;
@@ -1155,7 +1155,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		}
 
 		showCharacter.visible = (options[curSelected] == 'Anti-Aliasing');
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 	}
 
 	function reloadValues() {

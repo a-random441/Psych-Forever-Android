@@ -12,6 +12,7 @@ import flixel.system.FlxSound;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import editors.updated.*;
+import flixel.effects.FlxFlicker;
 
 using StringTools;
 
@@ -29,8 +30,11 @@ class MasterEditorMenu extends MusicBeatState
 
 	private var curSelected = 0;
 
+	var disableControls:Bool = false;
+
 	override function create()
 	{
+		disableControls = false;
 		FlxG.camera.bgColor = FlxColor.BLACK;
 		#if desktop
 		// Updating Discord Rich Presence
@@ -60,42 +64,52 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
-		{
-			changeSelection(-1);
-		}
-		if (controls.UI_DOWN_P)
-		{
-			changeSelection(1);
-		}
-
-		if (controls.BACK)
-		{
-		//	FlxTween.tween(FlxG.sound.music, {pitch: 1, volume: 0.7}, 1, {ease: FlxEase.cubeOut});
-			FlxG.sound.music.fadeIn(1, 0.2, 0.7);
-			MusicBeatState.switchState(new MainMenuState());
-		}
-
-		if (controls.ACCEPT)
-		{
-			switch(options[curSelected]) {
-				case 'Chart Editor':
-					PlayState.SONG = Song.loadFromJson('test', 'test');
-					LoadingState.loadAndSwitchState(new ChartingState());
-				case 'Character Editor':
-					if (ClientPrefs.newEditors) LoadingState.loadAndSwitchState(new NewCharacterEditorState(Character.DEFAULT_CHARACTER, false));
-					else LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-				case 'Week Editor':
-					MusicBeatState.switchState(new WeekEditorState());
-				case 'Menu Character Editor':
-					MusicBeatState.switchState(new MenuCharacterEditorState());
-				case 'Dialogue Portrait Editor':
-					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
-				case 'Dialogue Editor':
-					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
+		if (!disableControls) {
+			if (controls.UI_UP_P)
+			{
+				changeSelection(-1);
 			}
-			FlxG.sound.music.volume = 0;
-			FreeplayState.destroyFreeplayVocals();
+			if (controls.UI_DOWN_P)
+			{
+				changeSelection(1);
+			}
+
+			if (controls.BACK)
+			{
+			//	FlxTween.tween(FlxG.sound.music, {pitch: 1, volume: 0.7}, 1, {ease: FlxEase.cubeOut});
+				FlxG.sound.music.fadeIn(1, 0.2, 0.7);
+				MusicBeatState.switchState(new MainMenuState());
+			}
+
+			if (controls.ACCEPT)
+			{
+				FlxG.sound.play(Paths.sound('menus/base/confirmMenu'), 0.4);
+				FlxFlicker.flicker(grpTexts.members[curSelected], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
+					{
+						for (item in grpTexts.members) {
+							item.alpha = 0;
+						}
+						disableControls = true;
+						switch(options[curSelected]) {
+							case 'Chart Editor':
+								PlayState.SONG = Song.loadFromJson('test', 'test');
+								LoadingState.loadAndSwitchState(new ChartingState());
+							case 'Character Editor':
+								if (ClientPrefs.newEditors) LoadingState.loadAndSwitchState(new NewCharacterEditorState(Character.DEFAULT_CHARACTER, false));
+								else LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
+							case 'Week Editor':
+								MusicBeatState.switchState(new WeekEditorState());
+							case 'Menu Character Editor':
+								MusicBeatState.switchState(new MenuCharacterEditorState());
+							case 'Dialogue Portrait Editor':
+								LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
+							case 'Dialogue Editor':
+								LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
+						}
+						FlxG.sound.music.volume = 0;
+						FreeplayState.destroyFreeplayVocals();
+					});
+			}
 		}
 		
 		var bullShit:Int = 0;
@@ -118,7 +132,7 @@ class MasterEditorMenu extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
 
 		curSelected += change;
 

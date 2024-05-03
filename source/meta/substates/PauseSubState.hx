@@ -14,6 +14,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.FlxCamera;
 
+import openfl.utils.Assets as OpenFlAssets;
+
 class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
@@ -154,6 +156,11 @@ class PauseSubState extends MusicBeatSubstate
 				}
 			} 
 
+			if (!OpenFlAssets.exists('assets/sounds/menus/${PlayState.instance.uiElement}/confirmMenu.$dumbThing'))
+				FlxG.sound.play(Paths.sound('menus/base/confirmMenu'), 0.4);
+			else
+				FlxG.sound.play(Paths.sound('menus/${PlayState.instance.uiElement}/confirmMenu'), 0.4);
+
 			switch (daSelected)
 			{
 				case "Resume":
@@ -206,11 +213,16 @@ class PauseSubState extends MusicBeatSubstate
 		super.destroy();
 	}
 
+	var dumbThing:String = 'ogg';
+
 	function changeSelection(change:Int = 0):Void
 	{
 		curSelected += change;
 
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		if (!OpenFlAssets.exists('assets/sounds/menus/${PlayState.instance.uiElement}/scrollMenu.$dumbThing'))
+			FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
+		else
+			FlxG.sound.play(Paths.sound('menus/${PlayState.instance.uiElement}/scrollMenu'), 0.4);
 
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;

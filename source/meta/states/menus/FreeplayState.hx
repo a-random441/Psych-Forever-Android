@@ -260,7 +260,7 @@ class FreeplayState extends MusicBeatState
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
-			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
@@ -332,7 +332,7 @@ class FreeplayState extends MusicBeatState
 		else if(controls.RESET)
 		{
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
-			FlxG.sound.play(Paths.sound('scrollMenu'));
+			FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 		}
 		super.update(elapsed);
 	}
@@ -366,7 +366,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'), 0.4);
 
 		curSelected += change;
 
