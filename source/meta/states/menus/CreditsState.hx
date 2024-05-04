@@ -21,8 +21,11 @@ class CreditsState extends MusicBeatState
 	private var iconArray:Array<AttachedSprite> = [];
 
 	private static var creditsStuff:Array<Dynamic> = [ //Name - Icon name - Description - Link - BG Color
-		['Psych Forever Engine'],
+		['Creator'],
 		['Classic1926',		'classic',		'Made the fork',					'https://www.youtube.com/channel/UCKcqlPIGcsoiGl9qsasAJhw',	'FF6868'],
+		[''],
+		['Translations'],
+		['GuiGui-OfficielYT',		'',		'French Translation',					'',	'FF6868'],
 		[''],
 		['Psych Engine Team'],
 		['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',					'https://twitter.com/Shadow_Mario_',	'FFDD33'],
@@ -77,7 +80,7 @@ class CreditsState extends MusicBeatState
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
-			if(isSelectable) {
+			if(isSelectable && creditsStuff[i][1] != '') {
 				var icon:AttachedSprite = new AttachedSprite('menus/credits/' + creditsStuff[i][1]);
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
@@ -127,7 +130,7 @@ class CreditsState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
-		if(controls.ACCEPT) {
+		if(controls.ACCEPT && creditsStuff[curSelected][3] != '') {
 			CoolUtil.browserLoad(creditsStuff[curSelected][3]);
 		}
 		super.update(elapsed);
