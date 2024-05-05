@@ -69,9 +69,10 @@ class ChartingState extends MusicBeatState
 		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Opponent Damage', "Value 1: Damage\nValue 2: Health limit"],
-		['Blammed Lights', "Value 1: 0 = Turn off, 1 = Blue, 2 = Green,\n3 = Pink, 4 = Red, 5 = Orange, Anything else = Random."],
+		['Blammed Lights', "Value 1: 0 = Turn off, 1 = Blue, 2 = Green,\n3 = Pink, 4 = Red, 5 = Orange, Anything else = Random.\nShould be used in \"philly\" stage!"],
 		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
 		['BG Freaks Expression', "Should be used only in \"school\" Stage!"],
+	//	['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Trigger BG Ghouls', "Should be used only in \"schoolEvil\" Stage!"]
 	];
 
