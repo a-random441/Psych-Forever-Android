@@ -43,6 +43,7 @@ enum abstract Action(String) to String from String
 	var PAUSE = "pause";
 	var RESET = "reset";
 	var CHART = "chart";
+	var MASTER = "master";
 	var CHAR = "char";
 	var BOTPLAY = "botplay";
 	var PRACTICE = "practice";
@@ -80,6 +81,7 @@ abstract Action(String) to String from String
 	var PAUSE = "pause";
 	var RESET = "reset";
 	var CHART = "chart";
+	var MASTER = "master";
 	var CHAR = "char";
 	var BOTPLAY = "botplay";
 	var PRACTICE = "practice";
@@ -112,6 +114,7 @@ enum Control
 	BACK;
 	PAUSE;
 	CHART;
+	MASTER;
 	CHAR;
 	BOTPLAY;
 	PRACTICE;
@@ -160,6 +163,7 @@ class Controls extends FlxActionSet
 	var _pause = new FlxActionDigital(Action.PAUSE);
 	var _reset = new FlxActionDigital(Action.RESET);
 	var _chart = new FlxActionDigital(Action.CHART);
+	var _master = new FlxActionDigital(Action.MASTER);
 	var _char = new FlxActionDigital(Action.CHAR);
 	var _botplay = new FlxActionDigital(Action.BOTPLAY);
 	var _practice = new FlxActionDigital(Action.PRACTICE);
@@ -318,6 +322,11 @@ class Controls extends FlxActionSet
 	inline function get_CHART()
 		return _chart.check();
 
+	public var MASTER(get, never):Bool;
+
+	inline function get_MASTER()
+		return _master.check();
+
 	public var CHAR(get, never):Bool;
 
 	inline function get_CHAR()
@@ -471,6 +480,7 @@ class Controls extends FlxActionSet
 			case PAUSE: _pause;
 			case RESET: _reset;
 			case CHART: _chart;
+			case MASTER: _master;
 			case CHAR: _char;
 			case BOTPLAY: _botplay;
 			case PRACTICE: _practice;
@@ -535,6 +545,8 @@ class Controls extends FlxActionSet
 				func(_reset, JUST_PRESSED);
 			case CHART:
 				func(_chart, JUST_PRESSED);
+			case MASTER:
+				func(_master, JUST_PRESSED);
 			case CHAR:
 				func(_char, JUST_PRESSED);
 			case BOTPLAY:
@@ -709,6 +721,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
 				inline bindKeys(Control.RESET, [R]);
 				inline bindKeys(Control.CHART, [SEVEN]);
+				inline bindKeys(Control.MASTER, [SIX]);
 				inline bindKeys(Control.CHAR, [EIGHT]);
 				inline bindKeys(Control.BOTPLAY, [SIX]);
 				inline bindKeys(Control.PRACTICE, [FIVE]);
@@ -726,6 +739,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.PAUSE, [ONE]);
 				inline bindKeys(Control.RESET, [R]);
 				inline bindKeys(Control.CHART, [SEVEN]);
+				inline bindKeys(Control.MASTER, [SIX]);
 				inline bindKeys(Control.CHAR, [EIGHT]);
 				inline bindKeys(Control.BOTPLAY, [SIX]);
 				inline bindKeys(Control.PRACTICE, [FIVE]);
@@ -743,6 +757,7 @@ class Controls extends FlxActionSet
 				inline bindKeys(Control.PAUSE, [ENTER]);
 				inline bindKeys(Control.RESET, [BACKSPACE]);
 				inline bindKeys(Control.CHART, [SEVEN]);
+				inline bindKeys(Control.MASTER, [SIX]);
 				inline bindKeys(Control.CHAR, [EIGHT]);
 				inline bindKeys(Control.BOTPLAY, [SIX]);
 				inline bindKeys(Control.PRACTICE, [FIVE]);
@@ -766,6 +781,7 @@ class Controls extends FlxActionSet
 				bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
 				bindKeys(Control.RESET, [R]);
 				bindKeys(Control.CHART, [SEVEN]);
+				bindKeys(Control.MASTER, [SIX]);
 				bindKeys(Control.CHAR, [EIGHT]);
 				bindKeys(Control.BOTPLAY, [SIX]);
 				bindKeys(Control.PRACTICE, [FIVE]);
@@ -783,6 +799,7 @@ class Controls extends FlxActionSet
 				bindKeys(Control.PAUSE, [ONE]);
 				bindKeys(Control.RESET, [R]);
 				bindKeys(Control.CHART, [SEVEN]);
+				bindKeys(Control.MASTER, [SIX]);
 				bindKeys(Control.CHAR, [EIGHT]);
 				bindKeys(Control.BOTPLAY, [SIX]);
 				bindKeys(Control.PRACTICE, [FIVE]);
@@ -800,6 +817,7 @@ class Controls extends FlxActionSet
 				bindKeys(Control.PAUSE, [ENTER]);
 				bindKeys(Control.RESET, [BACKSPACE]);
 				bindKeys(Control.CHART, [SEVEN]);
+				bindKeys(Control.MASTER, [SIX]);
 				bindKeys(Control.CHAR, [EIGHT]);
 				bindKeys(Control.BOTPLAY, [SIX]);
 				bindKeys(Control.PRACTICE, [FIVE]);

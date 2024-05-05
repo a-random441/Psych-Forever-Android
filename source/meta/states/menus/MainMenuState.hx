@@ -274,7 +274,7 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if desktop
-			else if (FlxG.keys.justPressed.SIX)
+			else if (controls.MASTER)
 			{
 				selectedSomethin = true;
 			//	FlxTween.tween(FlxG.sound.music, {pitch: 0.3, volume: 0.3}, 1, {ease: FlxEase.cubeOut});

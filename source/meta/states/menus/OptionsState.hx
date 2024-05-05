@@ -444,6 +444,7 @@ class ControlsSubstate extends MusicBeatSubstate {
 		ClientPrefs.keyBinds[13][1],
 		ClientPrefs.keyBinds[14][1],
 		ClientPrefs.keyBinds[15][1],
+		ClientPrefs.keyBinds[16][1],
 		'',
 		defaultKey];
 

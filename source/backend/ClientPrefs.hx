@@ -60,6 +60,7 @@ class ClientPrefs {
 		BACKSPACE, ESCAPE,	//Back
 		ENTER, ESCAPE,		//Pause
 
+		SIX, NONE,			//Master Editor
 		SEVEN, NONE,		//Chart Editor
 		EIGHT, NONE,		//Character Editor
 		SIX, NONE,			//Botplay Toggle
@@ -83,6 +84,7 @@ class ClientPrefs {
 		[Control.BACK, 'Back'],
 		[Control.PAUSE, 'Pause'],
 
+		[Control.MASTER, 'Master'],
 		[Control.CHART, 'Chart'],
 		[Control.CHAR, 'Character'],
 		[Control.BOTPLAY, 'Botplay'],
