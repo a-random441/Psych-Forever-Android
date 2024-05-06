@@ -25,7 +25,7 @@ class CreditsState extends MusicBeatState
 		['Classic1926',		'classic',		'Made the fork',					'https://www.youtube.com/channel/UCKcqlPIGcsoiGl9qsasAJhw',	'FF6868'],
 		[''],
 		['Translations'],
-		['GuiGui-OfficielYT',		'',		'French Translation',					'',	'FF6868'],
+		['ytggobs',		'',		'French Translation',					'',	'FF6868'],
 		[''],
 		['Psych Engine Team'],
 		['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',					'https://twitter.com/Shadow_Mario_',	'FFDD33'],
