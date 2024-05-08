@@ -12,6 +12,7 @@ typedef TranslationThing =
     var rank_info:String;
     var dead_info:String;
     var botplay_score:String;
+    var charting_mode:String;
 
     var volume_txt:String;
     var volume_max:String;
@@ -33,12 +34,13 @@ typedef TranslationThing =
 
 class Translation {
     // boo
-    public static var scoreInfo:String;
-    public static var accuracyInfo:String;
-    public static var missesInfo:String;
-    public static var rankInfo:String;
-    public static var deadInfo:String;
-    public static var botplayScore:String;
+    public static var scoreInfo:String = 'Score';
+    public static var accuracyInfo:String = 'Accuracy';
+    public static var missesInfo:String = 'Combo Breaks';
+    public static var rankInfo:String = 'Rank';
+    public static var deadInfo:String = 'died';
+    public static var botplayScore:String = 'Used Botplay - Score not counted.';
+    public static var chartingMode:String = 'Chart Editor used - Score not counted.';
     
     public static var volumeTxt:String = 'VOLUME';
     public static var volumeMax:String = 'MAX';
@@ -48,15 +50,15 @@ class Translation {
     public static var baseMod:String = 'Base Engine';
     public static var experiemntalActive:String = 'EXPERIMENTAL FEATURES ENABLED';
 
-    public static var sickJudge:String;
-    public static var goodJudge:String;
-    public static var badJudge:String;
-    public static var shitJudge:String;
-    public static var missJudge:String;
+    public static var sickJudge:String = 'Sick';
+    public static var goodJudge:String = 'Good';
+    public static var badJudge:String = 'Bad';
+    public static var shitJudge:String = 'Shit';
+    public static var missJudge:String = 'Miss';
 
-    public static var noteCounter:String;
+    public static var noteCounter:String = 'Notes Hit';
 
-    public static var freeplayPersonal:String;
+    public static var freeplayPersonal:String = 'PERSONAL BEST';
 
     public static var translationShit:TranslationThing;
 
@@ -69,6 +71,7 @@ class Translation {
         rankInfo = translationShit.rank_info;
         deadInfo = translationShit.dead_info;
         botplayScore = translationShit.botplay_score;
+        chartingMode = translationShit.charting_mode;
         volumeTxt = translationShit.volume_txt;
         volumeMax = translationShit.volume_max;
         versionTxt = translationShit.version_txt;

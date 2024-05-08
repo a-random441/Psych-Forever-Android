@@ -76,8 +76,6 @@ class CharacterEditorState extends MusicBeatState
 
 	override function create()
 	{
-		FlxG.sound.playMusic(Paths.music('breakfast'), 0.5);
-
 		camEditor = new FlxCamera();
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -996,9 +994,7 @@ class CharacterEditorState extends MusicBeatState
 					MusicBeatState.switchState(new PlayState());
 				} else {
 					MusicBeatState.switchState(new editors.MasterEditorMenu());
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				}
-				FlxG.mouse.visible = false;
+				}			
 				return;
 			}
 			

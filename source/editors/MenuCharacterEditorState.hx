@@ -38,7 +38,7 @@ class MenuCharacterEditorState extends MusicBeatState
 
 	override function create() {
 		characterFile = {
-			image: 'Menu_Dad',
+			image: 'Dad',
 			scale: 1,
 			position: [0, 0],
 			idle_anim: 'M Dad Idle',
@@ -61,8 +61,9 @@ class MenuCharacterEditorState extends MusicBeatState
 		add(new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51));
 		add(grpWeekCharacters);
 
-		txtOffsets = new FlxText(20, 10, 0, "[0, 0]", 32);
+		txtOffsets = new FlxText(0, 10, 0, "[0, 0]", 32);
 		txtOffsets.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+		txtOffsets.screenCenter(X);
 		txtOffsets.alpha = 0.7;
 		add(txtOffsets);
 
@@ -276,7 +277,6 @@ class MenuCharacterEditorState extends MusicBeatState
 			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
 			if(FlxG.keys.justPressed.ESCAPE) {
-				FlxG.mouse.visible = false;
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}

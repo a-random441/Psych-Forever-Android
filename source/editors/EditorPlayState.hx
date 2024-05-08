@@ -147,8 +147,7 @@ class EditorPlayState extends MusicBeatState
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
-		add(tipText);
-		FlxG.mouse.visible = false;
+		add(tipText);	
 
 		//sayGo();
 		super.create();

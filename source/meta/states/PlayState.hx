@@ -979,11 +979,12 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 150;
 		strumLine.scrollFactor.set();
 
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 20, 400, "", 32);
+		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 20, 0, "", 32);
 		timeTxt.setFormat(Paths.font(MainMenuState.choosenFont), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.borderSize = 2;
 		timeTxt.text = '- ${SONG.song} -';
+		timeTxt.screenCenter(X);
 		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 45;
 
 		timeBarBG = new AttachedSprite('ui/timeBar');
@@ -2430,6 +2431,7 @@ class PlayState extends MusicBeatState
 					var secondsRemaining:String = '' + secondsTotal % 60;
 					if(secondsRemaining.length < 2) secondsRemaining = '0' + secondsRemaining; //Dunno how to make it display a zero first in Haxe lol
 					if (!ClientPrefs.hideTime) timeTxt.text = '- ${SONG.song} (${minutesRemaining}:${secondsRemaining}) -';
+					timeTxt.screenCenter(X);
 				}
 			}
 
@@ -2773,6 +2775,7 @@ class PlayState extends MusicBeatState
 		var rankInfo:String = Translation.rankInfo;
 		var dedheh:String = Translation.deadInfo;
 		var botUsed:String = Translation.botplayScore;
+		var chartingMode:String = Translation.chartingMode;
 
 		scoreTxt.text = '$scoreInfo: ' + score;
 
@@ -2785,6 +2788,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.text += (usedPractice ? '${divider}$dedheh :(': '');
 
 		if (usedBotplay) scoreTxt.text = '$botUsed';
+		if (MasterEditorMenu.inMasterMenu) scoreTxt.text = '$chartingMode';
 
 		RecalculateRating();
 	}
@@ -3280,6 +3284,10 @@ class PlayState extends MusicBeatState
 	var transitioning = false;
 	public function endSong():Void
 	{
+		#if MODS_ALLOWED
+		Paths.destroyLoadedImages(resetSpriteCache);
+		#end
+		resetSpriteCache = false;
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
@@ -3333,6 +3341,10 @@ class PlayState extends MusicBeatState
 		#end
 
 		if(ret != FunkinLua.Function_Stop && !transitioning) {
+			if (MasterEditorMenu.inMasterMenu) {
+				MusicBeatState.switchState(new ChartingState());
+				return;
+			}
 			if (SONG.validScore)
 			{
 				#if !switch

@@ -30,10 +30,15 @@ class MasterEditorMenu extends MusicBeatState
 
 	private var curSelected = 0;
 
+	public static var inMasterMenu:Bool = false;
+
 	var disableControls:Bool = false;
 
 	override function create()
 	{
+		if (!inMasterMenu) FlxG.sound.playMusic(Paths.music('chartEditorLoop'), 0.7);
+		Conductor.changeBPM(137);
+		inMasterMenu = true;
 		disableControls = false;
 		FlxG.camera.bgColor = FlxColor.BLACK;
 		#if desktop
@@ -77,7 +82,9 @@ class MasterEditorMenu extends MusicBeatState
 			if (controls.BACK)
 			{
 			//	FlxTween.tween(FlxG.sound.music, {pitch: 1, volume: 0.7}, 1, {ease: FlxEase.cubeOut});
-				FlxG.sound.music.fadeIn(1, 0.2, 0.7);
+				inMasterMenu = false;
+				Conductor.changeBPM(102);
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
 				MusicBeatState.switchState(new MainMenuState());
 			}
 
@@ -106,7 +113,7 @@ class MasterEditorMenu extends MusicBeatState
 							case 'Dialogue Editor':
 								LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
 						}
-						FlxG.sound.music.volume = 0;
+					//	FlxG.sound.music.volume = 0;
 						FreeplayState.destroyFreeplayVocals();
 					});
 			}

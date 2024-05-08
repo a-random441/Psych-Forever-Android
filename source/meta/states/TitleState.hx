@@ -100,8 +100,7 @@ class TitleState extends MusicBeatState
 		}
 
 		disableControls = true;
-
-		FlxG.mouse.visible = false;
+		
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING
