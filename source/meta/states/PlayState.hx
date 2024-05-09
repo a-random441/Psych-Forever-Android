@@ -589,7 +589,7 @@ class PlayState extends MusicBeatState
 					var particle:BGSprite = new BGSprite('backgrounds/$curStage/gore/stupidBlood', -400, -400, 0.4, 0.4, ['blood'], false);
 					particle.alpha = 0.01;
 					grpLimoParticles.add(particle);
-					resetLimoKill();
+					stageEvent('reset limo');
 
 					//PRECACHE SOUND
 					CoolUtil.precacheSound('others/dancerdeath');
@@ -948,7 +948,7 @@ class PlayState extends MusicBeatState
 		switch(curStage)
 		{
 			case 'limo':
-				resetFastCar();
+				stageEvent('reset car');
 				insert(members.indexOf(gfGroup) - 1, fastCar);
 			
 			case 'schoolEvil':
@@ -1539,6 +1539,14 @@ class PlayState extends MusicBeatState
 
 	var dumbThing:String = 'ogg';
 
+	public static var countdownSpriteUse:Map<Int, String> =
+		[
+			3 => 'three',
+			2 => 'ready',
+			1 => 'set',
+			0 => 'go',
+		];
+
 	public function startCountdown():Void
 	{
 		if(startedCountdown) {
@@ -1567,6 +1575,7 @@ class PlayState extends MusicBeatState
 			setOnLuas('startedCountdown', true);
 
 			var swagCounter:Int = 0;
+			var otherCounter:Int = 3;
 
 			#if html5
 				dumbThing = 'mp3';
@@ -1590,9 +1599,6 @@ class PlayState extends MusicBeatState
 				introAssets.set('default', ['ui/$uiElement/ready', 'ui/$uiElement/set', 'ui/$uiElement/go']);
 
 				var introAlts:Array<String> = introAssets.get('default');
-				var antialias:Bool = ClientPrefs.globalAntialiasing;
-				if(isPixelStage)
-					antialias = false;
 
 				// head bopping for bg characters on Mall
 				if(curStage == 'mall') {
@@ -1603,96 +1609,21 @@ class PlayState extends MusicBeatState
 					santa.dance(true);
 				}
 
-				switch (swagCounter)
-				{
-					case 0:
-						if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/intro3.$dumbThing'))
-							FlxG.sound.play(Paths.sound('countdowns/base/intro3'), 0.6);
-						else
-							FlxG.sound.play(Paths.sound('countdowns/$uiElement/intro3'), 0.6);
-					case 1:
-						var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
+				if (OpenFlAssets.exists('assets/images/ui/base/${countdownSpriteUse[otherCounter]}.png'))
+					displayCountdownSprite('ui/base/${countdownSpriteUse[otherCounter]}');
+				else if (OpenFlAssets.exists('assets/images/ui/$uiElement/${countdownSpriteUse[otherCounter]}.png')) // Otherwise, don't show a sprite at all
+					displayCountdownSprite('ui/$uiElement/${countdownSpriteUse[otherCounter]}');
 
-						if (!OpenFlAssets.exists('assets/images/ui/$uiElement/ready.png'))
-							ready.loadGraphic(Paths.image('ui/base/ready'));
-						ready.scrollFactor.set();
-						ready.updateHitbox();
-
-						if (PlayState.isPixelStage)
-							ready.setGraphicSize(Std.int(ready.width * daPixelZoom));
-
-						ready.screenCenter();
-						ready.antialiasing = antialias;
-						add(ready);
-						countDownSprites.push(ready);
-						FlxTween.tween(ready, {y: ready.y += 100, alpha: 0}, Conductor.crochet / 1000, {
-							ease: FlxEase.cubeInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								countDownSprites.remove(ready);
-								remove(ready);
-								ready.destroy();
-							}
-						});
-						if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/intro2.$dumbThing'))
-							FlxG.sound.play(Paths.sound('countdowns/base/intro2'), 0.6);
-						else
-							FlxG.sound.play(Paths.sound('countdowns/$uiElement/intro2'), 0.6);
-					case 2:
-						var set:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
-						if (!OpenFlAssets.exists('assets/images/ui/$uiElement/set.png'))
-							set.loadGraphic(Paths.image('ui/base/set'));
-						set.scrollFactor.set();
-
-						if (PlayState.isPixelStage)
-							set.setGraphicSize(Std.int(set.width * daPixelZoom));
-
-						set.screenCenter();
-						set.antialiasing = antialias;
-						add(set);
-						countDownSprites.push(set);
-						FlxTween.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
-							ease: FlxEase.cubeInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								countDownSprites.remove(set);
-								remove(set);
-								set.destroy();
-							}
-						});
-						if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/intro1.$dumbThing'))
-							FlxG.sound.play(Paths.sound('countdowns/base/intro1'), 0.6);
-						else
-							FlxG.sound.play(Paths.sound('countdowns/$uiElement/intro1'), 0.6);
-					case 3:
-						var go:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
-						if (!OpenFlAssets.exists('assets/images/ui/$uiElement/go.png'))
-							go.loadGraphic(Paths.image('ui/base/go'));
-						go.scrollFactor.set();
-
-						if (PlayState.isPixelStage)
-							go.setGraphicSize(Std.int(go.width * daPixelZoom));
-
-						go.updateHitbox();
-
-						go.screenCenter();
-						go.antialiasing = antialias;
-						add(go);
-						countDownSprites.push(go);
-						FlxTween.tween(go, {y: go.y += 100, alpha: 0}, Conductor.crochet / 1000, {
-							ease: FlxEase.cubeInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								countDownSprites.remove(go);
-								remove(go);
-								go.destroy();
-							}
-						});
-						if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/introGo.$dumbThing'))
-							FlxG.sound.play(Paths.sound('countdowns/base/introGo'), 0.6);
-						else
-							FlxG.sound.play(Paths.sound('countdowns/$uiElement/introGo'), 0.6);
-					case 4:
+				if (swagCounter == 3) {
+					if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/introGo.$dumbThing'))
+						FlxG.sound.play(Paths.sound('countdowns/base/introGo'), 0.6);
+					else
+						FlxG.sound.play(Paths.sound('countdowns/$uiElement/introGo'), 0.6);
+				} else {
+					if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/intro$otherCounter.$dumbThing'))
+						FlxG.sound.play(Paths.sound('countdowns/base/intro$otherCounter'), 0.6);
+					else
+						FlxG.sound.play(Paths.sound('countdowns/$uiElement/intro$otherCounter'), 0.6);
 				}
 
 				notes.forEachAlive(function(note:Note) {
@@ -1707,9 +1638,38 @@ class PlayState extends MusicBeatState
 				}
 
 				swagCounter += 1;
+				otherCounter -= 1;
 				// generateSong('fresh');
 			}, 5);
 		}
+	}
+
+	function displayCountdownSprite(sprite:String) {
+		var antialias:Bool = ClientPrefs.globalAntialiasing;
+		if(isPixelStage)
+			antialias = false;
+
+		var countdownAsset:FlxSprite = new FlxSprite(0,0);
+		countdownAsset.loadGraphic(Paths.image(sprite));
+		countdownAsset.scrollFactor.set();
+		countdownAsset.updateHitbox();
+
+		if (PlayState.isPixelStage)
+			countdownAsset.setGraphicSize(Std.int(countdownAsset.width * daPixelZoom));
+
+		countdownAsset.screenCenter();
+		countdownAsset.antialiasing = antialias;
+		add(countdownAsset);
+		countDownSprites.push(countdownAsset);
+		FlxTween.tween(countdownAsset, {y: countdownAsset.y += 100, alpha: 0}, Conductor.crochet / 1000, {
+			ease: FlxEase.cubeInOut,
+			onComplete: function(twn:FlxTween)
+			{
+				countDownSprites.remove(countdownAsset);
+				remove(countdownAsset);
+				countdownAsset.destroy();
+			}
+		});
 	}
 
 	function startNextDialogue() {
@@ -2144,7 +2104,7 @@ class PlayState extends MusicBeatState
 
 					if (trainFrameTiming >= 1 / 24)
 					{
-						updateTrainPos();
+						stageEvent('update train pos');
 						trainFrameTiming = 0;
 					}
 				}
@@ -2195,7 +2155,7 @@ class PlayState extends MusicBeatState
 							}
 
 							if(limoMetalPole.x > FlxG.width * 2) {
-								resetLimoKill();
+								stageEvent('reset limo');
 								limoSpeed = 800;
 								limoKillingState = 2;
 							}
@@ -3049,7 +3009,7 @@ class PlayState extends MusicBeatState
 			}
 
 			case 'Kill Henchmen':
-				killHenchmen();
+				stageEvent('kill henchmen');
 
 			case 'Add Camera Zoom':
 				if(ClientPrefs.camZooms && FlxG.camera.zoom < 1.35) {
@@ -3579,7 +3539,7 @@ class PlayState extends MusicBeatState
 		if (!OpenFlAssets.exists('assets/images/ui/$uiElement/ratings/${(allSicks == true && !negative ? 'sick-perfect' : daRatingLol) + daTiming + uiPostfix}.png'))
 			rating.loadGraphic(Paths.image('ui/base/ratings/${(allSicks == true && !negative ? 'sick-perfect' : daRatingLol) + daTiming}'));
 		rating.screenCenter();
-		rating.x = coolText.x - (hudRating ? 200 : (GF_X*-1) + 340);
+		rating.x = coolText.x - (hudRating ? 300 : (GF_X*-1) + 440);
 		rating.y -= 60 - (hudRating ? 0 : GF_Y);
 		rating.acceleration.y = 550;
 		if (hudRating) rating.cameras = [camHUD];
@@ -4078,29 +4038,7 @@ class PlayState extends MusicBeatState
 	}
 
 	var fastCarCanDrive:Bool = true;
-
-	function resetFastCar():Void
-	{
-		fastCar.x = -12600;
-		fastCar.y = FlxG.random.int(140, 250);
-		fastCar.velocity.x = 0;
-		fastCarCanDrive = true;
-	}
-
 	var carTimer:FlxTimer;
-	function fastCarDrive()
-	{
-		//trace('Car drive');
-		FlxG.sound.play(Paths.soundRandom('others/carPass', 0, 1), 0.7);
-
-		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
-		fastCarCanDrive = false;
-		carTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
-		{
-			resetFastCar();
-			carTimer = null;
-		});
-	}
 
 	var trainMoving:Bool = false;
 	var trainFrameTiming:Float = 0;
@@ -4109,129 +4047,138 @@ class PlayState extends MusicBeatState
 	var trainFinishing:Bool = false;
 	var trainCooldown:Int = 0;
 
-	function trainStart():Void
-	{
-		trainMoving = true;
-		if (!trainSound.playing)
-			trainSound.play(true);
-	}
-
 	var startedMoving:Bool = false;
 
-	function updateTrainPos():Void
+	function stageEvent(type:String):Void
 	{
-		if (trainSound.time >= 4700)
-		{
-			startedMoving = true;
-			if (gfHidden == false) {
-			gf.playAnim('hairBlow');
-			gf.specialAnim = true;
-			}
-		}
+		switch (type.toLowerCase()) {
+			case 'reset car':
+				if (curStage != 'limo') return;
+				fastCar.x = -12600;
+				fastCar.y = FlxG.random.int(140, 250);
+				fastCar.velocity.x = 0;
+				fastCarCanDrive = true;
+			case 'car drive':
+				if (curStage != 'limo') return;
+				FlxG.sound.play(Paths.soundRandom('others/carPass', 0, 1), 0.7);
 
-		if (startedMoving)
-		{
-			phillyTrain.x -= 400;
-
-			if (phillyTrain.x < -2000 && !trainFinishing)
-			{
-				phillyTrain.x = -1150;
-				trainCars -= 1;
-
-				if (trainCars <= 0)
-					trainFinishing = true;
-			}
-
-			if (phillyTrain.x < -4000 && trainFinishing)
-				trainReset();
-		}
-	}
-
-	function trainReset():Void
-	{
-		if (gfHidden == false) {
-		gf.danced = false; //Sets head to the correct position once the animation ends
-		gf.playAnim('hairFall');
-		gf.specialAnim = true;
-		}
-		phillyTrain.x = FlxG.width + 200;
-		trainMoving = false;
-		// trainSound.stop();
-		// trainSound.time = 0;
-		trainCars = 8;
-		trainFinishing = false;
-		startedMoving = false;
-	}
-
-	function lightningStrikeShit():Void
-	{
-		FlxG.sound.play(Paths.soundRandom('others/thunder_', 1, 2));
-		if(!ClientPrefs.lowQuality) halloweenBG.animation.play('halloweem bg lightning strike');
-
-		lightningStrikeBeat = curBeat;
-		lightningOffset = FlxG.random.int(8, 24);
-
-		if(boyfriend.animOffsets.exists('scared')) {
-			boyfriend.playAnim('scared', true);
-		}
-		if(gfHidden == false && gf.animOffsets.exists('scared')) {
-			gf.playAnim('scared', true);
-		}
-
-		if(ClientPrefs.camZooms) {
-			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.03;
-
-			if(!camZooming) { //Just a way for preventing it to be permanently zoomed until Skid & Pump hits a note
-				FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 0.5);
-				FlxTween.tween(camHUD, {zoom: 1}, 0.5);
-			}
-		}
-
-		if(ClientPrefs.flashing) {
-			halloweenWhite.alpha = 0.4;
-			FlxTween.tween(halloweenWhite, {alpha: 0.5}, 0.075);
-			FlxTween.tween(halloweenWhite, {alpha: 0}, 0.25, {startDelay: 0.15});
-		}
-	}
-
-	function killHenchmen():Void
-	{
-		if(!ClientPrefs.lowQuality && ClientPrefs.violence && curStage == 'limo') {
-			if(limoKillingState < 1) {
-				limoMetalPole.x = -400;
-				limoMetalPole.visible = true;
-				limoLight.visible = true;
-				limoCorpse.visible = false;
-				limoCorpseTwo.visible = false;
-				limoKillingState = 1;
-
-				#if ACHIEVEMENTS_ALLOWED
-				Achievements.henchmenDeath++;
-				FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
-				var achieve:String = checkForAchievement(['roadkill_enthusiast']);
-				if (achieve != null) {
-					startAchievement(achieve);
-				} else {
-					FlxG.save.flush();
+				fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
+				fastCarCanDrive = false;
+				carTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					stageEvent('reset car');
+					carTimer = null;
+				});
+			case 'train start':
+				if (curStage != 'philly') return;
+				trainMoving = true;
+				if (!trainSound.playing)
+					trainSound.play(true);
+			case 'update train pos':
+				if (curStage != 'philly') return;
+				if (trainSound.time >= 4700)
+					{
+						startedMoving = true;
+						if (gfHidden == false) {
+						gf.playAnim('hairBlow');
+						gf.specialAnim = true;
+						}
+					}
+			
+				if (startedMoving)
+					{
+						phillyTrain.x -= 400;
+			
+						if (phillyTrain.x < -2000 && !trainFinishing)
+						{
+							phillyTrain.x = -1150;
+							trainCars -= 1;
+			
+							if (trainCars <= 0)
+								trainFinishing = true;
+						}
+			
+						if (phillyTrain.x < -4000 && trainFinishing)
+							stageEvent('reset train');
+					}
+			case 'reset train':
+				if (curStage != 'philly') return;
+				if (gfHidden == false) {
+					gf.danced = false; //Sets head to the correct position once the animation ends
+					gf.playAnim('hairFall');
+					gf.specialAnim = true;
 				}
-				FlxG.log.add('Deaths: ' + Achievements.henchmenDeath);
-				#end
-			}
-		}
-	}
-
-	function resetLimoKill():Void
-	{
-		if(curStage == 'limo') {
-			limoMetalPole.x = -500;
-			limoMetalPole.visible = false;
-			limoLight.x = -500;
-			limoLight.visible = false;
-			limoCorpse.x = -500;
-			limoCorpse.visible = false;
-			limoCorpseTwo.x = -500;
-			limoCorpseTwo.visible = false;
+				phillyTrain.x = FlxG.width + 200;
+				trainMoving = false;
+				// trainSound.stop();
+				// trainSound.time = 0;
+				trainCars = 8;
+				trainFinishing = false;
+				startedMoving = false;
+			case 'lightning':
+				if (curStage != 'spooky') return;
+				if (!ClientPrefs.flashing) return;
+				FlxG.sound.play(Paths.soundRandom('others/thunder_', 1, 2));
+				if(!ClientPrefs.lowQuality) halloweenBG.animation.play('halloweem bg lightning strike');
+		
+				lightningStrikeBeat = curBeat;
+				lightningOffset = FlxG.random.int(8, 24);
+		
+				if(boyfriend.animOffsets.exists('scared')) {
+					boyfriend.playAnim('scared', true);
+				}
+				if(gfHidden == false && gf.animOffsets.exists('scared')) {
+					gf.playAnim('scared', true);
+				}
+		
+				if(ClientPrefs.camZooms) {
+					FlxG.camera.zoom += 0.015;
+					camHUD.zoom += 0.03;
+		
+					if(!camZooming) { //Just a way for preventing it to be permanently zoomed until Skid & Pump hits a note
+						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 0.5);
+						FlxTween.tween(camHUD, {zoom: 1}, 0.5);
+					}
+				}
+		
+				halloweenWhite.alpha = 0.4;
+				FlxTween.tween(halloweenWhite, {alpha: 0.5}, 0.075);
+				FlxTween.tween(halloweenWhite, {alpha: 0}, 0.25, {startDelay: 0.15});
+			case 'kill henchmen':
+				if (curStage != 'limo') return;
+				if(ClientPrefs.lowQuality || (!ClientPrefs.violence && curStage != 'limo')) return;
+				if(limoKillingState < 1) {
+					limoMetalPole.x = -400;
+					limoMetalPole.visible = true;
+					limoLight.visible = true;
+					limoCorpse.visible = false;
+					limoCorpseTwo.visible = false;
+					limoKillingState = 1;
+		
+					#if ACHIEVEMENTS_ALLOWED
+					Achievements.henchmenDeath++;
+					FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
+					var achieve:String = checkForAchievement(['roadkill_enthusiast']);
+					if (achieve != null) {
+						startAchievement(achieve);
+					} else {
+						FlxG.save.flush();
+					}
+					FlxG.log.add('Deaths: ' + Achievements.henchmenDeath);
+					#end
+				}
+			case 'reset limo':
+				if (curStage != 'limo') return;
+				if(curStage == 'limo') {
+					limoMetalPole.x = -500;
+					limoMetalPole.visible = false;
+					limoLight.x = -500;
+					limoLight.visible = false;
+					limoCorpse.x = -500;
+					limoCorpse.visible = false;
+					limoCorpseTwo.x = -500;
+					limoCorpseTwo.visible = false;
+				}
 		}
 	}
 
@@ -4383,7 +4330,7 @@ class PlayState extends MusicBeatState
 				}
 
 				if (FlxG.random.bool(10) && fastCarCanDrive)
-					fastCarDrive();
+					stageEvent('car drive');
 			case "philly":
 				if (!trainMoving)
 					trainCooldown += 1;
@@ -4404,14 +4351,12 @@ class PlayState extends MusicBeatState
 				if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
 				{
 					trainCooldown = FlxG.random.int(-4, 0);
-					trainStart();
+					stageEvent('train start');
 				}
 		}
 
 		if (curStage == 'spooky' && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
-		{
-			lightningStrikeShit();
-		}
+			stageEvent('lightning');
 	}
 
 	public function cameraBop(?game:Float = 0.015, ?hud:Float = 0.05) {

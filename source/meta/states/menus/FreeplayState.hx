@@ -34,6 +34,8 @@ class FreeplayState extends MusicBeatState
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
 
+	var sprDifficultyGroup:FlxTypedGroup<FlxSprite>;
+
 	var allowBop:Bool = false;
 
 	var trackPlaying:Bool = false;
@@ -47,9 +49,13 @@ class FreeplayState extends MusicBeatState
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
+	public static var inFreeplay:Bool = false;
+
 	var barText:FlxText;
 
 	var switched:String = '';
+
+	public var hasDifficulties:Bool = true;
 
 	override function create()
 	{
@@ -63,6 +69,8 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		MainMenuState.loadMenuJson();
+
+		inFreeplay = true;
 
 		for (i in 0...WeekData.weeksList.length) {
 			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
@@ -134,14 +142,25 @@ class FreeplayState extends MusicBeatState
 		scoreText.setFormat(Paths.font(MainMenuState.choosenFont), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreText.borderSize = 1.5;
 
-		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
+		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, (hasDifficulties ? 150 : 40), 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
 		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
 		diffText.font = scoreText.font;
 		diffText.borderSize = 1.5;
-		add(diffText);
+	//	add(diffText);
+
+		sprDifficultyGroup = new FlxTypedGroup<FlxSprite>();
+		add(sprDifficultyGroup);
+
+		for (i in 0...CoolUtil.difficultyStuff.length) {
+			var sprDifficulty:FlxSprite = new FlxSprite(scoreText.x, scoreText.y + 50).loadGraphic(Paths.image('menus/freeplay/' + CoolUtil.difficultyStuff[i][0].toLowerCase()));
+			sprDifficulty.x += (308 - sprDifficulty.width) / 2;
+			sprDifficulty.ID = i;
+			sprDifficulty.antialiasing = ClientPrefs.globalAntialiasing;
+			sprDifficultyGroup.add(sprDifficulty);
+		}
 
 		add(scoreText);
 
@@ -260,6 +279,7 @@ class FreeplayState extends MusicBeatState
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
+			inFreeplay = false;
 			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
@@ -322,6 +342,7 @@ class FreeplayState extends MusicBeatState
 					if(colorTween != null) {
 						colorTween.cancel();
 					}
+					inFreeplay = false;
 					LoadingState.loadAndSwitchState(new PlayState());
 	
 					FlxG.sound.music.volume = 0;
@@ -353,6 +374,15 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = CoolUtil.difficultyStuff.length-1;
 		if (curDifficulty >= CoolUtil.difficultyStuff.length)
 			curDifficulty = 0;
+		
+		sprDifficultyGroup.forEach(function(spr:FlxSprite) {
+			spr.visible = false;
+			if(curDifficulty == spr.ID) {
+				spr.visible = true;
+				spr.alpha = 0;
+				FlxTween.tween(spr, {alpha: 1}, 0.07);
+			}
+		});
 
 		#if !switch
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
@@ -463,6 +493,11 @@ class FreeplayState extends MusicBeatState
 		scoreBG.x = FlxG.width - (scoreBG.scale.x / 2);
 		diffText.x = Std.int(scoreBG.x + (scoreBG.width / 2));
 		diffText.x -= diffText.width / 2;
+
+		sprDifficultyGroup.forEach(function(spr:FlxSprite) {
+			spr.x = Std.int(scoreBG.x + (scoreBG.width / 2));
+			spr.x -= spr.width / 2;
+		});
 	}
 }
 
