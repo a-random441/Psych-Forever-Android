@@ -722,6 +722,12 @@ class PreferencesSubstate extends MusicBeatSubstate
 		#if !html5
 		'Framerate', //Apparently 120FPS isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		#end
+		'SPLASHES',
+		'Note Splashes',
+		'Opponent Note Splashes',
+		'MOVEMENTS',
+		'Note Movements',
+		'Camera Zooms',
 		'NOTES',
 		'Downscroll',
 		'Middlescroll',
@@ -729,16 +735,12 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Ghost Tapping',
 		'Anti-Mash',
 		'Late Damage',
-		'SPLASHES',
-		'Note Splashes',
-		'Opponent Note Splashes',
-		'MOVEMENTS',
-		'Note Movements',
-		'Camera Zooms',
+		'GAMEPLAY',
+		'Note Delay',
+		'Old Scoring',
 		'MISC',
 		'Language',
 		'Flashing Lights',
-		'Note Delay',
 		'Hide HUD',
 		'Judgement Counter',
 		'Display Accuracy',
@@ -985,6 +987,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						ClientPrefs.noteMovements = !ClientPrefs.noteMovements;
 					case 'Skip Splash':
 						ClientPrefs.skipSplash = !ClientPrefs.skipSplash;
+					case 'Old Scoring':
+						ClientPrefs.oldScore = !ClientPrefs.oldScore;
 
 					case 'Mod Menus':
 						ClientPrefs.loadModMenu = !ClientPrefs.loadModMenu;
@@ -1122,7 +1126,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 			case 'Mod Menus':
 				daText = "If checked, when ever you scroll into a modpack it will load its assets\n(VERY UNFINISHED)";
 			case 'Skip Splash':
-				daText = 'If checked the custom splash screen is skipped.';
+				daText = 'If checked, the custom splash screen is skipped.';
+			case 'Old Scoring':
+				daText = 'If checked, the game will use the pre-weekend 1 scoring system.';
 			default:
 				daText = "";
 		}
@@ -1225,6 +1231,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.noteMovements;
 					case 'Skip Splash':
 						daValue = ClientPrefs.skipSplash;
+					case 'Old Scoring':
+						daValue = ClientPrefs.oldScore;
 				}
 				checkbox.daValue = daValue;
 			}

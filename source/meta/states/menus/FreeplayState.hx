@@ -34,6 +34,8 @@ class FreeplayState extends MusicBeatState
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
 
+	public static var disableControls:Bool = false;
+
 	var sprDifficultyGroup:FlxTypedGroup<FlxSprite>;
 
 	var allowBop:Bool = false;
@@ -41,6 +43,7 @@ class FreeplayState extends MusicBeatState
 	var trackPlaying:Bool = false;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
+	public var bgThing:FlxTypedGroup<FlxSprite>;
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
@@ -109,10 +112,13 @@ class FreeplayState extends MusicBeatState
 		// LOAD MUSIC
 
 		// LOAD CHARACTERS
+		
+		bgThing = new FlxTypedGroup<FlxSprite>();
+		add(bgThing);
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/${MainMenuState.stupidfreeplayBG}'));
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
-		add(bg);
+		bgThing.add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
@@ -230,6 +236,7 @@ class FreeplayState extends MusicBeatState
 
 	var instPlaying:Int = -1;
 	private static var vocals:FlxSound = null;
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (FlxG.sound.music.volume < 0.7)
@@ -260,39 +267,62 @@ class FreeplayState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		if (upP)
-		{
-			changeSelection(-shiftMult);
-		}
-		if (downP)
-		{
-			changeSelection(shiftMult);
-		}
-
-		if (controls.UI_LEFT_P)
-			changeDiff(-1);
-		if (controls.UI_RIGHT_P)
-			changeDiff(1);
-
-		if (controls.BACK)
-		{
-			if(colorTween != null) {
-				colorTween.cancel();
+		if (!disableControls) {
+			if (upP)
+			{
+				changeSelection(-shiftMult);
+				holdTime = 0;
 			}
-			inFreeplay = false;
-			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
-		}
+			if (downP)
+			{
+				changeSelection(shiftMult);
+				holdTime = 0;
+			}
 
+			if (controls.UI_LEFT_P)
+				changeDiff(-1);
+			if (controls.UI_RIGHT_P)
+				changeDiff(1);
+
+			if(controls.UI_DOWN || controls.UI_UP)
+			{
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+				if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+				{
+					changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+					changeDiff();
+				}
+			}
+
+			if(FlxG.mouse.wheel != 0)
+			{
+
+				changeSelection(-shiftMult * FlxG.mouse.wheel);
+				changeDiff();
+			}
+
+			if (controls.BACK)
+			{
+				if(colorTween != null) {
+					colorTween.cancel();
+				}
+				inFreeplay = false;
+				FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
+				MusicBeatState.switchState(new MainMenuState());
+			}
+		}
 		var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 		var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
 
-	/*	if((!sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop)) && !OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop)))	&& !sys.FileSystem.exists(Paths.json(songLowercase + '/' + poop))) {
-			curDifficulty = 1;
-			changeDiff();
-		}*/
+		/*	if((!sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop)) && !OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop)))	&& !sys.FileSystem.exists(Paths.json(songLowercase + '/' + poop))) {
+				curDifficulty = 1;
+				changeDiff();
+			}*/
 
-		if (accepted || space)
+		if ((accepted || space || FlxG.mouse.justPressed) && !disableControls)
 		{
 			
 			#if !html5 if((!sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop)) && !OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop))) && !sys.FileSystem.exists(Paths.json(songLowercase + '/' + poop))) {
@@ -337,7 +367,7 @@ class FreeplayState extends MusicBeatState
 
 				allowBop = true;
 				
-				} else #end if (accepted) {
+				} else #end if (accepted || FlxG.mouse.justPressed) {
 					trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
 					if(colorTween != null) {
 						colorTween.cancel();
@@ -352,6 +382,7 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(controls.RESET)
 		{
+			disableControls = true;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
 		}
@@ -456,24 +487,26 @@ class FreeplayState extends MusicBeatState
 		}
 		changeDiff();
 		Paths.currentModDirectory = songs[curSelected].folder;
-
 		if (ClientPrefs.loadModMenu) updateShit();
 	}
+
+	public var selectedMod = '';
 	
 	public function updateShit() {
 		#if MODS_ALLOWED
 		// It should really only care about the modpacks as assets would juts be well. Already loaded lmao.
-		if ((sys.FileSystem.exists(Paths.modsImages('menus/bg')) && OpenFlAssets.exists(Paths.image('menus/bg')))) {
-			bg.loadGraphic(Paths.modsImages('menus/funkay'));
-			Paths.destroyLoadedImages(false);
-			bg.loadGraphic(Paths.modsImages('menus/bg'));
-
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.resetState();
+		if ((sys.FileSystem.exists(Paths.modsImages('menus/${MainMenuState.stupidfreeplayBG}')) && OpenFlAssets.exists(Paths.image('menus/${MainMenuState.stupidfreeplayBG}'))) && Paths.currentModDirectory != selectedMod) {
+			remove(bg);
+			// can you just not change background images without actually leaving and re-entering the state?
+			Paths.destroyLoadedImages(true);
+			bg = new FlxSprite().loadGraphic(Paths.image('menus/${MainMenuState.stupidfreeplayBG}'));
+			bg.antialiasing = ClientPrefs.globalAntialiasing;
+			bgThing.add(bg);
 		}
 		else
 			bg.loadGraphic(Paths.image('menus/bg'));
+		
+		selectedMod = Paths.currentModDirectory;
 		#end
 	}
 

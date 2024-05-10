@@ -254,6 +254,7 @@ class PlayState extends MusicBeatState
 	var bgGhouls:BGSprite;
 
 	public var songScore:Float = 0;
+	public var songScoreOG:Float = 0;
 	public var songMisses:Int = 0;
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
@@ -261,6 +262,7 @@ class PlayState extends MusicBeatState
 	var timeTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
+	public static var campaignScoreOG:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
 	public static var deathCounter:Int = 0;
@@ -2255,14 +2257,14 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
 		if (ClientPrefs.lowQuality) {
-			lerpScore = songScore;
+			lerpScore = (ClientPrefs.oldScore ? songScoreOG : songScore);
 			lerpHealth = health;
 		} else {
-		lerpScore = Math.floor(FlxMath.lerp(lerpScore, songScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
+		lerpScore = Math.floor(FlxMath.lerp(lerpScore, (ClientPrefs.oldScore ? songScoreOG : songScore), CoolUtil.boundTo(elapsed * 24, 0, 1)));
 		lerpHealth = FlxMath.lerp(lerpHealth, health, CoolUtil.boundTo(elapsed * 9, 0, 1));
 
-		if (Math.abs(lerpScore - songScore) <= 10)
-			lerpScore = songScore;
+		if (Math.abs(lerpScore - (ClientPrefs.oldScore ? songScoreOG : songScore)) <= 10)
+			lerpScore = (ClientPrefs.oldScore ? songScoreOG : songScore);
 		if (Math.abs(lerpHealth - health) <= 0.01)
 			lerpHealth = health;
 		}
@@ -2306,6 +2308,7 @@ class PlayState extends MusicBeatState
 
 		if (usedBotplay) {
 			songScore = 0;
+			songScoreOG = 0;
 			songMisses = 0;
 			ratingPercent = 0;
 		}
@@ -3245,10 +3248,6 @@ class PlayState extends MusicBeatState
 	var transitioning = false;
 	public function endSong():Void
 	{
-		#if MODS_ALLOWED
-		Paths.destroyLoadedImages(resetSpriteCache);
-		#end
-		resetSpriteCache = false;
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
@@ -3311,13 +3310,14 @@ class PlayState extends MusicBeatState
 				#if !switch
 				var percent:Float = ratingPercent;
 				if(Math.isNaN(percent)) percent = 0;
-				Highscore.saveScore(SONG.song, Std.int(songScore), storyDifficulty, percent);
+				Highscore.saveScore(SONG.song, Std.int(songScore), storyDifficulty, percent, Std.int(songScoreOG));
 				#end
 			}
 
 			if (isStoryMode)
 			{
 				campaignScore += Std.int(songScore);
+				campaignScoreOG += Std.int(songScoreOG);
 				campaignMisses += songMisses;
 
 				storyPlaylist.remove(storyPlaylist[0]);
@@ -3337,7 +3337,7 @@ class PlayState extends MusicBeatState
 
 					if (SONG.validScore)
 					{
-						Highscore.saveWeekScore(WeekData.getWeekFileName(), campaignScore, storyDifficulty);
+						Highscore.saveWeekScore(WeekData.getWeekFileName(), campaignScore, storyDifficulty, campaignScoreOG);
 					}
 
 					FlxG.save.data.weekCompleted = StoryMenuState.weekCompleted;
@@ -3504,6 +3504,7 @@ class PlayState extends MusicBeatState
 
 		if(!cpuControlled && !usedBotplay) {
 			totalNotes++;
+			songScoreOG += score;
 
 			displayRating(daRating, false);
 
@@ -3864,6 +3865,7 @@ class PlayState extends MusicBeatState
 		songMisses++;
 		totalNotes++;
 		songScore -= 25;
+		songScoreOG -= 25;
 		FlxG.sound.play(Paths.soundRandom('damage/missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 		if (combo > 5 && gf.animOffsets.exists('sad'))
 		{
