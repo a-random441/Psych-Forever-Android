@@ -1609,10 +1609,11 @@ class PlayState extends MusicBeatState
 					santa.dance(true);
 				}
 
-				if (OpenFlAssets.exists('assets/images/ui/base/${countdownSpriteUse[otherCounter]}.png'))
-					displayCountdownSprite('ui/base/${countdownSpriteUse[otherCounter]}');
-				else if (OpenFlAssets.exists('assets/images/ui/$uiElement/${countdownSpriteUse[otherCounter]}.png')) // Otherwise, don't show a sprite at all
+				if (OpenFlAssets.exists('assets/images/ui/$uiElement/${countdownSpriteUse[otherCounter]}.png'))
 					displayCountdownSprite('ui/$uiElement/${countdownSpriteUse[otherCounter]}');
+				else if (OpenFlAssets.exists('assets/images/ui/base/${countdownSpriteUse[otherCounter]}.png')) // Otherwise, don't show a sprite at all
+					displayCountdownSprite('ui/base/${countdownSpriteUse[otherCounter]}');
+		
 
 				if (swagCounter == 3) {
 					if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/introGo.$dumbThing'))
