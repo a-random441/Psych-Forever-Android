@@ -996,6 +996,7 @@ class PlayState extends MusicBeatState
 		timeBarBG.alpha = 0;
 		timeBarBG.visible = !ClientPrefs.hideTime;
 		timeBarBG.color = FlxColor.BLACK;
+		timeBarBG.screenCenter(X);
 		timeBarBG.xAdd = -4;
 		timeBarBG.yAdd = -4;
 		add(timeBarBG);
@@ -1617,16 +1618,18 @@ class PlayState extends MusicBeatState
 					displayCountdownSprite('ui/base/${countdownSpriteUse[otherCounter]}');
 		
 
-				if (swagCounter == 3) {
-					if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/introGo.$dumbThing'))
-						FlxG.sound.play(Paths.sound('countdowns/base/introGo'), 0.6);
-					else
-						FlxG.sound.play(Paths.sound('countdowns/$uiElement/introGo'), 0.6);
-				} else {
-					if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/intro$otherCounter.$dumbThing'))
-						FlxG.sound.play(Paths.sound('countdowns/base/intro$otherCounter'), 0.6);
-					else
-						FlxG.sound.play(Paths.sound('countdowns/$uiElement/intro$otherCounter'), 0.6);
+				if (swagCounter < 4) {
+					if (swagCounter == 3) {
+						if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/introGo.$dumbThing'))
+							FlxG.sound.play(Paths.sound('countdowns/base/introGo'), 0.6);
+						else
+							FlxG.sound.play(Paths.sound('countdowns/$uiElement/introGo'), 0.6);
+					} else {
+						if (!OpenFlAssets.exists('assets/sounds/countdowns/$uiElement/intro$otherCounter.$dumbThing'))
+							FlxG.sound.play(Paths.sound('countdowns/base/intro$otherCounter'), 0.6);
+						else
+							FlxG.sound.play(Paths.sound('countdowns/$uiElement/intro$otherCounter'), 0.6);
+					}
 				}
 
 				notes.forEachAlive(function(note:Note) {
