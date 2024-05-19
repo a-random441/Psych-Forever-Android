@@ -21,7 +21,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Practice Mode', 'Botplay', 'Options', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Practice Mode', 'Botplay', 'Options', 'Exit to Chart Editor', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -41,6 +41,14 @@ class PauseSubState extends MusicBeatSubstate
 			difficultyChoices.push(diff);
 		}
 		difficultyChoices.push('BACK');
+
+		if (!MasterEditorMenu.inMasterMenu)
+			menuItemsOG.remove('Exit to Chart Editor');
+		else {
+			menuItemsOG.remove('Change Difficulty');
+			menuItemsOG.remove('Practice Mode');
+			menuItemsOG.remove('Botplay');
+		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
 		pauseMusic.volume = 0;
@@ -184,7 +192,11 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Options':
 					OptionsState.onPlayState = true;
 					MusicBeatState.switchState(new OptionsState());
+				case 'Exit to Chart Editor':
+					PlayState.deathCounter = 0;
+					MusicBeatState.switchState(new ChartingState());
 				case "Exit to menu":
+					MasterEditorMenu.inMasterMenu = false;
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					CustomFadeTransition.nextCamera = transCamera;

@@ -2088,10 +2088,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		/*if (FlxG.keys.justPressed.NINE)
+		if (FlxG.keys.justPressed.NINE && (boyfriend.oldIcon != '' && boyfriend.oldIcon != null))
 		{
-			iconP1.swapOldIcon();
-		}*/
+			iconP1.swapOldIcon(boyfriend.oldIcon, boyfriend.healthIcon);
+		}
 
 		callOnLuas('onUpdate', [elapsed]);
 
@@ -3122,7 +3122,7 @@ class PlayState extends MusicBeatState
 								boyfriend.alreadyLoaded = true;
 							}
 							boyfriend.visible = true;
-							iconP1.changeIcon(boyfriend.healthIcon);
+							iconP1.changeIcon(boyfriend.healthIcon, true);
 						}
 
 					case 1:
@@ -3146,7 +3146,7 @@ class PlayState extends MusicBeatState
 								dad.alreadyLoaded = true;
 							}
 							dad.visible = true;
-							iconP2.changeIcon(dad.healthIcon);
+							iconP2.changeIcon(dad.healthIcon, false);
 						}
 
 					case 2:

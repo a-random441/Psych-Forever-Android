@@ -123,6 +123,7 @@
 		350
 	],
 	"healthicon": "bf-christmas",
+	"oldicon": "bf-old",
 	"flip_x": true,
 	"healthbar_colors": [
 		209,

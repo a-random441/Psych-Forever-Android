@@ -173,6 +173,7 @@
 		350
 	],
 	"healthicon": "bf",
+	"oldicon": "bf-old",
 	"flip_x": true,
 	"healthbar_colors": [
 		49,
