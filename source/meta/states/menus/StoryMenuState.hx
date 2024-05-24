@@ -201,16 +201,10 @@ class StoryMenuState extends MusicBeatState
 		if (!movedBack && !selectedWeek)
 		{
 			if (controls.UI_UP_P)
-			{
 				changeWeek(-1);
-				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
-			}
 
 			if (controls.UI_DOWN_P)
-			{
 				changeWeek(1);
-				FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
-			}
 
 			if (controls.UI_RIGHT)
 				rightArrow.animation.play('press')
@@ -306,6 +300,8 @@ class StoryMenuState extends MusicBeatState
 	{
 		curDifficulty += change;
 
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
+
 		if (curDifficulty < 0)
 			curDifficulty = CoolUtil.difficultyStuff.length-1;
 		if (curDifficulty >= CoolUtil.difficultyStuff.length)
@@ -333,6 +329,8 @@ class StoryMenuState extends MusicBeatState
 	{
 		curWeek += change;
 
+		FlxG.sound.play(Paths.sound('menus/base/scrollMenu'));
+
 		if (curWeek >= WeekData.weeksList.length)
 			curWeek = 0;
 		if (curWeek < 0)
@@ -342,7 +340,7 @@ class StoryMenuState extends MusicBeatState
 		WeekData.setDirectoryFromWeek(leWeek);
 
 		var leName:String = leWeek.storyName;
-		txtWeekTitle.text = leName.toUpperCase();
+		txtWeekTitle.text = leName;
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
 		var bullShit:Int = 0;
@@ -391,7 +389,7 @@ class StoryMenuState extends MusicBeatState
 			txtTracklist.text += stringThing[i] + '\n';
 		}
 
-		txtTracklist.text = txtTracklist.text.toUpperCase();
+		txtTracklist.text = txtTracklist.text;
 
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;

@@ -2277,27 +2277,14 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
-		/*var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP1.scale.set(mult, mult);
-
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP2.scale.set(mult, mult);*/
-
-		
 		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));
 		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
-		/*
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-		*/
-
-		
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 		
 
 		if (health > 2)
@@ -3769,8 +3756,8 @@ class PlayState extends MusicBeatState
 					startAchievement(achieve);
 				}
 				#end
-			} else if (boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing')
-			&& !boyfriend.animation.curAnim.name.endsWith('miss'))
+			} 
+			if (boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing')	&& !boyfriend.animation.curAnim.name.endsWith('miss'))
 				boyfriend.dance();
 		}
 
@@ -3853,7 +3840,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function missedNote(longNote:Bool = false, ?countForMiss:Bool = true, ?shitRating:Bool = false) {
-		health -= 0.06; //For testing purposes
+		if (!shitRating || health > 0.06) health -= 0.06; //For testing purposes
 		missedLongNote = true;
 		if (!longNote && countForMiss) {
 
@@ -4293,16 +4280,13 @@ class PlayState extends MusicBeatState
 	}
 	
 	public function bopIcons() {
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+		if (!isPixelStage) {
+			iconP1.scale.set(1.2, 1.2);
+			iconP2.scale.set(1.2, 1.2);
 
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
-	/*	iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-		iconP2.setGraphicSize(Std.int(iconP2.width + 30));
-
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();*/
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
 	}
 
 	public function stageUpdate() {
