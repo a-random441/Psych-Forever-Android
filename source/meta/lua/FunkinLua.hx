@@ -1283,7 +1283,7 @@ class FunkinLua {
 
 	function cameraFromString(cam:String):FlxCamera {
 		switch(cam.toLowerCase()) {
-			case 'camhud' | 'hud': return lePlayState.camHUD;
+			case 'camhud' | 'hud': return lePlayState.camNotes; // because camNotes is the most front HUD camera
 			case 'camother' | 'other': return lePlayState.camOther;
 		}
 		return lePlayState.camGame;
