@@ -195,6 +195,8 @@ class PlayState extends MusicBeatState
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
+	public var camSustain:FlxCamera;
+	public var camNotes:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
@@ -258,6 +260,7 @@ class PlayState extends MusicBeatState
 	public var songMisses:Int = 0;
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	var scoreTxtTween:FlxTween;
 	public var composerTxt:FlxText;
 	var timeTxt:FlxText;
 
@@ -326,9 +329,13 @@ class PlayState extends MusicBeatState
 		practiceMode = false;
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
+		camSustain = new FlxCamera();
+		camNotes = new FlxCamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
+		camSustain.bgColor.alpha = 0;
+		camNotes.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 
 		sicks = 0;
@@ -342,6 +349,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(camSustain);
+		FlxG.cameras.add(camNotes);
 		FlxG.cameras.add(camOther);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
@@ -1141,9 +1150,9 @@ class PlayState extends MusicBeatState
 
 		displayRating('sick', true);
 
-		strumLineNotes.cameras = [camHUD];
-		grpNoteSplashes.cameras = [camHUD];
-		notes.cameras = [camHUD];
+		strumLineNotes.cameras = [camNotes];
+		grpNoteSplashes.cameras = [camNotes];
+		notes.cameras = [camNotes];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
@@ -1831,6 +1840,7 @@ class PlayState extends MusicBeatState
 							sustainNote.noteType = (section.gfSection && (songNotes[1]<4) ? 'GF Sing' : swagNote.noteType);
 							sustainNote.scrollFactor.set();
 							unspawnNotes.push(sustainNote);
+							sustainNote.cameras = [camSustain];
 
 							if (sustainNote.mustPress)
 							{
@@ -2095,6 +2105,20 @@ class PlayState extends MusicBeatState
 
 		callOnLuas('onUpdate', [elapsed]);
 
+		camSustain.alpha = camHUD.alpha;
+		camSustain.visible = camHUD.visible;
+		camSustain.x = camHUD.x;
+		camSustain.y = camHUD.y;
+		camSustain.zoom = camHUD.zoom;
+		camSustain.angle = camHUD.angle;
+
+		camNotes.alpha = camHUD.alpha;
+		camNotes.visible = camHUD.visible;
+		camNotes.x = camHUD.x;
+		camNotes.y = camHUD.y;
+		camNotes.zoom = camHUD.zoom;
+		camNotes.angle = camHUD.angle;
+
 		switch (curStage)
 		{
 			case 'tank':
@@ -2277,10 +2301,12 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
-		iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));
-		iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1))));
-
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
+
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		iconP2.scale.set(mult, mult);
 		iconP2.updateHitbox();
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
@@ -3498,9 +3524,16 @@ class PlayState extends MusicBeatState
 
 			displayRating(daRating, false);
 
-			FlxTween.cancelTweensOf(scoreTxt);
-			scoreTxt.scale.set(1.075, 1.075);
-			FlxTween.tween(scoreTxt, {"scale.x": 1, "scale.y": 1}, 0.25, {ease: FlxEase.cubeOut});
+			if(scoreTxtTween != null)
+				scoreTxtTween.cancel();
+	
+			scoreTxt.scale.x = 1.075;
+			scoreTxt.scale.y = 1.075;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.25, {ease: FlxEase.cubeOut, 
+				onComplete: function(twn:FlxTween) {
+					scoreTxtTween = null;
+				}
+			});
 		}
 	}
 
