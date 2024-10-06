@@ -28,7 +28,7 @@ class SUtil {
 	private static var sPath:String = AndroidTools.getExternalStorageDirectory(); // storage dir
 	#end
 
-	static public function getPath():String {
+	public static function getPath():String {
 		#if android
 		if (aDir != null && aDir.length > 0) {
 			return aDir;
@@ -41,7 +41,7 @@ class SUtil {
 		#end
 	}
 
-	static public function doTheCheck() {
+	public static function doTheCheck() {
 		#if android
 		if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
 			if (AndroidTools.sdkVersion > 23 || AndroidTools.sdkVersion == 23) {
@@ -82,11 +82,11 @@ class SUtil {
 		#end
 	}
 
-	static public function gameCrashCheck() {
+	public static function gameCrashCheck() {
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 	}
 
-	static public function onCrash(e:UncaughtErrorEvent):Void {
+	public static function onCrash(e:UncaughtErrorEvent):Void {
 		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var dateNow:String = Date.now().toString();
 		dateNow = StringTools.replace(dateNow, ' ', "_");
@@ -124,7 +124,7 @@ class SUtil {
 	}
 
 	#if android
-	static public function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'you forgot something to add in your code'){
+	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'you forgot something to add in your code'){
 		if (!FileSystem.exists(SUtil.getPath() + 'saves')){
 			FileSystem.createDirectory(SUtil.getPath() + 'saves');
 		}
@@ -133,12 +133,12 @@ class SUtil {
 		SUtil.applicationAlert('Done Action :)', 'File Saved Successfully!');
 	}
 
-	static public function saveClipboard(fileData:String = 'you forgot something to add in your code'){
+	public static function saveClipboard(fileData:String = 'you forgot something to add in your code'){
 		openfl.system.System.setClipboard(fileData);
 		SUtil.applicationAlert('Done Action :)', 'Data Saved to Clipboard Successfully!');
 	}
 
-	static public function copyContent(copyPath:String, savePath:String) {
+	public static function copyContent(copyPath:String, savePath:String) {
 		if (!FileSystem.exists(savePath)) {
 			var bytes = OpenFlAssets.getBytes(copyPath);
 			File.saveBytes(savePath, bytes);
