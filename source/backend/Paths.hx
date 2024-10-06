@@ -1,4 +1,4 @@
-package backend;
+cpackage backend;
 
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -142,7 +142,7 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(SUtil.getPath() + file)) {
 			return file;
 		}
 		#end
@@ -153,7 +153,7 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = modsSounds(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
 			}
@@ -172,7 +172,7 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = modsMusic(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
 			}
@@ -207,7 +207,7 @@ class Paths
 	#if MODS_ALLOWED
 	inline static private function returnSongFile(file:String):Sound
 	{
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
 			}
@@ -229,10 +229,10 @@ class Paths
 	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
 	{
 		#if sys
-		if (!ignoreMods && FileSystem.exists(mods(key)))
+		if (!ignoreMods && FileSystem.exists(SUtil.getPath() + mods(key)))
 			return File.getContent(mods(key));
 
-		if (FileSystem.exists(getPreloadPath(key)))
+		if (FileSystem.exists(SUtil.getPath() + getPreloadPath(key)))
 			return File.getContent(getPreloadPath(key));
 
 		if (currentLevel != null)
@@ -240,12 +240,12 @@ class Paths
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
 				levelPath = getLibraryPathForce(key, currentLevel);
-				if (FileSystem.exists(levelPath))
+				if (FileSystem.exists(SUtil.getPath() + levelPath))
 					return File.getContent(levelPath);
 			}
 
 			levelPath = getLibraryPathForce(key, 'shared');
-			if (FileSystem.exists(levelPath))
+			if (FileSystem.exists(SUtil.getPath() + levelPath))
 				return File.getContent(levelPath);
 		}
 		#end
@@ -256,7 +256,7 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = modsFont(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(SUtil.getPath() + file)) {
 			return file;
 		}
 		#end
@@ -266,7 +266,7 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) {
+		if(FileSystem.exists(SUtil.getPath() + mods(currentModDirectory + '/' + key)) || FileSystem.exists(SUtil.getPath() + mods(key))) {
 			return true;
 		}
 		#end
@@ -282,7 +282,7 @@ class Paths
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = addCustomGraphic(key);
 		var xmlExists:Bool = false;
-		if(FileSystem.exists(modsXml(key))) {
+		if(FileSystem.exists(SUtil.getPath() + modsXml(key))) {
 			xmlExists = true;
 		}
 
@@ -297,7 +297,7 @@ class Paths
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = addCustomGraphic(key);
 		var txtExists:Bool = false;
-		if(FileSystem.exists(modsTxt(key))) {
+		if(FileSystem.exists(SUtil.getPath() + modsTxt(key))) {
 			txtExists = true;
 		}
 
@@ -313,7 +313,7 @@ class Paths
 	
 	#if MODS_ALLOWED
 	static public function addCustomGraphic(key:String):FlxGraphic {
-		if(FileSystem.exists(modsImages(key))) {
+		if(FileSystem.exists(SUtil.getPath() + modsImages(key))) {
 			if(!customImagesLoaded.exists(key)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modsImages(key));
 				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, key);
@@ -369,7 +369,7 @@ class Paths
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
 			var fileToCheck:String = mods(currentModDirectory + '/' + key);
-			if(FileSystem.exists(fileToCheck)) {
+			if(FileSystem.exists(SUtil.getPath() + fileToCheck)) {
 				return fileToCheck;
 			}
 		}
