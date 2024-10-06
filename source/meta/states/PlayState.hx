@@ -3422,6 +3422,10 @@ class PlayState extends MusicBeatState
 			transitioning = true;
 		}
 	}
+	
+	#if android
+	addAndroidControls();
+    #end
 
 	#if ACHIEVEMENTS_ALLOWED
 	var achievementObj:AchievementObject = null;
