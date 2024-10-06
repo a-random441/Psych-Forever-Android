@@ -60,12 +60,16 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+			
 		#if (polymod && !html5)
-		if (sys.FileSystem.exists('mods/')) {
+		if (sys.FileSystem.exists(SUtil.getPath() + 'mods/')) {
 			var folders:Array<String> = [];
-			for (file in sys.FileSystem.readDirectory('mods/')) {
+			for (file in sys.FileSystem.readDirectory(SUtil.getPath() + 'mods/')) {
 				var path = haxe.io.Path.join(['mods/', file]);
-				if (sys.FileSystem.isDirectory(path)) {
+				if (sys.FileSystem.isDirectory(SUtil.getPath() + path)) {
 					folders.push(file);
 				}
 			}
