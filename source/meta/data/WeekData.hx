@@ -82,10 +82,10 @@ class WeekData {
 		#if MODS_ALLOWED
 		var directories:Array<String> = [Paths.mods(), Paths.getPreloadPath()];
 		var originalLength:Int = directories.length;
-		if(FileSystem.exists(Paths.mods())) {
-			for (folder in FileSystem.readDirectory(Paths.mods())) {
+		if(FileSystem.exists(SUtil.getPath() + Paths.mods())) {
+			for (folder in FileSystem.readDirectory(SUtil.getPath() + Paths.mods())) {
 				var path = haxe.io.Path.join([Paths.mods(), folder]);
-				if (sys.FileSystem.isDirectory(path) && !Paths.ignoreModFolders.exists(folder)) {
+				if (sys.FileSystem.isDirectory(SUtil.getPath() + path) && !Paths.ignoreModFolders.exists(folder)) {
 					directories.push(path + '/');
 					//trace('pushed Directory: ' + folder);
 				}
@@ -123,10 +123,10 @@ class WeekData {
 		#if MODS_ALLOWED
 		for (i in 0...directories.length) {
 			var directory:String = directories[i] + 'weeks/';
-			if(FileSystem.exists(directory)) {
-				for (file in FileSystem.readDirectory(directory)) {
+			if(FileSystem.exists(SUtil.getPath() + directory)) {
+				for (file in FileSystem.readDirectory(SUtil.getPath() + directory)) {
 					var path = haxe.io.Path.join([directory, file]);
-					if (!sys.FileSystem.isDirectory(path) && file.endsWith('.json')) {
+					if (!sys.FileSystem.isDirectory(SUtil.getPath() + path) && file.endsWith('.json')) {
 						var weekToCheck:String = file.substr(0, file.length - 5);
 						if(!weeksLoaded.exists(weekToCheck)) {
 							var week:WeekFile = getWeekFile(path);
@@ -152,7 +152,7 @@ class WeekData {
 	private static function getWeekFile(path:String):WeekFile {
 		var rawJson:String = null;
 		#if MODS_ALLOWED
-		if(FileSystem.exists(path)) {
+		if(FileSystem.exists(SUtil.getPath() + path)) {
 			rawJson = File.getContent(path);
 		}
 		#else
