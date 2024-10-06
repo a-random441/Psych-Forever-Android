@@ -1,4 +1,4 @@
-import backend.Paths;
+#if(!macro) import backend.Paths;
 import editors.*;
 import gameObjects.*;
 import gameObjects.userInterface.*;
@@ -26,6 +26,4 @@ import meta.data.Conductor.BPMChangeEvent;
 import gameObjects.userInterface.dialogue.DialogueBoxPsych.DialogueFile;
 import meta.lua.*;
 import meta.lua.FunkinLua;
-#if desktop
-import meta.data.dependency.Discord.DiscordClient;
 #end
