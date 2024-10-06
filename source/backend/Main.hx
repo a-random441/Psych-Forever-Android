@@ -46,6 +46,8 @@ class Main extends Sprite
 	{
 		super();
 
+		SUtil.gameCrashCheck();
+
 		if (stage != null)
 		{
 			init();
@@ -83,6 +85,7 @@ class Main extends Sprite
 		Paths.getModFolders();
 		// here we set up the base game
 		var gameCreate:FlxGame;
+		SUtil.doTheCheck();
 		gameCreate = new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen);
 		addChild(gameCreate); // and create it afterwards
 
