@@ -839,12 +839,12 @@ class PlayState extends MusicBeatState
 		#if (MODS_ALLOWED && LUA_ALLOWED)
 		var doPush:Bool = false;
 		var luaFile:String = 'stages/' + curStage + '.lua';
-		if(FileSystem.exists(Paths.modFolders(luaFile))) {
+		if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(luaFile))) {
 			luaFile = Paths.modFolders(luaFile);
 			doPush = true;
 		} else {
 			luaFile = Paths.getPreloadPath(luaFile);
-			if(FileSystem.exists(luaFile)) {
+			if(FileSystem.exists(SUtil.getPath() + luaFile)) {
 				doPush = true;
 			}
 		}
@@ -1094,13 +1094,13 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys()) {
 			var luaToLoad:String = Paths.modFolders('custom_notetypes/' + notetype + '.lua');
-			if(FileSystem.exists(luaToLoad)) {
+			if(FileSystem.exists(SUtil.getPath() + luaToLoad)) {
 				luaArray.push(new FunkinLua(luaToLoad));
 			}
 		}
 		for (event in eventPushedMap.keys()) {
 			var luaToLoad:String = Paths.modFolders('custom_events/' + event + '.lua');
-			if(FileSystem.exists(luaToLoad)) {
+			if(FileSystem.exists(SUtil.getPath() + luaToLoad)) {
 				luaArray.push(new FunkinLua(luaToLoad));
 			}
 		}
@@ -1186,9 +1186,9 @@ class PlayState extends MusicBeatState
 
 		for (folder in foldersToCheck)
 		{
-			if(FileSystem.exists(folder))
+			if(FileSystem.exists(SUtil.getPath() + folder))
 			{
-				for (file in FileSystem.readDirectory(folder))
+				for (file in FileSystem.readDirectory(SUtil.getPath() + folder))
 				{
 					if(file.endsWith('.lua') && !filesPushed.contains(file))
 					{
@@ -1215,9 +1215,9 @@ class PlayState extends MusicBeatState
 
 		for (folder in foldersToCheck)
 		{
-			if(FileSystem.exists(folder))
+			if(FileSystem.exists(SUtil.getPath() + folder))
 			{
-				for (file in FileSystem.readDirectory(folder))
+				for (file in FileSystem.readDirectory(SUtil.getPath() + folder))
 				{
 					if(file.endsWith('.lua') && !filesPushed.contains(file))
 					{
@@ -1383,7 +1383,7 @@ class PlayState extends MusicBeatState
 		var foundFile:Bool = false;
 		var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT); #else ''; #end
 		#if sys
-		if(FileSystem.exists(fileName)) {
+		if(FileSystem.exists(SUtil.getPath() + fileName)) {
 			foundFile = true;
 		}
 		#end
@@ -1391,7 +1391,7 @@ class PlayState extends MusicBeatState
 		if(!foundFile) {
 			fileName = Paths.video(name);
 			#if sys
-			if(FileSystem.exists(fileName)) {
+			if(FileSystem.exists(SUtil.getPath() + fileName)) {
 			#else
 			if(OpenFlAssets.exists(fileName)) {
 			#end
@@ -1778,7 +1778,7 @@ class PlayState extends MusicBeatState
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		var file:String = Paths.json(songName + '/events');
 		#if sys
-		if (FileSystem.exists(Paths.modsJson(songName + '/events')) || FileSystem.exists(file)) {
+		if (FileSystem.exists(SUtil.getPath() + Paths.modsJson(songName + '/events')) || FileSystem.exists(SUtil.getPath() + file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
 		#end
