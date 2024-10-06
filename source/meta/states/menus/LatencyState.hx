@@ -52,9 +52,9 @@ class LatencyState extends FlxState
 		if (FlxG.keys.pressed.SHIFT #if mobile || _virtualpad.buttonC.justPressed #end)
 			multiply = 10;
 
-		if (FlxG.keys.justPressed.RIGHT || controls.UI_RIGHT)
+		if (FlxG.keys.justPressed.RIGHT || controls.UI_RIGHT_P)
 			Conductor.offset += 1 * multiply;
-		if (FlxG.keys.justPressed.LEFT || controls.UI_LEFT)
+		if (FlxG.keys.justPressed.LEFT || controls.UI_LEFT_P)
 			Conductor.offset -= 1 * multiply;
 
 		if (FlxG.keys.justPressed.SPACE #if mobile || controls.ACCEPT #end)
