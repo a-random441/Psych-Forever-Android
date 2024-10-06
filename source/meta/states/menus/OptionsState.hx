@@ -22,13 +22,14 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import flixel.effects.FlxFlicker;
 import backend.Controls;
+import android.AndroidControlsMenu;
 
 using StringTools;
 
 // TO DO: Redo the menu creation system for not being as dumb
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Preferences', 'Notes', 'Controls', 'Exit'];
+	var options:Array<String> = ['Preferences', 'Notes', 'Controls', 'Android Controls', 'Exit'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -64,6 +65,10 @@ class OptionsState extends MusicBeatState
 			grpOptions.add(optionText);
 		}
 		changeSelection();
+
+		#if android
+	        addVirtualPad(UP_DOWN, A_B);
+                #end
 
 		super.create();
 	}
@@ -107,6 +112,9 @@ class OptionsState extends MusicBeatState
 
 					case 'Controls':
 						openSubState(new ControlsSubstate());
+
+					case 'Android Controls':
+						MusicBeatState.switchState(new AndroidControlsMenu());
 
 					case 'Preferences':
 						openSubState(new PreferencesSubstate());
@@ -204,6 +212,10 @@ class NotesSubstate extends MusicBeatSubstate
 		hsvText = new Alphabet(0, 0, "Hue    Saturation  Brightness", false, false, 0, 0.65);
 		add(hsvText);
 		changeSelection();
+
+		#if android
+	        addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	var changingNote:Bool = false;
@@ -485,6 +497,10 @@ class ControlsSubstate extends MusicBeatSubstate {
 			}
 		}
 		changeSelection();
+
+		#if android
+	        addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	var leaving:Bool = false;
@@ -853,6 +869,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 		}
 		changeSelection();
 		reloadValues();
+
+		#if android
+	        addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	var nextAccept:Int = 5;
