@@ -22,6 +22,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var lePlayState:PlayState;
 
+	var justTouched:Bool = false;
+
 	public static var characterName:String = 'bf-dead';
 	public static var deathSoundName:String = 'damage/fnf_loss_sfx';
 	public static var loopSoundName:String = 'gameOver';
@@ -84,12 +86,23 @@ class GameOverSubstate extends MusicBeatSubstate
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 		}
 
-		if (controls.ACCEPT)
+		#if mobile
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.justPressed)
+			{
+				justTouched = true;
+			}
+		}
+		#end
+
+		if (controls.ACCEPT #if android || justTouched #end)
 		{
 			endBullshit();
 		}
 
-		if (controls.BACK)
+		
+		if (controls.BACK #if android || FlxG.android.justReleased.BACK #end)
 		{
 			PlayState.usedPractice = false;
 			FlxG.sound.music.stop();
