@@ -33,6 +33,14 @@ jobs:
           distribution: 'temurin'
       - name: Setup Android SDK
         uses: android-actions/setup-android@main
+      - name: Setup gradle.properties
+        uses: SimonMarquis/ci-gradle-properties-action@v1
+        with:
+           path: .github/gradle.properties
+      - name: Setup build.gradle
+        uses: thecodemonkey/action-get-gradle-version@v1.0
+        with:
+          file: .github/build.gradle
 
       - uses: krdlab/setup-haxe@v1.3.0
         with:
@@ -49,7 +57,7 @@ jobs:
           haxelib install flixel-ui
           haxelib install hscript
           haxelib git linc_luajit https://github.com/superpowers04/linc_luajit.git
-          haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools.git c210bba1952ea2354e5b5e5eb88c28c6d4cafe3e
+          haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools.git c0f09f2399780091de02eb40caf5ac4f695f9cac
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Configure Android
