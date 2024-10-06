@@ -205,6 +205,9 @@ class FreeplayState extends MusicBeatState
 
 		changeSelection();
 		changeDiff();
+		#if android
+	        addVirtualPad(FULL, A_B_C_X_Y);
+                #end
 		super.create();
 	}
 
@@ -325,7 +328,7 @@ class FreeplayState extends MusicBeatState
 		if ((accepted || space || FlxG.mouse.justPressed) && !disableControls)
 		{
 			
-			#if !html5 if((!sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop)) && !OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop))) && !sys.FileSystem.exists(Paths.json(songLowercase + '/' + poop))) {
+			#if !html5 if((!sys.FileSystem.exists(SUtil.getPath() + Paths.modsJson(songLowercase + '/' + poop)) && !OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop))) && !sys.FileSystem.exists(SUtil.getPath() + Paths.json(songLowercase + '/' + poop))) {
 				poop = songLowercase;
 				curDifficulty = 1;
 				changeDiff(0); // just show it shows Normal instead of being stuck
@@ -339,6 +342,7 @@ class FreeplayState extends MusicBeatState
 
 				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
 				PlayState.isStoryMode = false;
+				
 				PlayState.storyDifficulty = curDifficulty;
 
 				PlayState.storyWeek = songs[curSelected].week;
@@ -380,7 +384,7 @@ class FreeplayState extends MusicBeatState
 			#if !html5 } #end
 			trace(poop);
 		}
-		else if(controls.RESET)
+		else if(controls.RESET #if mobile || _virtualpad.buttonC.justPressed #end)
 		{
 			disableControls = true;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
@@ -432,7 +436,7 @@ class FreeplayState extends MusicBeatState
 		curSelected += change;
 
 		#if PRELOAD_ALL
-		barText.text = "Press SPACE to listen to this Song (SHIFT + SPACE for Vocals) / Press RESET to Reset your Score and Accuracy.";
+		barText.text = "Press SPACE to listen to this Song (SHIFT + SPACE for Vocals) / Press C to Reset your Score and Accuracy.";
 		#else
 		barText.text = "Press RESET to Reset your Score and Accuracy.";
 		#end
@@ -495,7 +499,7 @@ class FreeplayState extends MusicBeatState
 	public function updateShit() {
 		#if MODS_ALLOWED
 		// It should really only care about the modpacks as assets would juts be well. Already loaded lmao.
-		if ((sys.FileSystem.exists(Paths.modsImages('menus/${MainMenuState.stupidfreeplayBG}')) && OpenFlAssets.exists(Paths.image('menus/${MainMenuState.stupidfreeplayBG}'))) && Paths.currentModDirectory != selectedMod) {
+		if ((sys.FileSystem.exists(SUtil.getPath() + Paths.modsImages('menus/${MainMenuState.stupidfreeplayBG}')) && OpenFlAssets.exists(Paths.image('menus/${MainMenuState.stupidfreeplayBG}'))) && Paths.currentModDirectory != selectedMod) {
 			remove(bg);
 			// can you just not change background images without actually leaving and re-entering the state?
 			Paths.destroyLoadedImages(true);
