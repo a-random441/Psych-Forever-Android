@@ -129,7 +129,7 @@ class WeekData {
 					if (!sys.FileSystem.isDirectory(SUtil.getPath() + path) && file.endsWith('.json')) {
 						var weekToCheck:String = file.substr(0, file.length - 5);
 						if(!weeksLoaded.exists(weekToCheck)) {
-							var week:WeekFile = getWeekFile(path);
+							var week:WeekFile = getWeekFile(SUtil.getPath() + path);
 							if(week != null) {
 								var weekFile:WeekData = new WeekData(week);
 								if(i >= originalLength) {
@@ -153,7 +153,7 @@ class WeekData {
 		var rawJson:String = null;
 		#if MODS_ALLOWED
 		if(FileSystem.exists(SUtil.getPath() + path)) {
-			rawJson = File.getContent(path);
+			rawJson = File.getContent(SUtil.getPath() + path);
 		}
 		#else
 		if(OpenFlAssets.exists(path)) {
