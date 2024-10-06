@@ -1169,6 +1169,10 @@ class PlayState extends MusicBeatState
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
 
+                #if android
+	        addAndroidControls(); // omg the android controls
+                #end
+
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
 		updateTime = true;
@@ -3422,10 +3426,6 @@ class PlayState extends MusicBeatState
 			transitioning = true;
 		}
 	}
-	
-	#if android
-	addAndroidControls();
-    #end
 
 	#if ACHIEVEMENTS_ALLOWED
 	var achievementObj:AchievementObject = null;
