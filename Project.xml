@@ -155,13 +155,6 @@
                 </config>
 	</section>
 
-	<!-- Android stuff: thanks Yoshi Engine -->
-	<android permission="android.permission.ACCESS_NETWORK_STATE"/>
-	<android permission="android.permission.INTERNET"/>
-	<android permission="android.permission.VIBRATE"/>
-	<android permission="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<android permission="android.permission.READ_EXTERNAL_STORAGE"/>
-
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
