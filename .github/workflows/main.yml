@@ -58,6 +58,7 @@ jobs:
           haxelib install flixel-tools 1.5.1
           haxelib install hscript
           haxelib git linc_luajit https://github.com/superpowers04/linc_luajit.git
+          haxelib git polymod https://github.com/larsiusprime/polymod.git
           haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools.git c0f09f2399780091de02eb40caf5ac4f695f9cac
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
