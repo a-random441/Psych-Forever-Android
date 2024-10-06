@@ -71,6 +71,10 @@ class AchievementsMenuState extends MusicBeatState
 		add(descText);
 		changeSelection();
 
+		#if android
+	        addVirtualPad(UP_DOWN, A_B);
+                #end
+
 		super.create();
 	}
 
@@ -84,7 +88,7 @@ class AchievementsMenuState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (controls.BACK) {
+		if (controls.BACK #if android FlxG.android.justReleased.BACK #end) {
 			FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
