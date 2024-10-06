@@ -50,9 +50,6 @@
 	<define name="VIDEOS_ALLOWED" if="web || windows || android" unless="32"/>
 	<define name="CRASH_HANDLER" if="desktop release" />
 
-	<!--Mobile Controls Define-->
-	<define name="mobileC" if="mobile" /> <!--Can be added windows, mac or linux-->
-
 	<!-- <define name="PRELOAD_ALL" /> -->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
@@ -72,7 +69,7 @@
 	<assets path="assets/songs"         library="songs"         exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"         library="songs"         exclude="*.mp3" unless="web"/>
 
-	<assets path="mobile" rename="assets/mobile" if="mobileC" />
+	<assets path="assets/preload/images/android" if="android"/> <!-- to not have the android assets in another builds -saw -->
 	
 	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
@@ -148,6 +145,23 @@
 	<haxedef name="HXCPP_STACK_TRACE" if="android" />
 
 	<haxedef name="no-deprecation-warnings" unless="debug" />
+
+	<section if="android">
+		<config>
+			<!--Gradle-->
+			<android gradle-version="7.4.2" gradle-plugin="7.3.1" /> <!-- ENABLE THIS IF YOU HAVE ISSUES AT COMPILE -->
+
+			<!--Target SDK-->
+			<android min-sdk-version="16" target-sdk-version="29" max-sdk-version="33" if="${lime &lt; 8.1.0}"/>
+                </config>
+	</section>
+
+	<!-- Android stuff: thanks Yoshi Engine -->
+	<android permission="android.permission.ACCESS_NETWORK_STATE"/>
+	<android permission="android.permission.INTERNET"/>
+	<android permission="android.permission.VIBRATE"/>
+	<android permission="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<android permission="android.permission.READ_EXTERNAL_STORAGE"/>
 
 	<!-- _________________________________ Custom _______________________________ -->
 
