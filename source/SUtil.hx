@@ -151,9 +151,11 @@ class SUtil {
 package;
 
 #if android
-import android.content.Context;
-import android.widget.Toast;
-import android.os.Environment;
+//import android.content.Context;
+//import android.widget.Toast;
+//import android.os.Environment;
+import android.AndroidTools;
+import android.stuff.Permissions;
 #end
 import haxe.CallStack;
 import haxe.io.Path;
@@ -182,6 +184,7 @@ enum StorageType
  * ...
  * @author Mihai Alexandru (M.A. Jigsaw)
  * @modified mcagabe19
+ * customized by a-random441 ig
  */
 class SUtil
 {
@@ -216,57 +219,42 @@ class SUtil
 	 */
 	public static function checkFiles():Void
 	{
-		#if mobile
-		if (!FileSystem.exists(SUtil.getPath()))
-		{
-                        try {
-			FileSystem.createDirectory(SUtil.getPath());
-                        }
-                        catch (e){
-                        Lib.application.window.alert('Please create folder to\n' + SUtil.getPath() + '\nPress Ok to close the app', 'Error!');
-			LimeSystem.exit(1);
-                        }
-		}
-		if (!FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.exists(SUtil.getPath() + 'mods'))
-		{
-			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n" + SUtil.getStorageDirectory(),
-				'Error!');
-			LimeSystem.exit(1);
-		}
-		else if ((FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.isDirectory(SUtil.getPath() + 'assets'))
-			&& (FileSystem.exists(SUtil.getPath() + 'mods') && !FileSystem.isDirectory(SUtil.getPath() + 'mods')))
-		{
-			Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the .APK?, expect a crash.",
-				'Error!');
-			LimeSystem.exit(1);
-		}
-		else
-		{
-			if (!FileSystem.exists(SUtil.getPath() + 'assets'))
-			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n" + SUtil.getStorageDirectory(),
-					'Error!');
-				LimeSystem.exit(1);
+		#if android
+		if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
+			if (AndroidTools.sdkVersion > 23 || AndroidTools.sdkVersion == 23) {
+				AndroidTools.requestPermissions([Permissions.READ_EXTERNAL_STORAGE, Permissions.WRITE_EXTERNAL_STORAGE]);
 			}
-			else if (FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.isDirectory(SUtil.getPath() + 'assets'))
-			{
-				Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the .APK?, expect a crash.",
-					'Error!');
-				LimeSystem.exit(1);
-			}
+		}
 
-			if (!FileSystem.exists(SUtil.getPath() + 'mods'))
-			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n" + SUtil.getStorageDirectory(),
-					'Error!');
-				LimeSystem.exit(1);
+		if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
+			if (AndroidTools.sdkVersion > 23 || AndroidTools.sdkVersion == 23) {
+				SUtil.applicationAlert('Permissions', "If you accepted the permisions for storage, good, you can continue, if you not the game can't run without storage permissions please grant them in app settings"
+					+ '\n' + 'Press Ok To Close The App');
+			} else {
+				SUtil.applicationAlert('Permissions', "The Game can't run without storage permissions please grant them in app settings"
+					+ '\n' + 'Press Ok To Close The App');
 			}
-			else if (FileSystem.exists(SUtil.getPath() + 'mods') && !FileSystem.isDirectory(SUtil.getPath() + 'mods'))
-			{
-				Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
-					'Error!');
-				LimeSystem.exit(1);
-			}
+		}
+
+		if (!FileSystem.exists(sPath + '/' + '.' + Application.current.meta.get('file'))){
+			FileSystem.createDirectory(sPath + '/' + '.' + Application.current.meta.get('file'));
+		}
+
+		if (!FileSystem.exists(SUtil.getPath() + 'assets')){
+			SUtil.applicationAlert('Instructions:', 'You have to copy assets/assets from apk to your internal storage app directory'
+				+ " ( here " + SUtil.getPath() + " )"
+				+ "Whoops, it seems you didn't extract the files from the .APK! \nPlease watch the tutorial by pressing OK."
+				+ '\n' + 'Press OK To close the app.');
+			CoolUtil.browserLoad('https://youtu.be/zjvkTmdWvfU');
+			System.exit(0);
+		}
+		if (!FileSystem.exists(SUtil.getPath() + 'mods')){
+			SUtil.applicationAlert('Instructions:', 'You have to copy assets/mods from apk to your internal storage app directory'
+				+ " ( here " + SUtil.getPath() + " )"
+				+ "Whoops, it seems you didn't extract the files from the .APK! \nPlease watch the tutorial by pressing OK."
+				+ '\n' + 'Press OK To close the app.');
+			CoolUtil.browserLoad('https://youtu.be/zjvkTmdWvfU');
+			System.exit(0);
 		}
 		#end
 	}
@@ -370,25 +358,28 @@ class SUtil
 		}
 	}
 
-	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json',
-			fileData:String = 'you forgot to add something in your code lol'):Void
-	{
-		try
-		{
-			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'saves'))
-				FileSystem.createDirectory(SUtil.getStorageDirectory() + 'saves');
-
-			File.saveContent(SUtil.getStorageDirectory() + 'saves/' + fileName + fileExtension, fileData);
+	#if android
+	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'you forgot something to add in your code'){
+		if (!FileSystem.exists(SUtil.getPath() + 'saves')){
+			FileSystem.createDirectory(SUtil.getPath() + 'saves');
 		}
-		catch (e:Dynamic)
-		{
-			#if (android && debug)
-			Toast.makeText("Error!\nClouldn't save the file because:\n" + e, Toast.LENGTH_LONG);
-			#else
-			LimeLogger.println("Error!\nClouldn't save the file because:\n" + e);
-			#end
+
+		File.saveContent(SUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
+		SUtil.applicationAlert('Done Action :)', 'File Saved Successfully!');
+	}
+
+	public static function saveClipboard(fileData:String = 'you forgot something to add in your code'){
+		openfl.system.System.setClipboard(fileData);
+		SUtil.applicationAlert('Done Action :)', 'Data Saved to Clipboard Successfully!');
+	}
+
+	public static function copyContent(copyPath:String, savePath:String) {
+		if (!FileSystem.exists(savePath)) {
+			var bytes = OpenFlAssets.getBytes(copyPath);
+			File.saveBytes(savePath, bytes);
 		}
 	}
+	#end
 
 	/**
 	 * Copies the content of copyPath and pastes it in savePath.
@@ -404,14 +395,6 @@ class SUtil
 
 				File.saveBytes(savePath, LimeAssets.getBytes(copyPath));
 			}
-		}
-		catch (e:Dynamic)
-		{
-			#if (android && debug)
-			Toast.makeText('Error!\nClouldn\'t copy the $copyPath because:\n' + e, Toast.LENGTH_LONG);
-			#else
-			LimeLogger.println('Error!\nClouldn\'t copy the $copyPath because:\n' + e);
-			#end
 		}
 	}
 	#end
