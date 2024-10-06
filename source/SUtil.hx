@@ -21,7 +21,7 @@ class SUtil
     private static var grantedPermsList:Array<Permissions> = AndroidTools.getGrantedPermissions();  
     #end
 
-    static public function getPath():String
+    public static function getPath():String
     {
     	#if android
         if (aDir != null && aDir.length > 0) 
@@ -38,7 +38,7 @@ class SUtil
         #end
     }
 
-    static public function doTheCheck()
+    public static function doTheCheck()
     {
         #if android
         if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
@@ -80,11 +80,11 @@ class SUtil
     }
 
     //Thanks Forever Engine
-    static public function gameCrashCheck(){
+    public static function gameCrashCheck(){
     	Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
     }
      
-    static public function onCrash(e:UncaughtErrorEvent):Void {
+    public static function onCrash(e:UncaughtErrorEvent):Void {
         var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var errMsg:String = "";
 		var path:String = "log/" + "crash_" + dateNow + ".txt";
