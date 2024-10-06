@@ -28,7 +28,7 @@ class AndroidControlsMenu extends MusicBeatState
 	var curSelected:Int = 0;
 	var buttonIsTouched:Bool = false;
 	var bindButton:FlxButton;
-	var resetButton:FlxButton;
+	//var resetButton:FlxButton;
 	var config:Config;
 
 	override function create()
@@ -47,21 +47,21 @@ class AndroidControlsMenu extends MusicBeatState
 		titleText.alpha = 0.4;
 		add(titleText);
 
-		resetButton = new FlxButton(FlxG.width - 200, 50, "Reset", function());
+		/*resetButton = new FlxButton(FlxG.width - 200, 50, "Reset", function());
 	        {
 			if (resetButton.visible)
 			        trace("fuck no");
                 }
-		/*{
+		{
 			if (resetButton.visible)
 				openSubState(new Prompt('This action will clear current positions of the pad.\n\nProceed?', 0, function() {reset();}, null, false));
 		});
-                */
 		resetButton.setGraphicSize(Std.int(resetButton.width) * 3);
 		resetButton.label.setFormat(null, 16, 0x333333, "center");
 		resetButton.color = FlxColor.fromRGB(255, 0, 0);
 		resetButton.visible = false;
 		add(resetButton);
+		*/
 
 		vpad = new FlxVirtualPad(RIGHT_FULL, NONE);
 		vpad.visible = false;
@@ -266,7 +266,7 @@ class AndroidControlsMenu extends MusicBeatState
 			config.savecustom(vpad);
 	}
 
-	function reset():Void
+	/*function reset():Void
 	{
 		vpad.buttonUp.x = FlxG.width - 258;
 		vpad.buttonUp.y = FlxG.height - 408;
@@ -276,7 +276,7 @@ class AndroidControlsMenu extends MusicBeatState
 		vpad.buttonRight.y = FlxG.height - 309;
 		vpad.buttonLeft.x = FlxG.width - 384;
 		vpad.buttonLeft.y = FlxG.height - 309;
-	}
+	}*/
 
 	function loadCustom():Void
 	{
