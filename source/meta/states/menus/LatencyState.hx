@@ -35,7 +35,7 @@ class LatencyState extends FlxState
 		Conductor.changeBPM(120);
 
 		#if android
-	        addVirtualPad(LEFT_RIGHT, A_B_C);
+	        addVirtualPad(LEFT_RIGHT, A_B);
                 #end
 
 		super.create();
@@ -49,7 +49,7 @@ class LatencyState extends FlxState
 
 		var multiply:Float = 1;
 
-		if (FlxG.keys.pressed.SHIFT #if mobile || _virtualpad.buttonC.justPressed #end)
+		if (FlxG.keys.pressed.SHIFT #if mobile || _virtualpad.buttonB.justPressed #end)
 			multiply = 10;
 
 		if (FlxG.keys.justPressed.RIGHT || controls.UI_RIGHT_P)
