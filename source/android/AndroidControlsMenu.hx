@@ -47,11 +47,16 @@ class AndroidControlsMenu extends MusicBeatState
 		titleText.alpha = 0.4;
 		add(titleText);
 
-		resetButton = new FlxButton(FlxG.width - 200, 50, "Reset", function()
-		{
+		resetButton = new FlxButton(FlxG.width - 200, 50, "Reset", function());
+	        {
+			if (resetButton.visible)
+			        trace("fuck no");
+                }
+		/*{
 			if (resetButton.visible)
 				openSubState(new Prompt('This action will clear current positions of the pad.\n\nProceed?', 0, function() {reset();}, null, false));
 		});
+                */
 		resetButton.setGraphicSize(Std.int(resetButton.width) * 3);
 		resetButton.label.setFormat(null, 16, 0x333333, "center");
 		resetButton.color = FlxColor.fromRGB(255, 0, 0);
@@ -169,7 +174,7 @@ class AndroidControlsMenu extends MusicBeatState
 		if (FlxG.android.justReleased.BACK)
 		{
 			save();
-			MusicBeatState.switchState(new options.OptionsState());
+			MusicBeatState.switchState(new meta.states.menus.OptionsState());
 		}
 	}
 
