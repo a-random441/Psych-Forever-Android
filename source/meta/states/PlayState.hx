@@ -3545,7 +3545,7 @@ class PlayState extends MusicBeatState
 
 		var hudRating:Bool = ClientPrefs.fixedJudgements;
 
-		updateRPC(false);
+		#if desktop updateRPC(false); #end
 
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.screenCenter();
@@ -3727,7 +3727,9 @@ class PlayState extends MusicBeatState
 					goodNoteHit(daNote);
 					totalNotes++;
 					totalNotesHit++;
+					#if desktop
 					updateRPC(false);
+					#end
 				}
 			});
 
