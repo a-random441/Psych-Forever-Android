@@ -64,7 +64,7 @@ class TitleState extends MusicBeatState
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
 			
-		/*#if (polymod && !html5)
+		if (polymod && !html5)
 		if (sys.FileSystem.exists(SUtil.getPath() + 'mods/')) {
 			var folders:Array<String> = [];
 			for (file in sys.FileSystem.readDirectory(SUtil.getPath() + 'mods/')) {
@@ -76,7 +76,7 @@ class TitleState extends MusicBeatState
 			if(folders.length > 0) {
 				polymod.Polymod.init({modRoot: "mods", dirs: folders});
 			}
-		}*/
+		}
 
 		//Gonna finish this later, probably
 		#end
@@ -142,7 +142,7 @@ class TitleState extends MusicBeatState
 		var foundFile:Bool = false;
 		var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT); #else ''; #end
 		#if sys
-		if(FileSystem.exists(SUtil.getPath() + fileName)) {
+		if(FileSystem.existsfileName)) {
 			foundFile = true;
 		}
 		#end
@@ -150,7 +150,7 @@ class TitleState extends MusicBeatState
 		if(!foundFile) {
 			fileName = Paths.video(name);
 			#if sys
-			if(FileSystem.exists(SUtil.getPath() + fileName)) {
+			if(FileSystem.exists(fileName)) {
 			#else
 			if(OpenFlAssets.exists(fileName)) {
 			#end
