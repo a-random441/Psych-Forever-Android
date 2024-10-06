@@ -15,11 +15,9 @@ import sys.io.File;
 
 class SUtil
 {
-    #if android
     private static var aDir:String = null;
     private static var sPath:String = AndroidTools.getExternalStorageDirectory();  
     private static var grantedPermsList:Array<Permissions> = AndroidTools.getGrantedPermissions();  
-    #end
 
     static public function getPath():String
     {
