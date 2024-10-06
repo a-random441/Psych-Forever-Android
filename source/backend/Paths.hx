@@ -1,4 +1,4 @@
-cpackage backend;
+package backend;
 
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -230,10 +230,10 @@ class Paths
 	{
 		#if sys
 		if (!ignoreMods && FileSystem.exists(SUtil.getPath() + mods(key)))
-			return File.getContent(mods(key));
+			return File.getContent(SUtil.getPath() + mods(key));
 
 		if (FileSystem.exists(SUtil.getPath() + getPreloadPath(key)))
-			return File.getContent(getPreloadPath(key));
+			return File.getContent(SUtil.getPath() + getPreloadPath(key));
 
 		if (currentLevel != null)
 		{
@@ -241,12 +241,12 @@ class Paths
 			if(currentLevel != 'shared') {
 				levelPath = getLibraryPathForce(key, currentLevel);
 				if (FileSystem.exists(SUtil.getPath() + levelPath))
-					return File.getContent(levelPath);
+					return File.getContent(SUtil.getPath() + levelPath);
 			}
 
 			levelPath = getLibraryPathForce(key, 'shared');
 			if (FileSystem.exists(SUtil.getPath() + levelPath))
-				return File.getContent(levelPath);
+				return File.getContent(SUtil.getPath() + levelPath);
 		}
 		#end
 		return Assets.getText(getPath(key, TEXT));
@@ -301,7 +301,7 @@ class Paths
 			txtExists = true;
 		}
 
-		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
+		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(SUtil.getPath() + modsTxt(key)) : file('images/$key.txt', library)));
 		#else
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 		#end
