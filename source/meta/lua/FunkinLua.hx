@@ -914,7 +914,7 @@ class FunkinLua {
 			var path:String = Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
 			luaTrace('Trying to load dialogue: ' + path);
 
-			if(FileSystem.exists(path)) {
+			if(FileSystem.exists(SUtil.getPath() + path)) {
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					lePlayState.startDialogue(shit, music);
@@ -933,7 +933,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
-			if(FileSystem.exists(Paths.modsVideo(videoFile))) {
+			if(FileSystem.exists(SUtil.getPath() + Paths.modsVideo(videoFile))) {
 				lePlayState.startVideo(videoFile);
 			} else {
 				luaTrace('Video file not found: ' + videoFile);
