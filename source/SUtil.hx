@@ -21,9 +21,8 @@ class SUtil
     private static var grantedPermsList:Array<Permissions> = AndroidTools.getGrantedPermissions();  
     #end
 
-    public static function getPath():String
+    static public function getPath():String
     {
-    	#if android
         if (aDir != null && aDir.length > 0) 
         {
             return aDir;
@@ -33,14 +32,10 @@ class SUtil
             aDir = sPath + "/" + "." + Application.current.meta.get("file") + "/files/";         
         }
         return aDir;
-        #else
-        return "";
-        #end
     }
 
-    public static function doTheCheck()
+    static public function doTheCheck()
     {
-        #if android
         if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
             if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
                 AndroidTools.requestPermissions([Permissions.READ_EXTERNAL_STORAGE, Permissions.WRITE_EXTERNAL_STORAGE]);
@@ -76,18 +71,17 @@ class SUtil
             SUtil.applicationAlert("Instructions:", "Try copying assets/mods from apk to your internal storage app directory " + "( here " + SUtil.getPath() + " )" + "if you hadn't have Zarhiver Downloaded, download it and enable the show hidden files option to have the folder visible" + "\n" + "Press Ok To Close The App");
             Sys.exit(0);
         }
-        #end
     }
 
     //Thanks Forever Engine
-    public static function gameCrashCheck(){
+    static public function gameCrashCheck(){
     	Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
     }
      
-    public static function onCrash(e:UncaughtErrorEvent):Void {
+    static public function onCrash(e:UncaughtErrorEvent):Void {
         var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var errMsg:String = "";
-		var path:String = "log/" + "crash_" + dateNow + ".txt";
+		var path:String = "log/" + "crash_" + dateNow + ".txt";;
 
 		var dateNow:String = Date.now().toString();
 		dateNow = StringTools.replace(dateNow, " ", "_");
