@@ -89,13 +89,13 @@ class Main extends Sprite
 		gameCreate = new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen);
 		addChild(gameCreate); // and create it afterwards
 
-		#if !mobile
+		//#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
-		#end
+		//#end
 
 		FlxG.mouse.visible = true;
 
