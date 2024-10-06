@@ -69,7 +69,7 @@
 	<assets path="assets/songs"         library="songs"         exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"         library="songs"         exclude="*.mp3" unless="web"/>
 
-	<assets path="assets/preload/images/android" if="android"/> <!-- to not have the android assets in another builds -saw -->
+	<assets path="assets/images/android" if="android"/> <!-- to not have the android assets in another builds -saw -->
 	
 	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
