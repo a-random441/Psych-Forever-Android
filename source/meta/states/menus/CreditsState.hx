@@ -22,8 +22,10 @@ class CreditsState extends MusicBeatState
 
 	private static var creditsStuff:Array<Dynamic> = [ //Name - Icon name - Description - Link - BG Color
 		['Creator'],
-		['Classic1926',		'classic',		'Made the fork',					'https://www.youtube.com/channel/UCKcqlPIGcsoiGl9qsasAJhw',	'FF6868'],
+		['Classic1926',		'classic',		'Made the fork',					'https://www.youtube.com/channel/UCKcqlPIGcsoiGl9qsasAJhw',	'FF0000'],
 		[''],
+		['Android Porters'],
+		['a-random441',		'face',		'Made the Android Port',					'https://github.com/a-random441',	'FF6868'],
 		['Translations'],
 		['ytggobs',		'',		'French Translation',					'',	'FF6868'],
 		[''],
