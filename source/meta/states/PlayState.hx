@@ -2060,10 +2060,12 @@ class PlayState extends MusicBeatState
 		super.onFocus();
 	}
 
+	#if desktop
 	function updateRPC(paused) {
 		if (paused) DiscordClient.changePresence(detailsSub, scoreTxt.text, iconP2.getCharacter());
 		else DiscordClient.changePresence(detailsSub, scoreTxt.text, iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 	}
+	#end
 	
 	override public function onFocusLost():Void
 	{
