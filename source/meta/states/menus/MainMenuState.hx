@@ -179,6 +179,10 @@ class MainMenuState extends MusicBeatState
 		}
 		#end
 
+		#if android
+	        addVirtualPad(UP_DOWN, A_B_C);
+                #end
+
 		super.create();
 	}
 
@@ -217,7 +221,7 @@ class MainMenuState extends MusicBeatState
 				changeItem(1);
 			}
 
-			if (controls.BACK)
+			if (controls.BACK #if android || FlxG.android.justReleased.BACK #end)
 			{
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('menus/base/cancelMenu'));
@@ -274,7 +278,7 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if desktop
-			else if (controls.MASTER)
+			else if (controls.MASTER #if android || _virtualpad.buttonC.justPressed #end)
 			{
 				selectedSomethin = true;
 			//	FlxTween.tween(FlxG.sound.music, {pitch: 0.3, volume: 0.3}, 1, {ease: FlxEase.cubeOut});
