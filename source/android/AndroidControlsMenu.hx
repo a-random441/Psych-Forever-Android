@@ -224,7 +224,7 @@ class AndroidControlsMenu extends MusicBeatState
 
 		if (daChoice == 'Pad-Custom')
 		{
-			resetButton.visible = true;
+			//resetButton.visible = true;
 			upPozition.visible = true;
 			downPozition.visible = true;
 			leftPozition.visible = true;
@@ -232,7 +232,7 @@ class AndroidControlsMenu extends MusicBeatState
 		}
 		else
 		{
-			resetButton.visible = false;
+			//resetButton.visible = false;
 			upPozition.visible = false;
 			downPozition.visible = false;
 			leftPozition.visible = false;
