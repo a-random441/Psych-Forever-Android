@@ -64,7 +64,7 @@ class TitleState extends MusicBeatState
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
 			
-		#if (polymod && !html5)
+		/*#if (polymod && !html5)
 		if (sys.FileSystem.exists(SUtil.getPath() + 'mods/')) {
 			var folders:Array<String> = [];
 			for (file in sys.FileSystem.readDirectory(SUtil.getPath() + 'mods/')) {
@@ -76,7 +76,7 @@ class TitleState extends MusicBeatState
 			if(folders.length > 0) {
 				polymod.Polymod.init({modRoot: "mods", dirs: folders});
 			}
-		}
+		}*/
 
 		//Gonna finish this later, probably
 		#end
