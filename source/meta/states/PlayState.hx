@@ -293,6 +293,10 @@ class PlayState extends MusicBeatState
 	var detailsPausedText:String = "";
 	#end
 
+	#if android
+	addAndroidControls(); //  yayaya
+        #end
+
 	public static var instance:PlayState;
 
 	private var luaArray:Array<FunkinLua> = [];
