@@ -40,7 +40,7 @@ class CoolUtil
 		var libraryArray:Array<String> = [];
 	
 		#if sys
-		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
+		var unfilteredLibrary = FileSystem.readDirectory(SUtil.getPath() + '$subDir/$library');
 	
 		for (folder in unfilteredLibrary)
 		{
@@ -57,7 +57,7 @@ class CoolUtil
 	{
 		var daList:Array<String> = [];
 		#if sys
-		if(FileSystem.exists(path)) daList = File.getContent(path).trim().split('\n');
+		if(FileSystem.exists(SUtil.getPath() + path)) daList = File.getContent(SUtil.getPath() + path).trim().split('\n');
 		#else
 		if(Assets.exists(path)) daList = Assets.getText(path).trim().split('\n');
 		#end
