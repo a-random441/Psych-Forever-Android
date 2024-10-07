@@ -239,14 +239,14 @@ class Paths
 		{
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
-				levelPath = getLibraryPathForce(key, currentLevel);
-				if (FileSystem.exists(SUtil.getPath() + levelPath))
-					return File.getContent(SUtil.getPath() + levelPath);
+				levelPath = SUtil.getPath() +  getLibraryPathForce(key, currentLevel);
+				if (FileSystem.exists(levelPath))
+					return File.getContent(levelPath);
 			}
 
-			levelPath = getLibraryPathForce(key, 'shared');
-			if (FileSystem.exists(SUtil.getPath() + levelPath))
-				return File.getContent(SUtil.getPath() + levelPath);
+			levelPath = SUtil.getPath() + getLibraryPathForce(key, 'shared');
+			if (FileSystem.exists(levelPath))
+				return File.getContent(levelPath);
 		}
 		#end
 		return Assets.getText(getPath(key, TEXT));
