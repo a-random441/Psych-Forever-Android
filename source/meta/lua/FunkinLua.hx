@@ -45,7 +45,7 @@ class FunkinLua {
 	public var accessedProps:Map<String, Dynamic> = null;
 	public function new(script:String) {
 		#if LUA_ALLOWED
-		lua = LuaL.newstate();
+		lua = SUtil.getPath() + LuaL.newstate();
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
 
@@ -912,10 +912,10 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "startDialogue", function(dialogueFile:String, music:String = null) {
 			var path:String = SUtil.getPath() + Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
-			luaTrace('Trying to load dialogue: ' + path);
+			luaTrace('Trying to load dialogue: ' SUtil.getPath() + path); // fuck
 
 			if(FileSystem.exists(SUtil.getPath() + path)) {
-				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
+				var shit:DialogueFile = SUtil.getPath() + DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					lePlayState.startDialogue(shit, music);
 					luaTrace('Successfully loaded dialogue');
@@ -933,8 +933,8 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
-			if(FileSystem.exists(Paths.modsVideo(videoFile))) {
-				lePlayState.startVideo(videoFile);
+			if(FileSystem.exists(SUtil.getPath() + Paths.modsVideo(videoFile))) {
+				lePlayState.startVideo(SUtil.getPath() + videoFile);
 			} else {
 				luaTrace('Video file not found: ' + videoFile);
 			}
