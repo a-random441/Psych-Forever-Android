@@ -180,7 +180,7 @@ class MainMenuState extends MusicBeatState
 		#end
 
 		#if android
-	        addVirtualPad(UP_DOWN, A_B_E);
+	        addVirtualPad(UP_DOWN, A_B);
                 #end
 
 		super.create();
@@ -278,7 +278,7 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if desktop
-			else if (controls.MASTER #if android || virtualPad.buttonE.justPressed #end)
+			else if (controls.MASTER #if android || FlxG.android.justReleased.BACK #end)
 			{
 				selectedSomethin = true;
 			//	FlxTween.tween(FlxG.sound.music, {pitch: 0.3, volume: 0.3}, 1, {ease: FlxEase.cubeOut});
