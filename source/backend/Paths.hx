@@ -220,7 +220,7 @@ class Paths
 	inline static public function image(key:String, ?library:String):Dynamic
 	{
 		#if MODS_ALLOWED
-		var imageToReturn:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
+		var imageToReturn:FlxGraphic = addCustomGraphic(key);
 		if(imageToReturn != null) return imageToReturn;
 		#end
 		return getPath('images/$key.png', IMAGE, library);
@@ -280,7 +280,7 @@ class Paths
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
 		#if MODS_ALLOWED
-		var imageLoaded:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
+		var imageLoaded:FlxGraphic = addCustomGraphic(key);
 		var xmlExists:Bool = false;
 		if(FileSystem.exists(modsXml(key))) {
 			xmlExists = true;
