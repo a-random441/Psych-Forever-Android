@@ -1171,6 +1171,7 @@ class PlayState extends MusicBeatState
 
                 #if android
 	        addAndroidControls(); // omg the android controls
+                androidc.visible = true;
                 #end
 
 		// cameras = [FlxG.cameras.list[1]];
