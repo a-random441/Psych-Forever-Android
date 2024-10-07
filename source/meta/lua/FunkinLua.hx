@@ -45,15 +45,15 @@ class FunkinLua {
 	public var accessedProps:Map<String, Dynamic> = null;
 	public function new(script:String) {
 		#if LUA_ALLOWED
-		lua = SUtil.getPath() + LuaL.newstate();
+		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
 
 		//trace('Lua version: ' + Lua.version());
 		//trace("LuaJIT version: " + Lua.versionJIT());
 
-		var result:Dynamic = SUtil.getPath() + LuaL.dofile(lua, script);
-		var resultStr:String = SUtil.getPath() + Lua.tostring(lua, result);
+		var result:Dynamic = LuaL.dofile(lua, script);
+		var resultStr:String = Lua.tostring(lua, result);
 		if(resultStr != null && result != 0) {
 			lime.app.Application.current.window.alert(resultStr, 'Error on .LUA script!');
 			trace('Error on .LUA script! ' + resultStr);
@@ -69,7 +69,7 @@ class FunkinLua {
 		accessedProps = new Map<String, Dynamic>();
 		#end
 
-		var curState:Dynamic = SUtil.getPath() + FlxG.state;
+		var curState:Dynamic = FlxG.state;
 		lePlayState = curState;
 
 		// Lua shit
@@ -912,10 +912,10 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "startDialogue", function(dialogueFile:String, music:String = null) {
 			var path:String = SUtil.getPath() + Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
-			luaTrace('Trying to load dialogue: ' + path); // fuck
+			luaTrace('Trying to load dialogue: ' + path);
 
-			if(FileSystem.exists(SUtil.getPath() + path)) {
-				var shit:DialogueFile = SUtil.getPath() + DialogueBoxPsych.parseDialogue(path);
+			if(FileSystem.exists(path)) {
+				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					lePlayState.startDialogue(shit, music);
 					luaTrace('Successfully loaded dialogue');
@@ -934,7 +934,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
 			if(FileSystem.exists(SUtil.getPath() + Paths.modsVideo(videoFile))) {
-				lePlayState.startVideo(SUtil.getPath() + videoFile);
+				lePlayState.startVideo(videoFile);
 			} else {
 				luaTrace('Video file not found: ' + videoFile);
 			}
