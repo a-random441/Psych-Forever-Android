@@ -196,7 +196,7 @@ class Paths
 	inline static public function inst(song:String):Any
 	{
 		#if MODS_ALLOWED
-		var file:Sound = SUtil.getPath() + returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
+		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
 		if(file != null) {
 			return file;
 		}
