@@ -185,7 +185,7 @@ class Paths
 	inline static public function voices(song:String):Any
 	{
 		#if MODS_ALLOWED
-		var file:Sound = SUtil.getPath() + returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
+		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
 		if(file != null) {
 			return file;
 		}
@@ -196,7 +196,7 @@ class Paths
 	inline static public function inst(song:String):Any
 	{
 		#if MODS_ALLOWED
-		var file:Sound = SUtil.getPath() + returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
+		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
 		if(file != null) {
 			return file;
 		}
@@ -256,7 +256,7 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = SUtil.getPath() + modsFont(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(SUtil.getPath() + file)) {
 			return file;
 		}
 		#end
