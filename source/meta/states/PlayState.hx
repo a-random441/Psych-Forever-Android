@@ -838,13 +838,13 @@ class PlayState extends MusicBeatState
 
 		#if (MODS_ALLOWED && LUA_ALLOWED)
 		var doPush:Bool = false;
-		var luaFile:String = 'stages/' + curStage + '.lua';
-		if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(luaFile))) {
+		var luaFile:String = SUtil.getPath() + 'stages/' + curStage + '.lua';
+		if(FileSystem.exists(Paths.modFolders(luaFile))) {
 			luaFile = Paths.modFolders(luaFile);
 			doPush = true;
 		} else {
-			luaFile = Paths.getPreloadPath(luaFile);
-			if(FileSystem.exists(SUtil.getPath() + luaFile)) {
+			luaFile = SUtil.getPath() + Paths.getPreloadPath(luaFile);
+			if(FileSystem.exists(luaFile)) {
 				doPush = true;
 			}
 		}
@@ -1093,14 +1093,14 @@ class PlayState extends MusicBeatState
 		generateSong(SONG.song);
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys()) {
-			var luaToLoad:String = Paths.modFolders('custom_notetypes/' + notetype + '.lua');
-			if(FileSystem.exists(SUtil.getPath() + luaToLoad)) {
+			var luaToLoad:String = SUtil.getPath() + Paths.modFolders('custom_notetypes/' + notetype + '.lua');
+			if(FileSystem.exists(luaToLoad)) {
 				luaArray.push(new FunkinLua(luaToLoad));
 			}
 		}
 		for (event in eventPushedMap.keys()) {
-			var luaToLoad:String = Paths.modFolders('custom_events/' + event + '.lua');
-			if(FileSystem.exists(SUtil.getPath() + luaToLoad)) {
+			var luaToLoad:String = SUtil.getPath() + Paths.modFolders('custom_events/' + event + '.lua');
+			if(FileSystem.exists(luaToLoad)) {
 				luaArray.push(new FunkinLua(luaToLoad));
 			}
 		}
