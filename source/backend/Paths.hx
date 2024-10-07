@@ -141,8 +141,8 @@ class Paths
 	static public function video(key:String)
 	{
 		#if MODS_ALLOWED
-		var file:String = modsVideo(key);
-		if(FileSystem.exists(SUtil.getPath() + file)) {
+		var file:String = SUtil.getPath() + modsVideo(key);
+		if(FileSystem.exists(file)) {
 			return file;
 		}
 		#end
@@ -152,7 +152,7 @@ class Paths
 	static public function sound(key:String, ?library:String):Dynamic
 	{
 		#if MODS_ALLOWED
-		var file:String = modsSounds(key);
+		var file:String = SUtil.getPath() + modsSounds(key);
 		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
@@ -185,7 +185,7 @@ class Paths
 	inline static public function voices(song:String):Any
 	{
 		#if MODS_ALLOWED
-		var file:Sound = SUtil.getPath() + returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
+		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
 		if(file != null) {
 			return file;
 		}
@@ -239,12 +239,12 @@ class Paths
 		{
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
-				levelPath = SUtil.getPath() + getLibraryPathForce(key, currentLevel);
+				levelPath = getLibraryPathForce(key, currentLevel);
 				if (FileSystem.exists(SUtil.getPath() + levelPath))
 					return File.getContent(SUtil.getPath() + levelPath);
 			}
 
-			levelPath = SUtil.getPath() + getLibraryPathForce(key, 'shared');
+			levelPath = getLibraryPathForce(key, 'shared');
 			if (FileSystem.exists(SUtil.getPath() + levelPath))
 				return File.getContent(SUtil.getPath() + levelPath);
 		}
@@ -256,7 +256,7 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = SUtil.getPath() + modsFont(key);
-		if(FileSystem.exists(SUtil.getPath() + file)) {
+		if(FileSystem.exists(file)) {
 			return file;
 		}
 		#end
@@ -266,7 +266,7 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(SUtil.getPath() + mods(currentModDirectory + '/' + key)) || FileSystem.exists(SUtil.getPath() + mods(key))) {
+		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) {
 			return true;
 		}
 		#end
@@ -282,11 +282,11 @@ class Paths
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
 		var xmlExists:Bool = false;
-		if(FileSystem.exists(SUtil.getPath() + modsXml(key))) {
+		if(FileSystem.exists(modsXml(key))) {
 			xmlExists = true;
 		}
 
-		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(SUtil.getPath() + modsXml(key)) : file('images/$key.xml', library)));
+		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('images/$key.xml', library)));
 		#else
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
 		#end
@@ -295,13 +295,13 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		#if MODS_ALLOWED
-		var imageLoaded:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
+		var imageLoaded:FlxGraphic = addCustomGraphic(key);
 		var txtExists:Bool = false;
-		if(FileSystem.exists(SUtil.getPath() + modsTxt(key))) {
+		if(FileSystem.exists(modsTxt(key))) {
 			txtExists = true;
 		}
 
-		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(SUtil.getPath() + modsTxt(key)) : file('images/$key.txt', library)));
+		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
 		#else
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 		#end
@@ -313,10 +313,10 @@ class Paths
 	
 	#if MODS_ALLOWED
 	static public function addCustomGraphic(key:String):FlxGraphic {
-		if(FileSystem.exists(SUtil.getPath() + modsImages(key))) {
+		if(FileSystem.exists(modsImages(key))) {
 			if(!customImagesLoaded.exists(key)) {
-				var newBitmap:BitmapData = SUtil.getPath() + BitmapData.fromFile(modsImages(key));
-				var newGraphic:FlxGraphic = SUtil.getPath() + FlxGraphic.fromBitmapData(newBitmap, false, key);
+				var newBitmap:BitmapData = BitmapData.fromFile(modsImages(key));
+				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, key);
 				newGraphic.persist = true;
 				FlxG.bitmap.addGraphic(newGraphic);
 				customImagesLoaded.set(key, true);
