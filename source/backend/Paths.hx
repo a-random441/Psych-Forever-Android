@@ -171,7 +171,7 @@ class Paths
 	inline static public function music(key:String, ?library:String):Dynamic
 	{
 		#if MODS_ALLOWED
-		var file:String = modsMusic(key);
+		var file:String = SUtil.getPath() + modsMusic(key);
 		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
@@ -185,7 +185,7 @@ class Paths
 	inline static public function voices(song:String):Any
 	{
 		#if MODS_ALLOWED
-		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
+		var file:Sound = SUtil.getPath() + returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
 		if(file != null) {
 			return file;
 		}
@@ -196,7 +196,7 @@ class Paths
 	inline static public function inst(song:String):Any
 	{
 		#if MODS_ALLOWED
-		var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
+		var file:Sound = SUtil.getPath() + returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
 		if(file != null) {
 			return file;
 		}
@@ -220,7 +220,7 @@ class Paths
 	inline static public function image(key:String, ?library:String):Dynamic
 	{
 		#if MODS_ALLOWED
-		var imageToReturn:FlxGraphic = addCustomGraphic(key);
+		var imageToReturn:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
 		if(imageToReturn != null) return imageToReturn;
 		#end
 		return getPath('images/$key.png', IMAGE, library);
@@ -239,14 +239,14 @@ class Paths
 		{
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
-				levelPath = SUtil.getPath() +  getLibraryPathForce(key, currentLevel);
-				if (FileSystem.exists(levelPath))
-					return File.getContent(levelPath);
+				levelPath = SUtil.getPath() + getLibraryPathForce(key, currentLevel);
+				if (FileSystem.exists(SUtil.getPath() + levelPath))
+					return File.getContent(SUtil.getPath() + levelPath);
 			}
 
 			levelPath = SUtil.getPath() + getLibraryPathForce(key, 'shared');
-			if (FileSystem.exists(levelPath))
-				return File.getContent(levelPath);
+			if (FileSystem.exists(SUtil.getPath() + levelPath))
+				return File.getContent(SUtil.getPath() + levelPath);
 		}
 		#end
 		return Assets.getText(getPath(key, TEXT));
@@ -255,7 +255,7 @@ class Paths
 	inline static public function font(key:String)
 	{
 		#if MODS_ALLOWED
-		var file:String = modsFont(key);
+		var file:String = SUtil.getPath() + modsFont(key);
 		if(FileSystem.exists(SUtil.getPath() + file)) {
 			return file;
 		}
@@ -280,7 +280,7 @@ class Paths
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
 		#if MODS_ALLOWED
-		var imageLoaded:FlxGraphic = addCustomGraphic(key);
+		var imageLoaded:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
 		var xmlExists:Bool = false;
 		if(FileSystem.exists(SUtil.getPath() + modsXml(key))) {
 			xmlExists = true;
@@ -295,7 +295,7 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		#if MODS_ALLOWED
-		var imageLoaded:FlxGraphic = addCustomGraphic(key);
+		var imageLoaded:FlxGraphic = SUtil.getPath() + addCustomGraphic(key);
 		var txtExists:Bool = false;
 		if(FileSystem.exists(SUtil.getPath() + modsTxt(key))) {
 			txtExists = true;
@@ -315,8 +315,8 @@ class Paths
 	static public function addCustomGraphic(key:String):FlxGraphic {
 		if(FileSystem.exists(SUtil.getPath() + modsImages(key))) {
 			if(!customImagesLoaded.exists(key)) {
-				var newBitmap:BitmapData = BitmapData.fromFile(modsImages(key));
-				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, key);
+				var newBitmap:BitmapData = SUtil.getPath() + BitmapData.fromFile(modsImages(key));
+				var newGraphic:FlxGraphic = SUtil.getPath() + FlxGraphic.fromBitmapData(newBitmap, false, key);
 				newGraphic.persist = true;
 				FlxG.bitmap.addGraphic(newGraphic);
 				customImagesLoaded.set(key, true);
@@ -368,7 +368,7 @@ class Paths
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(currentModDirectory + '/' + key);
+			var fileToCheck:String = SUtil.getPath() + mods(currentModDirectory + '/' + key);
 			if(FileSystem.exists(SUtil.getPath() + fileToCheck)) {
 				return fileToCheck;
 			}
