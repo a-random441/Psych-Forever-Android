@@ -625,7 +625,7 @@ class FunkinLua {
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(cervix)))
+			if(FileSystem.exists(Paths.modFolders(SUtil.getPath() + cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -748,7 +748,7 @@ class FunkinLua {
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(cervix)))
+			if(FileSystem.exists(Paths.modFolders(SUtil.getPath() + cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -833,7 +833,7 @@ class FunkinLua {
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(cervix)))
+			if(FileSystem.exists(Paths.modFolders(SUtil.getPath() + cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -2185,7 +2185,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String) {
 			#if VIDEOS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.video(videoFile))) {
+			if(FileSystem.exists(Paths.video(videoFile))) {
 				PlayState.instance.startVideo(videoFile);
 				return true;
 			} else {
