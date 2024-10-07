@@ -911,10 +911,10 @@ class FunkinLua {
 			return false;
 		});
 		Lua_helper.add_callback(lua, "startDialogue", function(dialogueFile:String, music:String = null) {
-			var path:String = Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
+			var path:String = SUtil.getPath() + Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
 			luaTrace('Trying to load dialogue: ' + path);
 
-			if(FileSystem.exists(path)) {
+			if(FileSystem.exists(SUtil.getPath() + path)) {
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					lePlayState.startDialogue(shit, music);
