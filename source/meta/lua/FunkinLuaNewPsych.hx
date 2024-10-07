@@ -513,11 +513,11 @@ class FunkinLua {
 			if(args==null){
 				args = [];
 			}
-			var cervix = luaFile + ".lua";
+			var cervix = SUtil.getPath() +  luaFile + ".lua";
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(cervix)))
+			if(FileSystem.exists(Paths.modFolders(cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -527,7 +527,7 @@ class FunkinLua {
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(SUtil.getPath() + cervix)) {
 					doPush = true;
 				}
@@ -572,7 +572,7 @@ class FunkinLua {
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(cervix)))
+			if(FileSystem.exists(Paths.modFolders(cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -582,7 +582,7 @@ class FunkinLua {
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(SUtil.getPath() + cervix)) {
 					doPush = true;
 				}
@@ -621,11 +621,11 @@ class FunkinLua {
 			Lua.pushnil(lua);
 		});
 		Lua_helper.add_callback(lua, "setGlobalFromScript", function(luaFile:String, global:String, val:Dynamic){ // returns the global from a script
-			var cervix = luaFile + ".lua";
+			var cervix = SUtil.getPath() +  luaFile + ".lua";
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(Paths.modFolders(SUtil.getPath() + cervix)))
+			if(FileSystem.exists(SUtil.getPath() + cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -635,7 +635,7 @@ class FunkinLua {
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(SUtil.getPath() + cervix)) {
 					doPush = true;
 				}
@@ -744,11 +744,11 @@ class FunkinLua {
 			Lua.pushnil(lua);
 		});*/
 		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String){
-			var cervix = luaFile + ".lua";
+			var cervix = SUtil.getPath() + luaFile + ".lua";
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(Paths.modFolders(SUtil.getPath() + cervix)))
+			if(FileSystem.exists(Paths.modFolders(cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -758,7 +758,7 @@ class FunkinLua {
 				doPush = true;
 			}
 			else {
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getPath() + Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(SUtil.getPath() + cervix)) {
 					doPush = true;
 				}
@@ -784,11 +784,11 @@ class FunkinLua {
 
 
 		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf.
-			var cervix = luaFile + ".lua";
+			var cervix = SUtil.getPath() + luaFile + ".lua";
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(SUtil.getPath() + Paths.modFolders(cervix)))
+			if(FileSystem.exists(Paths.modFolders(cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -829,11 +829,11 @@ class FunkinLua {
 			luaTrace("addLuaScript: Script doesn't exist!", false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf.
-			var cervix = luaFile + ".lua";
+			var cervix = SUtil.getPath() + luaFile + ".lua";
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
-			if(FileSystem.exists(Paths.modFolders(SUtil.getPath() + cervix)))
+			if(FileSystem.exists(Paths.modFolders(cervix)))
 			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -2152,10 +2152,10 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "startDialogue", function(dialogueFile:String, music:String = null) {
 			var path:String;
 			#if MODS_ALLOWED
-			path = Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
+			path = SUtil.getPath() + Paths.modsJson(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
 			if(!FileSystem.exists(SUtil.getPath() + path))
 			#end
-				path = Paths.json(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
+				path = SUtil.getPath() + Paths.json(Paths.formatToSongPath(PlayState.SONG.song) + '/' + dialogueFile);
 
 			luaTrace('startDialogue: Trying to load dialogue: ' + path);
 
@@ -2535,15 +2535,15 @@ class FunkinLua {
 			#if MODS_ALLOWED
 			if(absolute)
 			{
-				return FileSystem.exists(SUtil.getPath() + filename);
+				return FileSystem.exists(filename);
 			}
 
-			var path:String = Paths.modFolders(filename);
+			var path:String = SUtil.getPath() + Paths.modFolders(filename);
 			if(FileSystem.exists(SUtil.getPath() + path))
 			{
 				return true;
 			}
-			return FileSystem.exists(Paths.getPath(SUtil.getPath() + 'assets/$filename', TEXT));
+			return FileSystem.exists(Paths.getPath('assets/$filename', TEXT));
 			#else
 			if(absolute)
 			{
@@ -2572,7 +2572,7 @@ class FunkinLua {
 				#if MODS_ALLOWED
 				if(!ignoreModFolders)
 				{
-					var lePath:String = Paths.modFolders(path);
+					var lePath:String = SUtil.getPath() + Paths.modFolders(path);
 					if(FileSystem.exists(SUtil.getPath() + lePath))
 					{
 						FileSystem.deleteFile(SUtil.getPath() + lePath);
@@ -2581,7 +2581,7 @@ class FunkinLua {
 				}
 				#end
 
-				var lePath:String = Paths.getPath(path, TEXT);
+				var lePath:String = SUtil.getPath() + Paths.getPath(path, TEXT);
 				if(Assets.exists(lePath))
 				{
 					FileSystem.deleteFile(SUtil.getPath() + lePath);
