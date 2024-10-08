@@ -141,7 +141,7 @@ class Paths
 	static public function video(key:String)
 	{
 		#if MODS_ALLOWED
-		var file:String = SUtil.getPath() + modsVideo(key);
+		var file:String = modsVideo(key);
 		if(FileSystem.exists(file)) {
 			return file;
 		}
@@ -152,7 +152,7 @@ class Paths
 	static public function sound(key:String, ?library:String):Dynamic
 	{
 		#if MODS_ALLOWED
-		var file:String = SUtil.getPath() + modsSounds(key);
+		var file:String = modsSounds(key);
 		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
@@ -171,7 +171,7 @@ class Paths
 	inline static public function music(key:String, ?library:String):Dynamic
 	{
 		#if MODS_ALLOWED
-		var file:String = SUtil.getPath() + modsMusic(key);
+		var file:String = modsMusic(key);
 		if(FileSystem.exists(SUtil.getPath() + file)) {
 			if(!customSoundsLoaded.exists(file)) {
 				customSoundsLoaded.set(file, Sound.fromFile(file));
@@ -239,12 +239,12 @@ class Paths
 		{
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
-				levelPath = SUtil.getPath() + getLibraryPathForce(key, currentLevel);
+				levelPath = getLibraryPathForce(key, currentLevel);
 				if (FileSystem.exists(levelPath))
 					return File.getContent(levelPath);
 			}
 
-			levelPath = SUtil.getPath() + getLibraryPathForce(key, 'shared');
+			levelPath = getLibraryPathForce(key, 'shared');
 			if (FileSystem.exists(levelPath))
 				return File.getContent(levelPath);
 		}
@@ -255,7 +255,7 @@ class Paths
 	inline static public function font(key:String)
 	{
 		#if MODS_ALLOWED
-		var file:String = SUtil.getPath() + modsFont(key);
+		var file:String = modsFont(key);
 		if(FileSystem.exists(SUtil.getPath() + file)) {
 			return file;
 		}
@@ -327,7 +327,7 @@ class Paths
 	}
 
 	inline static public function mods(key:String = '') {
-		return 'mods/' + key;
+		return SUtil.getPath() + 'mods/' + key;
 	}
 
 	inline static public function modsFont(key:String) {
@@ -368,12 +368,12 @@ class Paths
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = SUtil.getPath() + mods(currentModDirectory + '/' + key);
+			var fileToCheck:String = mods(currentModDirectory + '/' + key);
 			if(FileSystem.exists(SUtil.getPath() + fileToCheck)) {
 				return fileToCheck;
 			}
 		}
-		return 'mods/' + key;
+		return SUtil.getPath() + 'mods/' + key;
 	}
 	#end
 }
