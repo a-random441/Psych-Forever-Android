@@ -351,15 +351,15 @@ class TitleState extends MusicBeatState
 		#if (desktop && MODS_ALLOWED)
 		var path = "mods/" + Paths.currentModDirectory + "/images/menus/title/titleEnter.png";
 		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)){
+		if (!FileSystem.exists(SUtil.getStorageDirectory() + path)){
 			path = "mods/images/menus/title/titleEnter.png";
 		}
 		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)){
+		if (!FileSystem.exists(SUtil.getStorageDirectory() + path)){
 			path = "assets/images/menus/title/titleEnter.png";
 		}
 		//trace(path, FileSystem.exists(path));
-		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(StringTools.replace(path,".png",".xml")));
+		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(SUtil.getStorageDirectory() + StringTools.replace(path,".png",".xml")));
 		#else
 
 		titleText.frames = Paths.getSparrowAtlas('menus/title/titleEnter');
