@@ -196,6 +196,10 @@ class AppearanceSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		#if mobileC
+                addVirtualPad(LEFT_FULL, A_B);
+                #end
+			
 		super();
 	}
 
