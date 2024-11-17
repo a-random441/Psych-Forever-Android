@@ -198,6 +198,10 @@ class NoteOffsetState extends MusicBeatState
 		Conductor.changeBPM(128.0);
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 
+		#if mobileC
+                addVirtualPad(BOTH_FULL, A_B_X_Y);
+                #end
+
 		super.create();
 	}
 
@@ -216,15 +220,15 @@ class NoteOffsetState extends MusicBeatState
 		if(onComboMenu)
 		{
 			var controlArray:Array<Bool> = [
-				FlxG.keys.justPressed.LEFT,
-				FlxG.keys.justPressed.RIGHT,
-				FlxG.keys.justPressed.UP,
-				FlxG.keys.justPressed.DOWN,
+				FlxG.keys.justPressed.LEFT || virtualPad.buttonLeft.justPressed,
+				FlxG.keys.justPressed.RIGHT || virtualPad.buttonRight.justPressed,
+				FlxG.keys.justPressed.UP || virtualPad.buttonUp.justPressed,
+				FlxG.keys.justPressed.DOWN || virtualPad.buttonDown.justPressed,
 			
-				FlxG.keys.justPressed.A,
-				FlxG.keys.justPressed.D,
-				FlxG.keys.justPressed.W,
-				FlxG.keys.justPressed.S
+				FlxG.keys.justPressed.A || virtualPad.buttonA.justPressed,
+				FlxG.keys.justPressed.D || virtualPad.buttonB.justPressed,
+				FlxG.keys.justPressed.W || virtualPad.buttonX.justPressed,
+				FlxG.keys.justPressed.S || virtualPad.buttonY.justPressed
 			];
 
 			if(controlArray.contains(true))
