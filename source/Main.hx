@@ -56,6 +56,8 @@ class Main extends Sprite
 	{
 		super();
 
+		SUtil.uncaughtErrorHandler();
+
 		if (stage != null)
 		{
 			init();
@@ -91,9 +93,10 @@ class Main extends Sprite
 		}
 	
 		ClientPrefs.loadDefaultKeys();
+		SUtil.checkFiles();
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
-		#if !mobile
+		//#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
@@ -101,12 +104,16 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
-		#end
+		//#end
 
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
 		#end
+
+		#if android
+                FlxG.android.preventDefaultKeys = [BACK];
+                #end
 		
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
@@ -159,7 +166,9 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		Application.current.window.alert(errMsg, "Error!");
+		#if desktop
 		DiscordClient.shutdown();
+		#end
 		Sys.exit(1);
 	}
 	#end
