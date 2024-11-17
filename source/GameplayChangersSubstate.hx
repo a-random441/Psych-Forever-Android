@@ -158,6 +158,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			updateTextFrom(optionsArray[i]);
 		}
 
+		#if mobileC
+                addVirtualPad(LEFT_FULL, A_B);
+                #end
+
 		changeSelection();
 		reloadCheckboxes();
 	}
