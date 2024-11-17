@@ -378,7 +378,7 @@ class ModsMenuState extends MusicBeatState
 		FlxG.mouse.visible = true;
 
 		#if mobileC
-                addVirtualPad(UP_DOWN, A_B); // no way to trigger master editor menu sad
+                addVirtualPad(UP_DOWN, NONE);
                 #end
 
 		super.create();
