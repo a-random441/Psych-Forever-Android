@@ -88,6 +88,10 @@ class NotesSubState extends MusicBeatSubstate
 		hsbText.scaleY = 0.6;
 		add(hsbText);
 
+		#if mobileC
+                addVirtualPad(LEFT_FULL, A_B);
+                #end 
+
 		changeSelection();
 	}
 
