@@ -90,7 +90,7 @@ class ModsMenuState extends MusicBeatState
 		visibleWhenNoMods.push(noModsTxt);
 
 		var path:String = 'modsList.txt';
-		if(FileSystem.exists(path))
+		if(FileSystem.exists(SUtil.getStorageDirectory() + path))
 		{
 			var leMods:Array<String> = CoolUtil.coolTextFile(path);
 			for (i in 0...leMods.length)
@@ -108,7 +108,7 @@ class ModsMenuState extends MusicBeatState
 
 		// FIND MOD FOLDERS
 		var boolshit = true;
-		if (FileSystem.exists("modsList.txt")){
+		if (FileSystem.exists(SUtil.getStorageDirectory() + "modsList.txt")){
 			for (folder in Paths.getModDirectories())
 			{
 				if(!Paths.ignoreModFolders.contains(folder))
@@ -320,7 +320,7 @@ class ModsMenuState extends MusicBeatState
 		while (i < modsList.length)
 		{
 			var values:Array<Dynamic> = modsList[i];
-			if(!FileSystem.exists(Paths.mods(values[0])))
+			if(!FileSystem.exists(SUtil.getStorageDirectory() + Paths.mods(values[0])))
 			{
 				modsList.remove(modsList[i]);
 				continue;
@@ -339,7 +339,7 @@ class ModsMenuState extends MusicBeatState
 			//Don't ever cache the icons, it's a waste of loaded memory
 			var loadedIcon:BitmapData = null;
 			var iconToUse:String = Paths.mods(values[0] + '/pack.png');
-			if(FileSystem.exists(iconToUse))
+			if(FileSystem.exists(SUtil.getStorageDirectory() + iconToUse))
 			{
 				loadedIcon = BitmapData.fromFile(iconToUse);
 			}
@@ -462,7 +462,11 @@ class ModsMenuState extends MusicBeatState
 		}
 
 		var path:String = 'modsList.txt';
+		#if desktop
 		File.saveContent(path, fileStr);
+		#elseif mobile
+		SUtil.saveContent(path, fileStr);
+		#end
 		Paths.pushGlobalMods();
 	}
 
@@ -732,8 +736,8 @@ class ModMetadata
 
 		//Try loading json
 		var path = Paths.mods(folder + '/pack.json');
-		if(FileSystem.exists(path)) {
-			var rawJson:String = File.getContent(path);
+		if(FileSystem.exists(SUtil.getStorageDirectory() + path)) {
+			var rawJson:String = File.getContent(SUtil.getStorageDirectory() + path);
 			if(rawJson != null && rawJson.length > 0) {
 				var stuff:Dynamic = Json.parse(rawJson);
 					//using reflects cuz for some odd reason my haxe hates the stuff.var shit
