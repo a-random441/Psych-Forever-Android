@@ -174,6 +174,10 @@ class PreferencesSettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.3;
 		addOption(option);
 
+		#if mobileC
+                addVirtualPad(LEFT_FULL, A_B);
+                #end
+
 		super();
 	}
 
