@@ -30,7 +30,11 @@ import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+#if (flixel =< "5.2.2")
 import flixel.system.FlxSound;
+#else
+import flixel.sound.FlxSound;
+#end
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -2194,6 +2198,7 @@ class ChartingState extends MusicBeatState
 		var st:Float = sectionStartTime();
 		var et:Float = st + (Conductor.stepCrochet * steps);
 
+		@:privateAccess {
 		if (FlxG.save.data.chart_waveformInst) {
 			var sound:FlxSound = FlxG.sound.music;
 			if (sound._sound != null && sound._sound.__buffer != null) {
@@ -2226,6 +2231,7 @@ class ChartingState extends MusicBeatState
 					Std.int(gridBG.height)
 				);
 			}
+		    }
 		}
 
 		// Draws
