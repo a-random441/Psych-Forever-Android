@@ -166,6 +166,13 @@
 	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER || mobile" />
 	<haxedef name="HXCPP_STACK_TRACE" />
 
+	<section if="mobile">
+		<architecture exclude="armv7" if="ONLY_ARM64" unless="UNIVERSAL"/>
+		<architecture include="arm64" if="ONLY_ARM64 || UNIVERSAL" />
+		<architecture include="armv7" if="ONLY_ARMV7 || UNIVERSAL" />
+		<architecture exclude="arm64" if="ONLY_ARMV7" unless="UNIVERSAL"/>
+	</section>
+
 	<section if="android">
 		<config>
 			<!--Gradle-->
