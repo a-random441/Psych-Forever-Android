@@ -31,7 +31,7 @@ import flixel.math.FlxRect;
 import flixel.system.FlxSound;
 #else
 import flixel.sound.FlxSound;
-#endg
+#end
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
