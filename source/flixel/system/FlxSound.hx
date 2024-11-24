@@ -1,3 +1,4 @@
+#if (flixel >= "5.2.2")
 package flixel.system;
 
 import flash.events.Event;
@@ -797,3 +798,4 @@ class FlxSound extends FlxBasic
 		]);
 	}
 }
+#end
