@@ -52,7 +52,7 @@ jobs:
           haxelib install hxcpp > /dev/null
           haxelib install lime 8.0.1
           haxelib install openfl 9.3.0
-          haxelib --never install flixel 5.5.0
+          haxelib git flixel https://github.com/a-random441/flixel-5.5.0.git
           haxelib install flixel-tools 1.5.1
           haxelib install flixel-ui 2.5.0
           haxelib install flixel-addons 3.2.1
